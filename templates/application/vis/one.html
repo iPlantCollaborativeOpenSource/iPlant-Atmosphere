@@ -1,0 +1,131 @@
+<html>
+  <head>
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      google.setOnLoadCallback(drawPie);
+
+      function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Year');
+        data.addColumn('number', 'Total Request');
+        data.addColumn('number', 'launchInstance');
+		data.addColumn('number', 'createVolume')
+        data.addRows(7);
+
+        data.setValue(0, 0, '07/10');
+        data.setValue(0, 1, 6);
+        data.setValue(0, 2, 0);
+		data.setValue(0, 3, 0);
+
+        data.setValue(1, 0, '07/11');
+        data.setValue(1, 1, 75);
+        data.setValue(1, 2, 0);
+		data.setValue(1, 3, 0);
+
+        data.setValue(2, 0, '07/12');
+        data.setValue(2, 1, 261);
+        data.setValue(2, 2, 20);
+		data.setValue(2, 3, 0);
+		
+        data.setValue(3, 0, '07/13');
+        data.setValue(3, 1, 23);
+        data.setValue(3, 2, 13);
+		data.setValue(3, 3, 0);
+		
+		data.setValue(4, 0, '07/14');
+        data.setValue(4, 1, 0);
+        data.setValue(4, 2, 0);
+		data.setValue(4, 3, 0);
+
+		data.setValue(5, 0, '07/15');
+        data.setValue(5, 1, 11);
+        data.setValue(5, 2, 0);
+		data.setValue(5, 3, 8);
+
+		data.setValue(6, 0, '07/16');
+        data.setValue(6, 1, 65);
+        data.setValue(6, 2, 18);
+		data.setValue(6, 3, 1);
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+        chart.draw(data, {width: 800, height: 400, title: 'API REQUEST', hAxis: {title: 'Date', titleColor:'red'} });
+      }
+
+
+        //select request_method, count(id) from cloudservice_api_logs group by request_method order by request_method
+      function drawPie() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Method');
+        data.addColumn('number', 'Requst');
+        data.addRows(36);
+
+        data.setValue(0, 0, 'terminateInstance');
+        data.setValue(0, 1, 10);
+
+        data.setValue(1, 0, 'createKey');
+        data.setValue(1, 1, 2);
+
+        data.setValue(2, 0, 'createKeyPair');
+        data.setValue(2, 1, 90);
+
+        data.setValue(3, 0, 'createVolume');
+        data.setValue(3, 1, 29);
+
+        data.setValue(4, 0, 'getKeyPairsList');
+        data.setValue(4, 1, 1);
+        
+        data.setValue(5, 0, 'getAttachedVolumeList');
+        data.setValue(5, 1, 21);
+        
+        data.setValue(6, 0, 'getImage');
+        data.setValue(6, 1, 8);
+
+        data.setValue(7, 0, 'getImageList');
+        data.setValue(7, 1, 48);
+        
+        data.setValue(8, 0, 'getIntanceInfo');
+        data.setValue(8, 1, 7);
+
+        data.setValue(9, 0, 'getIntanceList');
+        data.setValue(9, 1, 9);
+        
+        data.setValue(10, 0, 'getKeyPairsList');
+        data.setValue(10, 1, 75);
+        
+        data.setValue(11, 0, 'getVmTypes');
+        data.setValue(11, 1, 5);
+
+        data.setValue(12, 0, 'getVolumeList');
+        data.setValue(12, 1, 13);
+    
+        data.setValue(13, 0, 'launchInstance');
+        data.setValue(13, 1, 42);
+
+        data.setValue(14, 0, 'removeKeyPair');
+        data.setValue(14, 1, 10);
+
+
+
+
+
+
+
+
+
+        var chart = new google.visualization.PieChart(document.getElementById('pie_div'));
+        chart.draw(data, {width: 800, height: 600, title: 'Request Activities'});
+      
+      }
+      
+    </script>
+  </head>
+
+  <body>
+    <div id="chart_div"></div>
+    <br/>
+    <div id="pie_div"></div>
+  </body>
+
+</html>

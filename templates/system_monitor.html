@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Atmosphere where cloud lives{% endblock %}
+{% block head %}
+	<script type="text/javascript" src="/site_media/jquery-ui-1.8.custom/development-bundle/ui/jquery.ui.tabs.js"></script>
+	<script type="text/javascript">
+	
+		$(function() {
+			$("#navi").buttonset();
+		});
+		
+		$(function() {
+			$("#tabs").tabs();
+		});
+		
+		var moveTo = function(destination) {
+			window.location = '/'+destination;
+		}
+		
+	</script>
+{% endblock %}
+
+{% block content %}
+		<link rel="stylesheet" href="/site_media/styles/application.css" type="text/css" />
+		<div id="application">
+			<div id="help_content" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+			
+			<table>
+				<tr>
+					<td><div id="graph"/><img src="http://nemo.iplantcollaborative.org/ganglia/graph.php?g=load_report&z=medium&c=iPlant&m=load_one&r=hour&s=descending&hc=4&st=1272059152" width=300 height=150 /></td>
+					<td><div id="graph"/><img src="http://nemo.iplantcollaborative.org/ganglia/graph.php?g=cpu_report&z=large&c=iPlant&m=load_one&r=hour&s=descending&hc=4&st=1272059152" width=300 height=150 /></td>
+					<td><div id="graph"/><img src="http://nemo.iplantcollaborative.org/ganglia/graph.php?g=mem_report&z=large&c=iPlant&m=load_one&r=hour&s=descending&hc=4&st=1272059152" width=300 height=150 /></td>
+					<td><div id="graph"/><img src="http://nemo.iplantcollaborative.org/ganglia/graph.php?g=network_report&z=large&c=iPlant&m=load_one&r=hour&s=descending&hc=4&st=1272059152" width=300 height=150 /></td>
+				</tr>
+				<tr>
+					<td>Intance id: AA-00-23-sd</td>
+					<td>Intance id: AA-00-23-sd</td>
+					<td>Intance id: AA-00-23-sd</td>
+					<td>Intance id: AA-00-23-sd</td>
+				</tr>
+				<tr>
+					<td><div id="graph"/><img src="http://nemo.iplantcollaborative.org/ganglia/graph.php?g=load_report&z=medium&c=iPlant&m=load_one&r=hour&s=descending&hc=4&st=1272059152" width=300 height=150 /></td>
+					<td><div id="graph"/><img src="http://nemo.iplantcollaborative.org/ganglia/graph.php?g=cpu_report&z=large&c=iPlant&m=load_one&r=hour&s=descending&hc=4&st=1272059152" width=300 height=150 /></td>
+					<td><div id="graph"/><img src="http://nemo.iplantcollaborative.org/ganglia/graph.php?g=mem_report&z=large&c=iPlant&m=load_one&r=hour&s=descending&hc=4&st=1272059152" width=300 height=150 /></td>
+					<td><div id="graph"/><img src="http://nemo.iplantcollaborative.org/ganglia/graph.php?g=network_report&z=large&c=iPlant&m=load_one&r=hour&s=descending&hc=4&st=1272059152" width=300 height=150 /></td>
+				</tr>
+				<tr>
+					<td>a</td>
+					<td>a</td>
+					<td>a</td>
+					<td>a</td>
+				</tr>
+				<tr>
+					<td><div id="graph"/><img src="http://nemo.iplantcollaborative.org/ganglia/graph.php?g=load_report&z=medium&c=iPlant&m=load_one&r=hour&s=descending&hc=4&st=1272059152" width=300 height=150 /></td>
+					<td><div id="graph"/><img src="http://nemo.iplantcollaborative.org/ganglia/graph.php?g=cpu_report&z=large&c=iPlant&m=load_one&r=hour&s=descending&hc=4&st=1272059152" width=300 height=150 /></td>
+					<td><div id="graph"/><img src="http://nemo.iplantcollaborative.org/ganglia/graph.php?g=mem_report&z=large&c=iPlant&m=load_one&r=hour&s=descending&hc=4&st=1272059152" width=300 height=150 /></td>
+					<td><div id="graph"/><img src="http://nemo.iplantcollaborative.org/ganglia/graph.php?g=network_report&z=large&c=iPlant&m=load_one&r=hour&s=descending&hc=4&st=1272059152" width=300 height=150 /></td>
+				</tr>
+				<tr>
+					<td>a</td>
+					<td>a</td>
+					<td>a</td>
+					<td>a</td>
+				</tr>
+				<tr>
+					<td><div id="graph"/><img src="http://nemo.iplantcollaborative.org/ganglia/graph.php?g=load_report&z=medium&c=iPlant&m=load_one&r=hour&s=descending&hc=4&st=1272059152" width=300 height=150 /></td>
+					<td><div id="graph"/><img src="http://nemo.iplantcollaborative.org/ganglia/graph.php?g=cpu_report&z=large&c=iPlant&m=load_one&r=hour&s=descending&hc=4&st=1272059152" width=300 height=150 /></td>
+					<td></td>
+					<td></td>
+				</tr>
+			</table>
+			
+			
+			</div>
+		</div>
+{% endblock %}

@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<title>
+			iPlant Collaborative | Atmosphere where cloud lives
+		</title>
+		<link rel="shortcut icon" href="/site_media/images/favicon.ico" type="image/x-icon" />
+		<style type="text/css">
+		
+			BODY {
+				background-image: url('/site_media/images/login_background.jpg');
+				background-color: #c7eaf7;
+				background-repeat: repeat-x;
+				text-align: center;
+				font-family: Verdana, sans-serif;
+				font-size: 12px;
+			}
+
+			#wrapper {
+				position: absolute;
+				overflow: visible;
+				display: block;
+				width: 100%;
+				left: 0px;
+				top: 0px;
+			}
+
+			#center {
+				position: absolute; /* required */
+				left: 30%; /* required */	
+				margin-left: -200px; /* half of width */
+				width: 400px; /* width of div */
+				top: 0px;
+			}
+
+			#loginBox {
+				position: absolute;
+				left: 35%; /* required */
+				margin-left: -200px; /* half of width */
+				width: 330px; /* width of div */
+				top: 370px;
+				/*** Rounded Corners ***/
+			    -moz-border-radius: 10px;
+			    -webkit-border-radius: 20px;
+				border: 2px solid #9BD1EA;
+				padding-top: 5px;
+				padding-bottom: 5px;
+			}
+
+			#id_username {
+				width: 150px;
+				color: #828282;
+				font-weight: bold;
+			}
+			
+			#id_password {
+				width: 150px;
+				color: #828282;
+				font-weight: bold;
+			}
+			
+			.input {
+				border: 1px solid #006;
+				width: 100px;
+				height: 20px;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id="wrapper">
+			<div id="center">
+				<img src="/site_media/images/login_mainimage.jpg" />
+			</div>
+			<div id="loginBox">
+				{% block login %}
+				<div id="login">
+				{% if form.has_errors %}
+					<p>Your username and password didn' t match. Please try again. </p>
+				{% endif %}
+				<form method="post" action=".">
+					<p><label id="id_username" for="id_username" >Username: </label>  {{ form.username }} </p>
+					<p><label id="id_password" for="id_password" >Password: </label>  {{ form.password }} </p>
+					<input type="submit" value="login" class="input"/>
+					<input type="hidden" name="next" value="/" />
+				</form>
+				</div>
+				{% endblock %}
+			</div>
+		</div>
+	</div>
+</body>
+</html>

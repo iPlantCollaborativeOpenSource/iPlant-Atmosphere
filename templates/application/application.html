@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+		<!--
+				Copyright (c) 2010, iPlant Collaborative, University of Arizona, Cold Spring Harbor Laboratories, University of Texas at Austin
+				This software is licensed under the CC-GNU GPL version 2.0 or later.
+				License: http://creativecommons.org/licenses/GPL/2.0/
+
+				Author: Seung-jin Kim
+				Twitter: @seungjin
+		-->
+  <meta http-equiv="Content-Type" content="text/html; charset=utf8">
+  <title>Atmosphere</title>
+  <link rel="shortcut icon" href="/site_media/images/favicon.ico" type="image/x-icon" />
+		<script type="text/javascript">
+				//sessionStorage.setItem("userid",{{ user }});
+		</script>
+		<script type="text/javascript" src="/site_media/scripts/faye-browser-min.js"></script>
+  <!-- Standard includes -->
+  <link rel="stylesheet" type="text/css" href="/site_media/ext-3.2.0/resources/css/ext-all.css" />
+  <link rel="stylesheet" type="text/css" href="/site_media/ext-3.2.0/resources/css/xtheme-gray.css" />
+  <!--link rel="stylesheet" type="text/css" href="/site_media/ext-3.2.0/resources/css/xtheme-blue.css" /-->
+  
+  <link rel="stylesheet" type="text/css" href="/site_media/styles/application.css" />
+  
+  <script type="text/javascript" src="/site_media/ext-3.2.0/adapter/ext/ext-base.js"></script>
+  <!--script type="text/javascript" src="/site_media/ext-3.2.0/ext-all-debug.js"></script-->
+  <script type="text/javascript" src="/site_media/ext-3.2.0/ext-all.js"></script>
+  <!--script type="text/javascript" src="http://www.google.com/jsapi"></script-->
+	<!-- ok.. now I am using DOJO too --> 
+	<!--script src="/site_media/scripts/dojo.js" type="text/javascript"></script-->
+	<!-- http://requirejs.org -->
+	<script src="/site_media/scripts/require.js" type="text/javascript"></script>
+	<!-- -->
+	<script type="text/javascript" src="/site_media/scripts/application.js"></script>	
+  </head>
+
+  <body>
+		<span id="dummy"></span>
+	<div id="header">
+  <img id="header_logo" src="/site_media/images/logo2_horizontal_small.png" height="23px" />
+				<div id="top-navigation" class="top-navigation">
+				  <a href='/logout'>logout</a>
+				</div>
+		</div>
+  <div id="west" class="x-hide-display">
+    <div id="instances_tree"></div>
+    <div id="images_tree"></div>
+				<div id="volumes_tree"></div>
+				<div id="snapshots_tree"></div>
+    <div id="keys_tree"></div>
+  </div>
+  <div id="dashboard" class="x-hide-display">
+    <div id="launch_new_instance"></div>
+    <div id="running_instances_index"></div>
+    <div id="machine_images_management"></div>
+    <div id="volume_storage_management"></div>
+				<div id="snapshots_management"></div>
+    <div id="authentication_keys_management"></div>
+  </div>
+  <div id="volume_attachment" class="x-hide-display" >
+  <div><div id="props-panel" class="x-hide-display" style="width:200px;height:200px;overflow:hidden;"></div><div id="south" class="x-hide-display"></div>
+  </body>
+</html>

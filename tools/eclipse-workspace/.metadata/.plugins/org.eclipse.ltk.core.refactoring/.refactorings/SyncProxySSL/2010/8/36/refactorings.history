@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring accessors="true" comment="Delete 4 element(s) from project &apos;SyncProxySSL&apos;&#x0A;- Original project: &apos;SyncProxySSL&apos;&#x0A;- Original elements:&#x0A;     SyncProxySSL/src/com&#x0A;     SyncProxySSL/src/com.gdevelop&#x0A;     SyncProxySSL/src/com.gdevelop.gwt&#x0A;     SyncProxySSL/src/com.gdevelop.gwt.syncrpc" description="Delete elements" element1="/src&lt;com.gdevelop.gwt.syncrpc" element2="/src&lt;com.gdevelop.gwt" element3="/src&lt;com.gdevelop" element4="/src&lt;com" elements="4" flags="589830" id="org.eclipse.jdt.ui.delete" resources="0" stamp="1283280799919" subPackages="false" version="1.0"/>
+</session>

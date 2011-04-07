@@ -1,0 +1,60 @@
+#!/usr/bin/python
+
+import sys
+import httplib
+import urllib
+from urlparse import urlparse
+import string
+
+usage = """USAGE: resource_request $username $token $api_server_url $method_url $request_method $request_params
+ex) resource_request seungjin cb26daac-dedc-4bd6-a353-68734ec40171 http://thomasin.iplantcollaborative.org:8000/resources/v1/getImageList GET 
+ex) resource_request seungjin cb26daac-dedc-4bd6-a353-68734ec40171 http://thomasin.iplantcollaborative.org:8000/resources/v1/createKeyPair POST keypair_name='seuingjin'
+
+method_url: {api_server_url}/resources/{version}/{method}
+"""
+
+#print usage
+
+if len(sys.argv) < 5 :
+	print "meow"
+	sys.exit()
+
+username = sys.argv[1]
+token = sys.argv[2]
+method = sys.argv[3]
+request_url = sys.argv[4]
+
+params = None
+if len(sys.argv) == 6 :
+	params = sys.argv[5]
+
+o = urlparse(request_url)
+protocol = o.scheme
+url = string.split(o.netloc,":")[0]
+port = string.split(o.netloc,":")[1]
+path = o.path + "/"
+
+headers = {
+        "Content-type" : "application/x-www-form-urlencoded",
+        "Accept" : "text/plain",
+        "X-Auth-User" : username,
+        "X-Auth-Token" : token,
+        "X-Api-Server" : request_url,
+        "X-Api-Version" : "v1"
+        }
+
+#print "protocol: " + protocol
+#print "url: " + url
+#print "port: " + port
+#print "path: " + path
+#print "method: " + method
+
+
+conn = httplib.HTTPConnection(url,port)
+conn.request(method,path,params,headers)
+r1 = conn.getresponse()
+print "HTTP RETURN CODE: %i, %s" % (r1.status,r1.reason)
+print "HEADERS"
+print r1.getheaders()
+print "HEADERS END\n"
+print r1.read()

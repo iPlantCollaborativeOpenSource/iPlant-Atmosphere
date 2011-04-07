@@ -1,0 +1,34 @@
+#!/usr/bin/python
+# simple http request (header values)
+
+
+import httplib
+import urllib
+import sys
+
+username = sys.argv[1]
+token = sys.argv[2]
+api_server = sys.argv[3]
+
+url = "150.135.78.195"
+port = 8000
+path = "/auth/validate_token"
+method = "GET"
+params = None
+headers = {
+        "Content-type" : "application/x-www-form-urlencoded",
+        "Accept" : "text/plain",
+        "X-Auth-User" : username,
+        "X-Auth-Token" : token,
+	"X-Auth-Api-Server": api_server
+        }
+
+
+
+conn = httplib.HTTPConnection(url,port)
+conn.request(method,path,params,headers)
+r1 = conn.getresponse()
+print "HTTP RETURN CODE: %i, %s" % (r1.status,r1.reason)
+print r1.read()
+#print r1.getheaders()
+headers = r1.getheaders()
