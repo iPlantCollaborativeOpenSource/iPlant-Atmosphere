@@ -3,3 +3,5 @@ atmosphere.kpf
 *.kpf
 *.pyc
 .*.py
+config.yaml
+settings.py
