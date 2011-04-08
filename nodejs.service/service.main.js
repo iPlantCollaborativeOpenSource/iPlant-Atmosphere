@@ -1,3 +1,11 @@
+/*
+  The contents of this file are subject to the terms listed in the LICENSE file you received with this code.
+
+  Author: Seung-jin Kim
+  E-mail: seungjin@email.arizona.edu
+  Twitter: @seungjin
+*/
+
 var fs    = require('fs'),
     path  = require('path'),
     sys   = require('sys'),
