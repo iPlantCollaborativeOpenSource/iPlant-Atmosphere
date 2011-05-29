@@ -5,3 +5,4 @@ atmosphere.kpf
 .*.py
 config.yaml
 settings.py
+logs/*

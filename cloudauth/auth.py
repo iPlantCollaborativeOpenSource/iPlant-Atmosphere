@@ -1,9 +1,10 @@
 #
 # The contents of this file are subject to the terms listed in the LICENSE file you received with this code.
 #
+# Project: Atmosphere, iPlant Collaborative
 # Author: Seung-jin Kim
-# Contact: seungjin@email.arizona.edu
 # Twitter: @seungjin
+# GitHub: seungjin
 #
 
 from django.http import HttpResponse
