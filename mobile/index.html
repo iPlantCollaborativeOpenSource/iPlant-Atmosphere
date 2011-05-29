@@ -1,0 +1,51 @@
+<!DOCTYPE html> 
+<html> 
+  <head> 
+    <title>Atmosphere Mobile</title> 
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0a4.1/jquery.mobile-1.0a4.1.min.css" />
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.5.2.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/mobile/1.0a4.1/jquery.mobile-1.0a4.1.min.js"></script>
+	<script>
+	  var aaa = function() {
+		alert("Sss");
+	  };
+	  
+	  var login = function() {
+		var userid = $('#userid').val();
+		var password = $('#password').val();
+		$.ajax({
+		  url: "/auth/",
+		  dataType: 'json',
+		  data: '',
+		  success: function() { alert("S"); }
+		});
+	  }
+	</script>
+  </head>
+  
+  <body> 
+	<div data-role="page">
+	  <div data-role="header">
+		<h1>Page Title</h1>
+	  </div><!-- /header -->
+	  <div data-role="content">	
+		<div data-role="fieldcontain">
+		  
+		  <label for="userid">User id:</label>
+		  <input type="text" name="userid" id="userid" value="" />
+		  
+		  <label for="Password">Password: </label>
+		  <input type="password" name="password" id="password" value="" />
+		
+		</div>
+	    <div data-inline="true">
+		  <a href="javascript: aaa();" data-role="button">Reset</a>
+		  <a href="javascript: login();" data-role="button" data-theme="b">Login</a>
+		</div>
+	  </div><!-- /content -->
+	  <div data-role="footer">
+	    <h4>DEMO</h4>
+	  </div><!-- /footer -->
+	</div><!-- /page -->
+  </body>
+</html>
