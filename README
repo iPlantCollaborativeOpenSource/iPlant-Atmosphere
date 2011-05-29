@@ -48,7 +48,7 @@ Atmosphere
 
 iPlant Collaborative (www.iplantcollaborative.org)
 
-Requirement: 
+Requirements: 
 	python 2.6
 	Django 1.1.2
 	
@@ -58,7 +58,5 @@ Requirement:
 	M2Crypto-0.20.2
 	extjs - 3.2.0	
 	
-
-
-
-Author: Seung-jin Kim (@seungjin)
+Issues: Please use github issues
+	https://github.com/iPlantCollaborativeOpenSource/iPlant-Atmosphere/issues
