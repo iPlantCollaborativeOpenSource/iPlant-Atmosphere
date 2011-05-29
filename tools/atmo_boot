@@ -1,0 +1,135 @@
+##
+## All files that are a part of this project, unless explicitly noted otherwise,
+## are covered by the following license:
+##
+## Copyright (c) 2011, The Arizona Board of Regents on behalf of The University 
+## of Arizona
+##
+## All rights reserved.
+##
+## Developed by: iPlant Collaborative as a collaboration between participants at
+## BIO5 at The University of Arizona (the primary hosting institution), Cold Spr
+## ing Harbor Laboratory, The University of Texas at Austin, and individual cont
+## ributors. Find out more at http://www.iplantcollaborative.org/.
+##
+## Redistribution and use in source and binary forms, with or without modificati
+## on, are permitted provided that the following conditions are met:
+##
+## * Redistributions of source code must retain the above copyright notice, this
+##   list of conditions and the following disclaimer.
+## * Redistributions in binary form must reproduce the above copyright notice, t
+##   his list of conditions and the following disclaimer in the documentation an
+##   d/or other materials provided with the distribution.
+## * Neither the name of the iPlant Collaborative, BIO5, The University of Arizo
+##   na, Cold Spring Harbor Laboratory, The University of Texas at Austin, nor t
+##   he names of other contributors may be used to endorse or promote products d
+##   erived from this software without specific prior written permission.
+##
+## THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" A
+## ND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPL
+## IED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DI
+## SCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FO
+## R ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMA
+## GES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVIC
+## ES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED A
+## ND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+## (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+## SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+##
+
+##
+## Author: Seung-jin Kim <twitter: @seungjin>
+##
+
+require 'logger'
+require 'net/http'
+require 'open3'
+
+def download_something(target,min_len)
+  $log.debug "Downloading #{target}"
+  url = URI.parse(target)
+  req = Net::HTTP::Get.new(url.path)
+  res = Net::HTTP.start(url.host, url.port) {|http| http.request(req) }
+  if res.code != "200"
+    $log.debug "request #{target} couldn't get 200 code"
+    $log.debug "url<#{url}>, responsed code: #{res.code}"
+    $log.debug "sleep for #{$default_delay_sec} seconds and will try again"
+    sleep $default_delay_sec
+    download_something(target,min_len)
+  else
+    $log.debug "request #{target} got size of #{res.body.length}"
+    if min_len != 0
+      if res.body.length <= min_len
+        $log.debug "url<#{url}>, responsed code: #{res.code}, length: #{res.body.length}"
+        $log.debug "sleep for #{$default_delay_sec} seconds and will try again"
+        sleep $default_delay_sec
+        download_something(target,min_len)
+      else 
+        $log.debug "Successfully downloaded #{target} and its size is #{res.body.length}"
+        return res.body
+      end
+    else
+      return res.body
+    end
+  end
+end
+
+# init 
+
+$default_delay_sec = 10
+#future plan: if keep fail for certain time(10min?), send email/notification to atmo cloud operators
+
+if not File.exists?("/var/log/atmo") && File.directory?("/var/log/atmo") :
+  begin
+    Dir.mkdir("/var/log/atmo")
+  rescue StandardError => exp
+    puts "atmo_boot error: #{exp}"
+    puts "atmo_boot stops!!"
+    exit()
+  end
+end
+$log = Logger.new('/var/log/atmo/atmo_boot.log')
+
+$log.info "Atmosphere Project"
+$log.info "iPlant Collaborative"
+$log.info "============================"
+$log.info "atmo_boot init() starts"
+
+#download key
+$log.debug "start key download"
+root_key = download_something('http://169.254.169.254/latest/meta-data/public-keys/0/openssh-key',0)
+
+#download atmoinit script
+$log.debug "start atmoinit download"
+atmo_init_script = download_something('http://169.254.169.254/latest/user-data',10)
+
+#write root key
+$log.debug "write root key"
+File.open("/root/.ssh/authorized_keys","w") { |f|
+  f.write(root_key)
+  $log.debug "root key was written at /root/.ssh/authorized_key"
+}
+
+#write atmoinit script (to /usr/sbin/atmoinit)
+$log.debug "write atmoinit script"
+File.open("/usr/sbin/atmo_init","w") { |f| 
+  f.write(atmo_init_script) 
+  $log.debug "atmoinit was written at /usr/sbin/atmo_init"
+  $log.debug "written atmoinit size is #{atmo_init_script.length}"
+}
+
+# run atmoinit script
+$log.debug "try to run atmoinit script"
+stdin, stdout, stderr, wait_thr = Open3.popen3("/usr/bin/ruby","/usr/sbin/atmo_init")
+  #puts "a" + stdin.gets.to_s
+  $log.debug "run atmoinit's stdout: #{stdout.gets.to_s}"
+  $log.debug "run atmoinit's stderr: #{stderr.gets.to_s}"
+stdin.close
+stdout.close
+stderr.close
+
+
+$log.info "End of atmo_boot process, bye bye.."
+
+
+
