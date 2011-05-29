@@ -57,6 +57,11 @@ Requirements:
 	boto-1.9b  
 	M2Crypto-0.20.2
 	extjs - 3.2.0	
+	celery
+	rabbitmq
+	nodejs
+	faye - https://github.com/stepheneb/faye
+
 	
 Issues: Please use github issues
 	https://github.com/iPlantCollaborativeOpenSource/iPlant-Atmosphere/issues
