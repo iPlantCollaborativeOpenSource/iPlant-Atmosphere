@@ -1,9 +1,4 @@
 #!/usr/bin/ruby
-#
-# The contents of this file are subject to the terms listed in the LICENSE file you received with this code.
-#
-# 
-#
 require 'net/http'
 require 'net/https'
 require 'openssl'

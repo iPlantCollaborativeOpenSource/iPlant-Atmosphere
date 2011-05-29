@@ -1,5 +1,7 @@
-# 
-# The contents of this file are subject to the terms listed in the LICENSE file you received with this code.
+#
+# Copyright (c) 2010, iPlant Collaborative, University of Arizona, Cold Spring Harbor Laboratories, University of Texas at Austin
+# This software is licensed under the CC-GNU GPL version 2.0 or later.
+# License: http://creativecommons.org/licenses/GPL/2.0/
 #
 # Author: Seung-jin Kim
 # Contact: seungjin@email.arizona.edu
@@ -17,6 +19,7 @@ import os
 
 
 site_media = os.path.join( os.path.dirname(__file__), 'site_media')
+mobile = os.path.join( os.path.dirname(__file__), 'mobile')
 
 from django.views.generic.simple import direct_to_template
 
@@ -79,4 +82,8 @@ urlpatterns = patterns('',
     ##################
     
     (r'^first_time_login/$', 'atmosphere.cloudfront.views.first_time_login'),
+
+    ###################
+    (r'^mobile/(?P<path>.*)$', 'django.views.static.serve', {'document_root': mobile}),
 )
+

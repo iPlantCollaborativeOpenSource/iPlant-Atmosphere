@@ -263,11 +263,23 @@ var detachVolume = function(f) {
 var create_volume = function(name,desc,tags,size) {
   //resource_request seungjin 1d78108e-74ed-41bf-8be3-4b9bd441186a POST http://bond.iplantcollaborative.org:8000/resources/v1/createVolume "size=10&name=test&description=a&tags=b"
   param = "size=" + size+ "&name=" + name + "&description=" + desc + "&tags=" + tags;
-  //console.log(param);
-  ajax_common_gateway("createVolume", "POST", param, fooC)
+  //ajax_common_gateway("createVolume", "POST", param, fooC)
+  ajax_common_gateway("createVolume", "POST", param,
+    success_callback_function = function() {
+      console.log(sessionStorage.getItem("__createVolume"));
+      console.log(eval("("+sessionStorage.getItem("__createVolume")+")").result.value[0]);
+      Ext.MessageBox.alert('Alert', "Volume "+eval("("+sessionStorage.getItem("__createVolume")+")").result.value[0]+" was created.");
+      add_new_volume_form.getForm().reset();
+      
+    },
+    fail_callback_function = function() {
+      //
+      console.log("create_volume_failed");
+      console.log(m);
+      Ext.MessageBox.alert('Failed', 'Not attached. Not valid volume');
+    }
+  );
 }
-
-
 
 var attachVolume = function(f) {
   var a = f.id + '_selected_volume';

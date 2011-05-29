@@ -8,8 +8,8 @@ import urllib
 url = "150.135.78.195"
 port = 8000
 path = "/auth"
-username = "seungjin"
-password = "chickfly81"
+username = "username"
+password = "password"
 method = "GET"
 params = None
 headers = {

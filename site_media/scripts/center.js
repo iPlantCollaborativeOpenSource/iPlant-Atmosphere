@@ -624,7 +624,7 @@ var center = function(){
 	tb.add({xtype:'tbseparator'});
 	// add a Button with the menu
 	tb.add({
-	  text:'Attache Volume',
+	  text:'Attach Volume',
 	  iconCls: '_icon', instance_panel_name: instance_panel_name,
       //menu: attacheVolumeMenu  // assign menu by instance,
       instance_id: instance_id,
@@ -633,7 +633,7 @@ var center = function(){
 	tb.doLayout();
 	tb.add({xtype:'tbseparator'});
 	tb.add({
-	  text: 'Detache Volume',
+	  text: 'Detach Volume',
 	  iconCls: '_icon',
 	  instance_panel_name: instance_panel_name,
 	  //handler: function() { Ext.MessageBox.alert('Message','I am working on'); }

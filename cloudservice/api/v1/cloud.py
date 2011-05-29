@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 #
-# The contents of this file are subject to the terms listed in the LICENSE file you received with this code.
 #
 # Author: Seung-jin Kim
 # Contact: seungjin@email.arizona.edu
@@ -804,9 +803,8 @@ class Ec2_cloud(object, atmo_image):
   def createVolume(self,req):
     #euca-create-volume -S, --size size | --snapshot snapshot_id -z zone
     # for current system. zone is fixed. zone=iplant
-    
     size = None
-    zone = "iplant01"
+    zone = "bespin"
     snaphost_id = None
     name = None
     description = None
@@ -839,7 +837,7 @@ class Ec2_cloud(object, atmo_image):
         volume_id = str(volume).split(":")[1]
     except Exception, ex:
       print ex
-      
+    
     machine_volume = Machine_volumes(
       volume_name = name,
       volume_description = description,
@@ -851,7 +849,8 @@ class Ec2_cloud(object, atmo_image):
       volume_create_time = datetime.datetime.now()
     )
     machine_volume.save()
-    return atmo_util.jsoner("\"success\"","\"\"","[%s]" % volume_id)
+      
+    return atmo_util.jsoner("\"success\"","null","[\"%s\"]" % volume_id)
     
   def deleteVolume(self, req):
     volume_id = None
@@ -868,7 +867,7 @@ class Ec2_cloud(object, atmo_image):
       return_code = euca_conn.delete_volume(volume_id)
     except Exception, ex:
       print ex
-    return atmo_util.jsoner("\"success\"","\"\"","")
+    return atmo_util.jsoner("\"success\"","\"\"","\"\"")
     
   def getAppList(self, req):
 
@@ -984,8 +983,13 @@ class Ec2_cloud(object, atmo_image):
       #user_data_file = open(os.path.abspath(os.path.dirname(__file__))+'/../../api/v1/atmo-init.rb', 'r')
       #user_data = user_data_file.read()
       #user_data_file.close()
-      
-      user_data = Machine_image_userdata_scripts.objects.get(script_id=(Applications.objects.get(application_id = req.POST['application_id']).machine_image_user_data_scripts_script_id)).script
+
+      if req.POST['application_id'][:2] == "u_" :
+        user_app_id = req.POST['application_id'][2:]
+        user_data = Machine_image_userdata_scripts.objects.get(script_id=(User_applications.objects.get(application_id = user_app_id)).machine_image_user_data_scripts_script_id).script
+      else :
+        user_data = Machine_image_userdata_scripts.objects.get(script_id=(Applications.objects.get(application_id = req.POST['application_id']).machine_image_user_data_scripts_script_id)).script
+
       logging.debug(user_data)
       
       instance_token = str(uuid.uuid4())
@@ -1103,3 +1107,20 @@ class Ec2_cloud(object, atmo_image):
 
   def getMethodsList(self):
     return atmo_util.jsoner("\"fail\"","\"not yet implemented\"","\"\"")
+
+  def createInstanceAsImage(self):
+		import sys
+		#from euca2ools import Euca2ool, Util, InstanceValidationError ConnectionFailed
+		import base64
+		from datetime import datetime, timedelta
+		
+
+		#key:
+		"""
+		try:
+			bundle_task = euca_conn.bundle_instance(instance_id = instance_id, s3_bucket=bucket, s3_prefix=prefix, s3_upload_policy=policy)
+		except Exception, ex:
+			euca.display_error_and_exit('%s' % ex)
+
+		"""
+		pass

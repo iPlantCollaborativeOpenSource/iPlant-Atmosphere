@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-# The contents of this file are subject to the terms listed in the LICENSE file you received with this code.
+
+#!/usr/bin/env python
 
 from django.http import HttpResponse
 from django.template import Context

@@ -110,7 +110,6 @@ class Machine_volumes(models.Model):
   volume_attach_data_instance_id = models.CharField(max_length=128,null=True)
   volume_attach_data_device = models.CharField(max_length=128,null=True)
   volume_attach_data_attach_time = models.DateTimeField(null=True)
-  owners_main_scratch_volume= models.CharField(max_length=128,null=True)
 
 class Api_logs(models.Model):
   """

@@ -202,12 +202,13 @@ var Volume_storage_grid = function() {
     //this.volume_index_store.loadData(m)
     
     var createVolumeButtonHandler = function(m) {
-      //create_volume(add_new_volume_form.getForm().getValues()['name'], add_new_volume_form.getForm().getValues()['description'], add_new_volume_form.getForm().getValues()['tags'], add_new_volume_form.getForm().getValues()['size']);      
-      Ext.MessageBox.alert('Msg','I will allow this feature at the phase II of preview release. :-) Seung-jin' ); 
+      create_volume(add_new_volume_form.getForm().getValues()['name'], add_new_volume_form.getForm().getValues()['description'], add_new_volume_form.getForm().getValues()['tags'], add_new_volume_form.getForm().getValues()['size']);        
+      //Ext.MessageBox.alert('Msg','I will allow this feature at the phase II of preview release. :-) Seung-jin' ); 
     }
     
     add_new_volume_form = new Ext.form.FormPanel({
       //title:"Basic Form",
+      monitorValid:true,
       width:425,
       frame:true,
       items: [
@@ -216,7 +217,7 @@ var Volume_storage_grid = function() {
          new Ext.form.TextField({ id:"tags", fieldLabel:"Tags", width:275 }),
          new Ext.form.TextField({ id:"size", fieldLabel:"Size (G)", width:40, allowBlank:false, regex: /^0*[1-9][0-9]*$/ })
       ],
-      buttons: [ {text:"Create", handler:createVolumeButtonHandler} ],
+      buttons: [ {text:"Create", formBind:true, handler:createVolumeButtonHandler} ],
       buttonAlign: "center"
     });
 

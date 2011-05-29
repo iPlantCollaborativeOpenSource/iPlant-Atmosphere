@@ -21,8 +21,8 @@ class MissingFieldError(Exception):
     return repr(self.value)
 
 def getToken():
-  #auth_server_url = "https://atmo.iplantcollaborative.org:443/auth"
-  auth_server_url = "https://bond.iplantcollaborative.org:443/auth"
+  auth_server_url = "https://atmo.iplantcollaborative.org:443/auth"
+  #auth_server_url = "https://bond.iplantcollaborative.org:443/auth"
   o = urlparse(auth_server_url)
   auth_server_url = string.split(o.netloc,":")[0]
   auth_server_port = int(string.split(o.netloc,":")[1])

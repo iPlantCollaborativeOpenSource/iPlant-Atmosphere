@@ -49,6 +49,12 @@ def auth_response(request):
   #login validation
   #return HttpResponse("hello",mimetype="text/plain" )
   response = HttpResponse()
+  
+  response['Access-Control-Allow-Origin'] = '*'
+  response['Access-Control-Allow-Methods'] = 'POST, GET, OPTIONS'
+  response['Access-Control-Max-Age'] = 1000
+  response['Access-Control-Allow-Headers'] = '*'
+  
   #response.write("heelo it is me")
   response['X-Server-Management-Url'] = api_server_url.value
   response['X-Storage-Url'] = "http://"

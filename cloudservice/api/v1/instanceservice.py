@@ -1,7 +1,10 @@
 #!/usr/bin/env python
+
 #
-# The contents of this file are subject to the terms listed in the LICENSE file you received with this code.
-# 
+# Copyright (c) 2010, iPlant Collaborative, University of Arizona, Cold Spring Harbor Laboratories, University of Texas at Austin
+# This software is licensed under the CC-GNU GPL version 2.0 or later.
+# License: http://creativecommons.org/licenses/GPL/2.0/
+#
 # Author: Seung-jin Kim
 # Contact: seungjin@email.arizona.edu
 # Twitter: @seungjin
@@ -110,7 +113,7 @@ def call(request) :
       instance.save()
       node_path = Configs.objects.get(key="node_path").value
       sayjs_path = Configs.objects.get(key="say.js_path").value
-      if simplejson.loads(message)['event_type'] == "instasnce_lunched" :
+      if simplejson.loads(message)['event_type'] == "instance_lunched" :
         #sendPasswordEmail(simplejson.loads(message)['public-ipv4'],simplejson.loads(message)['linuxusername'], simplejson.loads(message)['linuxuserpassword'])
         sendPasswordEmail(channel,message)
         sendWebhookCall(channel,message)

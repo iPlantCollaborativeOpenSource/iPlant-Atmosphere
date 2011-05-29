@@ -1,5 +1,7 @@
 #
-# The contents of this file are subject to the terms listed in the LICENSE file you received with this code.
+# Copyright (c) 2010, iPlant Collaborative, University of Arizona, Cold Spring Harbor Laboratories, University of Texas at Austin
+# This software is licensed under the CC-GNU GPL version 2.0 or later.
+# License: http://creativecommons.org/licenses/GPL/2.0/
 #
 # Author: Seung-jin Kim
 # Contact: seungjin@email.arizona.edu
@@ -27,3 +29,6 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'atmosphere.settings'
 
 import django.core.handlers.wsgi
 application = django.core.handlers.wsgi.WSGIHandler()
+
+
+os.environ['PYTHON_EGG_CACHE'] = '/home/atmosphere_dev/atmosphere'
