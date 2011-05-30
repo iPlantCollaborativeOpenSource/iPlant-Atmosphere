@@ -1,3 +1,14 @@
+/**
+ * The contents of this file are subject to the terms listed in the LICENSE file you received with this code.
+ *
+ * Project: Atmosphere, iPlant Collaborative
+ * Author: Seung-jin Kim
+ * Twitter: @seungjin
+ * GitHub: seungjin
+ *
+ **/
+
+
 var ajax_common_gateway = function(method_name, method_type, method_params, success_callback_function, fail_callback_function) {
 
   if (!method_name) { }
