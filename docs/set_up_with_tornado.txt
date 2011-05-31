@@ -1,0 +1,2 @@
+For scalable service, you can use tornado instead of apache/mod_wsgi. 
+
