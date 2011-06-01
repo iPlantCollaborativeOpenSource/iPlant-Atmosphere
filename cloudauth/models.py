@@ -21,7 +21,7 @@ class Tokens(models.Model):
         tokens
     """
     user = models.CharField(max_length=128)
-    token = models.TextField(unique=True)
+    token = models.CharField(max_length=255,unique=True)
     issuedTime = models.DateTimeField()
     remote_ip = models.CharField(max_length=128,null=True)
     user_agent = models.TextField(null=True)
