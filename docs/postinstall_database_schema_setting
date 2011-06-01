@@ -1,0 +1,18 @@
+After finishing django installation and setup, 
+do this:
+
+
+INSERT INTO `cloudauth_configs` (`key`,`value`) VALUES ('ldap_server', 'ldap://*******');
+INSERT INTO `cloudauth_configs` (`key`, `value`) VALUES ('ldap_server_dn','*******')
+INSERT INTO `cloudauth_configs` (`key`, `value`) VALUES ('api_server_url','*******')
+
+INSERT INTO `cloudservice_configs` (`key`,`value`) VALUES ('node_path','******')
+INSERT INTO `cloudservice_configs` (`key`,`value`) VALUES ('say.js_path','******')
+INSERT INTO `cloudservice_configs` (`key`,`value`) VALUES ('admin_ec2_access_key','******')
+INSERT INTO `cloudservice_configs` (`key`,`value`) VALUES ('admin_s3_url','******')
+INSERT INTO `cloudservice_configs` (`key`,`value`) VALUES ('admin_ec2_url','******')
+INSERT INTO `cloudservice_configs` (`key`,`value`) VALUES ('admin_ec2_secret_key','******')
+INSERT INTO `cloudservice_configs` (`key`,`value`) VALUES ('instance_service_url','https://******')
+INSERT INTO `cloudservice_configs` (`key`,`value`) VALUES ('admin_email','******')
+
+
