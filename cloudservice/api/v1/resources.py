@@ -78,7 +78,9 @@ def call(request) :
     try :
       ec2_keys = Ec2_keys.objects.get(username = username)
       #c = Cloud(ec2_access_key=Ec2_keys.objects.get(username=request.user.username).ec2_access_key,ec2_secret_key=Ec2_keys.objects.get(username=request.user.username).ec2_secret_key)
-      c = Ec2_cloud(ec2_access_key=ec2_keys.ec2_access_key,ec2_secret_key=ec2_keys.ec2_secret_key, ec2_url=ec2_keys.ec2_url, s3_url=ec2_keys.s3_url )
+      
+      #c = Ec2_cloud(ec2_access_key=ec2_keys.ec2_access_key,ec2_secret_key=ec2_keys.ec2_secret_key, ec2_url=ec2_keys.ec2_url, s3_url=ec2_keys.s3_url )
+      c = Ec2_cloud(ec2_access_key=str(ec2_keys.ec2_access_key),ec2_secret_key=str(ec2_keys.ec2_secret_key),ec2_url=str(ec2_keys.ec2_url),s3_url=str(ec2_keys.s3_url))
       f=getattr(c,resource_method)(request)
     except NameError, e:
       logging.error("cloudservice.api.v1.resources NameError at %s: %s" % (resource_method, e))

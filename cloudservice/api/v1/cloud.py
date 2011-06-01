@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 #
 #
 # The contents of this file are subject to the terms listed in the LICENSE file you received with this code.
@@ -39,13 +40,13 @@ class Ec2_cloud(object, atmo_image):
   #s3_url = None
 
   def __init__(self,ec2_access_key, ec2_secret_key, ec2_url, s3_url):
-    
+   
     self.euca = Euca2ool()
     self.euca.ec2_user_access_key = ec2_access_key
     self.euca.ec2_user_secret_key = ec2_secret_key
     self.euca.ec2_url = ec2_url
     self.euca.s3_url = s3_url
-    
+
     self.ec2_access_key = ec2_access_key
     self.ec2_secret_key = ec2_secret_key 
     self.ec2_url = ec2_url
@@ -858,7 +859,7 @@ class Ec2_cloud(object, atmo_image):
     return atmo_util.jsoner("\"success\"","\"\"","\"\"")
     
   def getAppList(self, req):
-
+    logging.debug("getAppList called")
     #application_stacks = Applications.objects.all()
     application_stacks = Applications.objects.order_by('application_name')
     applications_json = ""

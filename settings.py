@@ -33,6 +33,8 @@ DATABASES = {
         'PASSWORD': 	config.get('database', 'DATABASE_PASSWORD'),                  # Not used with sqlite3.
         'HOST': 	config.get('database', 'DATABASE_HOST'),                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': 	config.get('database', 'DATABASE_PORT'),                      # Set to empty string for default. Not used with sqlite3.
+	'OPTIONS':	{
+	}
     }
 }
 
