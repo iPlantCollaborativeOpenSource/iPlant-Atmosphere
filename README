@@ -56,6 +56,10 @@ Requirements:
       python-ldap
     Django 1.1.2 -> 1.3
     mysql or postgresql (Atmosphere uses Django ORM)
+      to use mysql
+        MySQL-python-1.2.3
+      to use postgresql
+        psycopg
     extjs 3.2.0
   Eucalyptus control:
     euca2ools 1.3.1
