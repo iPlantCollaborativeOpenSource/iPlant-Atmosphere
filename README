@@ -68,7 +68,7 @@ Requirements:
   Amazon AWS control:
     boto 1.9b
     M2Crypto 0.20.2
-  Scheduler and distributed processes:
+  Scheduler and distributed processes: (Scheduler is new at Charon code)
     celery 2.2
     rabbitmq
     sqlalchemy 0.7
