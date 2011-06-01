@@ -117,22 +117,7 @@ class Ec2_cloud(object, atmo_image):
         else :
           image.is_public = "private"
         image_description = image_description.replace("\n", "<br>") if image_description != None else ""
-        image_json_string = image_json_string +"""
-        {
-          "image_name" : "%s",
-          "image_description" : "%s",
-          "image_tags" : "%s",
-          "image_id" : "%s" ,
-          "image_location" : "%s" ,
-          "image_ownerid" : "%s" ,
-          "image_state" : "%s" ,
-          "image_is_public" : "%s" ,
-          "image_product_codes" : "%s" ,
-          "image_architecture" : "%s" ,
-          "image_type" : "%s" ,
-          "image_ramdisk_id" : "%s" ,
-          "image_kernel_id" : "%s"
-        }, """ % (
+        image_json_string = image_json_string +"""{ "image_name" : "%s", "image_description" : "%s", "image_tags" : "%s", "image_id" : "%s" , "image_location" : "%s" , "image_ownerid" : "%s" , "image_state" : "%s" ,"image_is_public" : "%s" ,"image_product_codes" : "%s" ,"image_architecture" : "%s" ,"image_type" : "%s","image_ramdisk_id" : "%s","image_kernel_id" : "%s"}, """ % (
           image_name,
           image_description,
           image_tags,
