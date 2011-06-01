@@ -15,12 +15,28 @@ from ConfigParser import RawConfigParser
 config = RawConfigParser()
 config.read('/home/atmosphere_dev/credentials_never_git_it.ini')
 
-DATABASE_USER = config.get('database', 'DATABASE_USER')
-DATABASE_PASSWORD = config.get('database', 'DATABASE_PASSWORD')
-DATABASE_HOST = config.get('database', 'DATABASE_HOST')
-DATABASE_PORT = config.get('database', 'DATABASE_PORT')
-DATABASE_ENGINE = config.get('database', 'DATABASE_ENGINE')
-DATABASE_NAME = config.get('database', 'DATABASE_NAME')
+
+
+
+#DATABASE_USER = config.get('database', 'DATABASE_USER')
+#DATABASE_PASSWORD = config.get('database', 'DATABASE_PASSWORD')
+#DATABASE_HOST = config.get('database', 'DATABASE_HOST')
+#DATABASE_PORT = config.get('database', 'DATABASE_PORT')
+#DATABASE_ENGINE = config.get('database', 'DATABASE_ENGINE')
+#DATABASE_NAME = config.get('database', 'DATABASE_NAME')
+
+DATABASES = {
+    'default': {
+        'ENGINE': 	'django.db.backends.'+config.get('database', 'DATABASE_ENGINE'), # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 	config.get('database', 'DATABASE_NAME'),                      # Or path to database file if using sqlite3.
+        'USER': 	config.get('database', 'DATABASE_USER'),                      # Not used with sqlite3.
+        'PASSWORD': 	config.get('database', 'DATABASE_PASSWORD'),                  # Not used with sqlite3.
+        'HOST': 	config.get('database', 'DATABASE_HOST'),                      # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': 	config.get('database', 'DATABASE_PORT'),                      # Set to empty string for default. Not used with sqlite3.
+    }
+}
+
+
 #TEST_DATABASE_NAME = config.get('database', 'TESTSUITE_DATABASE_NAME')
 
 #SECRET_KEY = config.get('secrets','SECRET_KEY')
@@ -99,9 +115,10 @@ SECRET_KEY = ''
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.load_template_source',
-    'django.template.loaders.app_directories.load_template_source',
-#	'django.template.loaders.eggs.load_template_source',
+  #'django.template.loaders.filesystem.load_template_source',
+  'django.template.loaders.filesystem.Loader',
+  'django.template.loaders.app_directories.load_template_source',
+  #django.template.loaders.eggs.load_template_source',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -206,7 +223,7 @@ import logging
 logging.basicConfig (
 	level = logging.DEBUG,
 	format = '%(asctime)s %(levelname)s %(message)s',
-	filename = os.path.dirname(__file__)+'/./logs/my_log.log',
+	filename = os.path.dirname(__file__)+'/./logs/atmosphere.log',
 	filemode = 'w'
 )
 ## end of logging
