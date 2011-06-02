@@ -206,4 +206,6 @@ class Instance_lifecycles(models.Model):
   instance_terminated_at = models.DateTimeField(null=True)
   instance_terminated_by = models.CharField(max_length=128,null=True)
 
+#class Instance_launch_request_ques(models.Model):
+#  pass
   
