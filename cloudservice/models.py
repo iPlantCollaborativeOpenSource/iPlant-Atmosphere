@@ -29,6 +29,7 @@ class Ec2_keys(models.Model):
   ec2_secret_key = models.TextField()
   ec2_url = models.TextField()
   s3_url = models.TextField()
+  added_at = models.DateTimeField(auto_now_add=True)
 
 class Instances(models.Model):
   """
