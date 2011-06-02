@@ -126,11 +126,6 @@ def get_all_instance_list():
             )
       return_json_str = "[%s]" % instance_json_string[0:-2]
   #Monitor_instance_list
-  monitor_instance_list = Monitor_instance_list(instance_list_json=''.join(return_json_str.splitlines()).replace('  ',''))
-  monitor_instance_list.save()
+  instance_state_monitors = Instance_state_monitors(instance_list_json=''.join(return_json_str.splitlines()).replace('  ',''))
+  instance_state_monitors.save()
   #write_log(''.join(return_json_str.splitlines()).replace('  ',''))
-  
-
-@periodic_task(run_every=timedelta(seconds=2))
-def get_all_instance_list2():
-  write_log("2seconds")
