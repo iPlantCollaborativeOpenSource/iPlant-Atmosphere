@@ -71,7 +71,7 @@ Requirements:
   Scheduler and distributed processes: (Scheduler is new at Charon code)
     celery 2.2
     rabbitmq
-    sqlalchemy 0.7
+    django-celery 2.2.4 (http://pypi.python.org/pypi/django-celery)
   Notification 
     nodejs
     faye - https://github.com/stepheneb/faye
