@@ -13,6 +13,12 @@ import sys
 import site
 
 
+
+# developed and tested with wsgi (apache)
+# for scalable service, 
+# running Djanog with Tornado is not a bad idea at all.
+
+
 # One directory above the project, so project name will be needed for imports
 root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
