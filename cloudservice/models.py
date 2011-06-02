@@ -7,8 +7,6 @@
 # GitHub: seungjin
 #
 
-
-
 from django.db import models
 
 # Create your models here.
@@ -200,6 +198,12 @@ class Instance_state_monitors(models.Model):
   instance_list_json = models.TextField()
   updated_at = models.DateTimeField(auto_now_add=True)
 
-#class Instance_lifecycles(models.Model):
-#  pass
+class Instance_lifecycles(models.Model):
+  instance_id = models.CharField(max_length=128,null=True)
+  previous_instance_lifecycles_id = models.CharField(max_length=64,null=True)
+  instance_launched_at = models.DateTimeField()
+  instance_life_time = models.DateTimeField(null=True)
+  instance_terminated_at = models.DateTimeField(null=True)
+  instance_terminated_by = models.CharField(max_length=128,null=True)
 
+  
