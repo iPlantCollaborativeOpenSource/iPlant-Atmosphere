@@ -60,10 +60,6 @@ ADMINS = tuple(config.items('error mail'))
 MANAGERS = tuple(config.items('404 mail'))
 
 
-
-
-
-
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -132,6 +128,18 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'atmosphere.urls'
 
 import os.path
+import djcelery
+
+djcelery.setup_loader()
+CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler"
+
+
+BROKER_HOST = config.get('celery', 'BROKER_HOST') 
+BROKER_PORT = config.get('celery', 'BROKER_PORT')
+BROKER_USER = config.get('celery', 'BROKER_USER')
+BROKER_PASSWORD = config.get('celery', 'BROKER_PASSWORD')
+BROKER_VHOST = config.get('celery', 'BROKER_VHOST')
+
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -149,6 +157,8 @@ INSTALLED_APPS = (
     'atmosphere.cloudservice',
     'atmosphere.cloudauth',
     'atmosphere.cloudfront',
+    'djcelery',
+    'atmosphere.cloudservice.scheduler',
 )
 
 # The age of session cookies, in seconds.

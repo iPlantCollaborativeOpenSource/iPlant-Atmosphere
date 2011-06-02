@@ -1,0 +1,2 @@
+decided to use celery with django (integrated).
+eucalyptus has problem with celery but boto is ok. 

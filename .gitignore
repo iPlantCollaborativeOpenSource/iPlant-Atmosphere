@@ -6,3 +6,4 @@ atmosphere.kpf
 config.yaml
 settings.py
 logs/*
+celerybeat-schedule

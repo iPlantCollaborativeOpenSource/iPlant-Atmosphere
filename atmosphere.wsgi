@@ -35,3 +35,4 @@ application = django.core.handlers.wsgi.WSGIHandler()
 
 
 os.environ['PYTHON_EGG_CACHE'] = '/home/atmosphere_dev/atmosphere'
+os.environ["CELERY_LOADER"] = "django"

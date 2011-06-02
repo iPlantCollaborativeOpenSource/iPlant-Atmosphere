@@ -195,3 +195,8 @@ class Instance_launch_hooks(models.Model):
   responsed_time = models.DateTimeField(null=True)
   responsed_header = models.CharField(max_length=128,null=True)
   responsed_body = models.TextField(null=True)
+
+class Monitor_instance_list(models.Model):
+  instance_list_json = models.TextField()
+  updated_at = models.DateTimeField(auto_now_add=True)
+
