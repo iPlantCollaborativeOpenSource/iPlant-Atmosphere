@@ -8,6 +8,7 @@
 #
 
 from django.db import models
+from django.utils.encoding import smart_str
 
 # Create your models here.
 
@@ -17,6 +18,9 @@ class Configs(models.Model):
   """
   key = models.TextField()
   value = models.TextField()
+  def __unicode__(self):
+    return smart_str('%s %s' % (self.key, self.value))
+
 
 class Ec2_keys(models.Model):
   """
@@ -28,6 +32,8 @@ class Ec2_keys(models.Model):
   ec2_url = models.TextField()
   s3_url = models.TextField()
   added_at = models.DateTimeField(auto_now_add=True)
+  def __unicode__(self):
+    return smart_str('%s %s %s %s %s %s' % (self.username, self.ec2_access_key, self.ec2_secret_key, self.ec2_url, self.s3_url, self.added_at))
 
 class Instances(models.Model):
   """
@@ -59,6 +65,33 @@ class Instances(models.Model):
   instance_token = models.CharField(max_length=128,null=True)
   launch_response_time = models.DateTimeField(null=True)
   termination_request_time =  models.DateTimeField(null=True)
+  def __unicode__(self):
+    return smart_str('' % ( self.instance_name,
+                            self.instance_description,
+                            self.instance_tags,
+                            self.reservation,
+                            self.owner_id,
+                            self.group_id,
+                            self.instance_id,
+                            self.machine_image, 
+                            self.public_dns_name,
+                            self.private_dns_name,
+                            self.key_name,
+                            self.current_state,
+                            self.ami_index,
+                            self.product_code,
+                            self.machine_size,
+                            self.launch_time,
+                            self.placement,
+                            self.kernel,
+                            self.ramdisk,
+                            self.launch_request_time,
+                            self.life_time,
+                            self.instance_token,
+                            self.launch_response_time,
+                            self.termination_request_time
+                          )
+                    )
 
   def time_took_for_launch(self):
     if (self.launch_response_time != None) and (self.launch_request_time != None) :
@@ -148,6 +181,28 @@ class Applications(models.Model):
   application_description = models.TextField(null=True)
   application_init_config_param = models.TextField(null=True)
   machine_image_user_data_scripts_script_id = models.CharField(max_length=128,null=True)
+  def __unicode__(self):
+    # Note use of django.utils.encoding.smart_str() here because
+    # first_name and last_name will be unicode strings.
+    return smart_str('%s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s' % (
+    self.application_name,
+    self.application_icon_path, 
+    self.application_id, 
+    self.application_creator,
+    self.application_created,
+    self.application_version,
+    self.application_category,
+    self.application_type, 
+    self.platform, 
+    self.machine_image_id, 
+    self.kernel_id, 
+    self.ramdisk_id,
+    self.system_minimum_requirements,
+    self.application_tags,
+    self.application_description,
+    self.application_init_config_param,
+    self.machine_image_user_data_scripts_script_id
+    ))
 
 class User_applications(models.Model):
   """
@@ -176,7 +231,9 @@ class User_resource_quotas(models.Model):
   userid = models.CharField(max_length=128)
   cpu = models.IntegerField(null=True)
   memory = models.IntegerField(null=True)
-  totoa_ebs_size = models.IntegerField(null=True)
+  totoal_ebs_size = models.IntegerField(null=True)
+  def __unicode__(self):
+    return smart_str('%s %s %s %s' % (self.userid, self.cpu, self.memory, self.totoal_ebs_size))
 
 class Machine_image_userdata_scripts(models.Model):
   script_id = models.IntegerField(unique=True) 
@@ -184,6 +241,8 @@ class Machine_image_userdata_scripts(models.Model):
   script_description = models.TextField(null=True)
   script_version = models.CharField(max_length=128,null=True)
   script = models.TextField(null=True)
+  def __unicode__(self):
+    return smart_str('%s %s %s %s %s' % (self.script_id, self.script_name, self.script_description, self.script_version, self.script))
 
 class Instance_launch_hooks(models.Model):
   instance_id = models.CharField(max_length=128,null=True)

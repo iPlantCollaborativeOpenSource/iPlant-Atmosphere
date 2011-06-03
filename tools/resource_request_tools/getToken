@@ -1,38 +1,48 @@
 #!/usr/bin/python
 # simple http request (header values)
 
-
+import sys
 import httplib
 import urllib
 
-url = "150.135.78.195"
-port = 8000
-path = "/auth"
-username = "username"
-password = "password"
-method = "GET"
-params = None
-headers = {
-        "Content-type" : "application/x-www-form-urlencoded",
-        "Accept" : "text/plain",
-        "X-Auth-User" : username,
-        "X-Auth-Key" : password
-        }
+from urlparse import urlparse
 
 
 
-conn = httplib.HTTPConnection(url,port)
-conn.request(method,path,params,headers)
-r1 = conn.getresponse()
+def getToken():
+  endpoint = "https://charon.iplantcollaborative.org"
+  o = urlparse(endpoint)
 
-#print r1.read()
-print "HTTP RETURN CODE: %i, %s" % (r1.status,r1.reason)
-headers = r1.getheaders()
-conn.close()
+  path = "/auth"
+  username = sys.argv[1]
+  password = sys.argv[2]
+	
+  method = "GET"
+  params = None
+  headers = {
+    "Content-type" : "application/x-www-form-urlencoded",
+    "Accept" : "text/plain",
+    "X-Auth-User" : username,
+    "X-Auth-Key" : password
+   }
+  conn = httplib.HTTPSConnection(o.netloc,443)
+  conn.request(method,path,params,headers)
+  r1 = conn.getresponse()
 
-for header in headers:
-	if header[0] == "x-server-management-url" :
-		print header[1]
-	if header[0] == "x-auth-token" :
-		print header[1]
+  #print r1.read()
+  print "HTTP RETURN CODE: %i, %s" % (r1.status,r1.reason)
+  headers = r1.getheaders()
+  conn.close()
 
+  url = token = None
+
+  for header in headers:
+    if header[0] == "x-server-management-url" :
+      url = header[1]
+    if header[0] == "x-auth-token" :
+      token = header[1]
+  
+  return url, token
+
+
+print getToken()

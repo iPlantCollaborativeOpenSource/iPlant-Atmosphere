@@ -20,6 +20,7 @@ import uuid
 from atmosphere.cloudservice.api.v1.cloudadmin import CloudAdmin
 from atmosphere.cloudservice.api.v1.image import Image as atmo_image
 import atmosphere.cloudservice.api.v1.util as atmo_util
+from django.utils.encoding import smart_str
 
 # I like to change this class better when I get time :-)
 # it works now.. but not really code I like to show others
@@ -82,8 +83,8 @@ class Ec2_cloud(object, atmo_image):
     if p.count() == 0 :
       cpu_limit = mem_limit = 'Unlimited'
     else :
-      cpu_limit = str(p[0].cpu)
-      mem_limit = str(p[0].memory)
+      cpu_limit = p[0].cpu
+      mem_limit = p[0].memory
     user_profile = '{"userid":"%s"},{"ec2_access_key":"%s"},{"ec2_secret_key":"%s"},{"ec2_url":"%s"},{"s3_url":"%s"},{"token":"%s"},{"api_server":"%s"},{"quota_cpu":"%s"},{"quota_mem":"%s"}' % (userinfo.username,self.ec2_access_key,self.ec2_secret_key,self.ec2_url,self.s3_url,req.META['HTTP_X_AUTH_TOKEN'],req.META['HTTP_X_API_SERVER'],cpu_limit,mem_limit)
     return atmo_util.jsoner("\"success\"","\"\"","[%s]" % user_profile)
     
@@ -947,6 +948,8 @@ class Ec2_cloud(object, atmo_image):
 
   def launchApp(self, req):
     # euca-run-instance -t m1.small -z iplanto1 -f atmo-init.rb emi-123
+    logging.debug("!!!!!!!!")
+    logging.debug("LaunchApp def called")
     if req.method == "POST":
       
       # quota check starts
