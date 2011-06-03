@@ -240,5 +240,7 @@ logging.basicConfig (
 )
 ## end of logging
 
+DEFAULT_CHARSET = "utf8"
+
 import sys
 sys.stdout = sys.stderr
