@@ -55,6 +55,7 @@ class Instances(models.Model):
   kernel = models.CharField(max_length=128,null=True)
   ramdisk = models.CharField(max_length=128,null=True)
   launch_request_time = models.DateTimeField(null=True)
+  life_time = models.IntegerField(null=True)
   instance_token = models.CharField(max_length=128,null=True)
   launch_response_time = models.DateTimeField(null=True)
   termination_request_time =  models.DateTimeField(null=True)
