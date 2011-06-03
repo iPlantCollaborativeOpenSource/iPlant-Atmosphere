@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*- 
 #
 # The contents of this file are subject to the terms listed in the LICENSE file you received with this code.
 #
@@ -8,7 +9,7 @@
 #
 
 from django.db import models
-from django.utils.encoding import smart_str
+from django.utils.encoding import smart_str, smart_unicode
 
 # Create your models here.
 
@@ -181,28 +182,28 @@ class Applications(models.Model):
   application_description = models.TextField(null=True)
   application_init_config_param = models.TextField(null=True)
   machine_image_user_data_scripts_script_id = models.CharField(max_length=128,null=True)
-  def __unicode__(self):
-    # Note use of django.utils.encoding.smart_str() here because
-    # first_name and last_name will be unicode strings.
-    return smart_str('%s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s' % (
-    self.application_name,
-    self.application_icon_path, 
-    self.application_id, 
-    self.application_creator,
-    self.application_created,
-    self.application_version,
-    self.application_category,
-    self.application_type, 
-    self.platform, 
-    self.machine_image_id, 
-    self.kernel_id, 
-    self.ramdisk_id,
-    self.system_minimum_requirements,
-    self.application_tags,
-    self.application_description,
-    self.application_init_config_param,
-    self.machine_image_user_data_scripts_script_id
-    ))
+  #def __unicode__(self):
+  #  # Note use of django.utils.encoding.smart_str() here because
+  #  # first_name and last_name will be unicode strings.
+  #  return smart_str('%s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s' % (
+  #  self.application_name,
+  #  self.application_icon_path, 
+  #  self.application_id, 
+  #  self.application_creator,
+  #  self.application_created,
+  #  self.application_version,
+  #  self.application_category,
+  #  self.application_type, 
+  #  self.platform, 
+  #  self.machine_image_id, 
+  #  self.kernel_id, 
+  #  self.ramdisk_id,
+  #  self.system_minimum_requirements,
+  #  self.application_tags,
+  #  self.application_description,
+  #  self.application_init_config_param,
+  #  self.machine_image_user_data_scripts_script_id
+  #  ))
 
 class User_applications(models.Model):
   """
@@ -232,8 +233,6 @@ class User_resource_quotas(models.Model):
   cpu = models.IntegerField(null=True)
   memory = models.IntegerField(null=True)
   totoal_ebs_size = models.IntegerField(null=True)
-  def __unicode__(self):
-    return smart_str('%s %s %s %s' % (self.userid, self.cpu, self.memory, self.totoal_ebs_size))
 
 class Machine_image_userdata_scripts(models.Model):
   script_id = models.IntegerField(unique=True) 

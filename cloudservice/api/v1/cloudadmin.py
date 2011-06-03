@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+# -*- coding: utf-8 -*- 
 #
 # Copyright (c) 2010, iPlant Collaborative, University of Arizona, Cold Spring Harbor Laboratories, University of Texas at Austin
 # This software is licensed under the CC-GNU GPL version 2.0 or later.
@@ -29,9 +29,9 @@ class CloudAdmin(object):
     #to use atmosphere for amazonaws
     #os.environ['EC2_URL'] = 'https://' + region + ".ec2.amazonaws.com"
     euca = Euca2ool('', ['region='])
-    euca.ec2_user_access_key = self.access_key
-    euca.ec2_user_secret_key = self.secret_key
-    euca.ec2_url = self.ec2_url
+    euca.ec2_user_access_key = str(self.access_key)
+    euca.ec2_user_secret_key = str(self.secret_key)
+    euca.ec2_url = str(self.ec2_url)
     zone_ids = "verbose"
     euca_conn = euca.make_connection()
     zones = euca_conn.get_all_zones(zone_ids)

@@ -117,8 +117,8 @@ def call(request) :
     http_request_method = http_request_method ,
     request_param = requested_param,
     request_time = request_time ,
-    #response_value = f ,
-    response_value = ''.join(str(f).splitlines()).replace('  ',''),
+    #response_value = str(type(f)) ,
+    response_value = ''.join(f.splitlines()).replace('  ',''),
     response_time = datetime.datetime.now()
     )
   api_log.save()

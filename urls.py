@@ -17,8 +17,8 @@ import os
 # admin.autodiscover()
 
 
-site_media = os.path.join( os.path.dirname(__file__), 'site_media')
-mobile = os.path.join( os.path.dirname(__file__), 'mobile')
+site_media = os.path.join(os.path.dirname(__file__), 'site_media')
+mobile = os.path.join(os.path.dirname(__file__), 'mobile')
 
 from django.views.generic.simple import direct_to_template
 

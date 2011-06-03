@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*- 
 #
 #
 # The contents of this file are subject to the terms listed in the LICENSE file you received with this code.
@@ -43,8 +43,8 @@ class Ec2_cloud(object, atmo_image):
   def __init__(self,ec2_access_key, ec2_secret_key, ec2_url, s3_url):
    
     self.euca = Euca2ool()
-    self.euca.ec2_user_access_key = ec2_access_key
-    self.euca.ec2_user_secret_key = ec2_secret_key
+    self.euca.ec2_user_access_key = str(ec2_access_key)
+    self.euca.ec2_user_secret_key = str(ec2_secret_key)
     self.euca.ec2_url = ec2_url
     self.euca.s3_url = s3_url
 
@@ -948,10 +948,7 @@ class Ec2_cloud(object, atmo_image):
 
   def launchApp(self, req):
     # euca-run-instance -t m1.small -z iplanto1 -f atmo-init.rb emi-123
-    logging.debug("!!!!!!!!")
-    logging.debug("LaunchApp def called")
     if req.method == "POST":
-      
       # quota check starts
       instance_type = req.POST['instance_size']
       min_count = 1
@@ -962,7 +959,6 @@ class Ec2_cloud(object, atmo_image):
       if quota_check['result'] == "unavailable" :
         quota_check_json = '{"limit_cpu":%s, "limit_mem":%s, "current_cpu":%s, "current_mem":%s }' % (quota_check['limit_cpu'], quota_check['limit_mem'], quota_check['current_cpu'], quota_check['current_mem'])
         return atmo_util.jsoner("\"fail\"","\"quota over\"",quota_check_json)
-        
       instance_name = req.POST['instance_name']
       image_id = req.POST['image_id'] if req.POST['image_id'] else None
       keyname = None
@@ -974,6 +970,8 @@ class Ec2_cloud(object, atmo_image):
       user_data_file = None
       addressing_type = None
       zone = None
+      lifetime = -1
+      lifetime = req.POST['lifetime'] if req.POST['lifetime'] else None
       
       #user_data_file = open(os.path.abspath(os.path.dirname(__file__))+'/../../api/v1/atmo-init.rb', 'r')
       #user_data = user_data_file.read()
@@ -1053,7 +1051,7 @@ class Ec2_cloud(object, atmo_image):
           inst.save()
           instance_id = instance.id
       logging.debug("launched new instanca/app: " + instance_id)
-      return atmo_util.jsoner("\"success\"","\"\"","\"%s\""  % str(instance_id ))
+      return atmo_util.jsoner("\"success\"","\"\"","\"%s\""  % str(instance_id))
     else:
       return atmo_util.jsoner("\"fail\"","\"expecting post method but not received it\"","\"\"")
 
