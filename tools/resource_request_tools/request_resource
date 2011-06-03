@@ -7,8 +7,8 @@ from urlparse import urlparse
 import string
 
 usage = """USAGE: resource_request $username $token $api_server_url $method_url $request_method $request_params
-ex) resource_request seungjin cb26daac-dedc-4bd6-a353-68734ec40171 http://thomasin.iplantcollaborative.org:8000/resources/v1/getImageList GET 
-ex) resource_request seungjin cb26daac-dedc-4bd6-a353-68734ec40171 http://thomasin.iplantcollaborative.org:8000/resources/v1/createKeyPair POST keypair_name='seuingjin'
+ex) resource_request seungjin cb26daac-dedc-4bd6-a353-68734ec40171 https://thomasin.iplantcollaborative.org:8000/resources/v1/getImageList GET 
+ex) resource_request seungjin cb26daac-dedc-4bd6-a353-68734ec40171 https://thomasin.iplantcollaborative.org:8000/resources/v1/createKeyPair POST keypair_name='seuingjin'
 
 method_url: {api_server_url}/resources/{version}/{method}
 """
@@ -16,8 +16,9 @@ method_url: {api_server_url}/resources/{version}/{method}
 #print usage
 
 if len(sys.argv) < 5 :
-	print "meow"
-	sys.exit()
+  print "meow"
+  print usage
+  sys.exit()
 
 username = sys.argv[1]
 token = sys.argv[2]
@@ -30,8 +31,8 @@ if len(sys.argv) == 6 :
 
 o = urlparse(request_url)
 protocol = o.scheme
-url = string.split(o.netloc,":")[0]
-port = string.split(o.netloc,":")[1]
+url = o.netloc.split(":")[0]
+port = o.netloc.split(":")[1]
 path = o.path + "/"
 
 headers = {

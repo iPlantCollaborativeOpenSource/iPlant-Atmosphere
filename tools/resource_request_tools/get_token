@@ -44,5 +44,4 @@ def getToken():
   
   return url, token
 
-
 print getToken()
