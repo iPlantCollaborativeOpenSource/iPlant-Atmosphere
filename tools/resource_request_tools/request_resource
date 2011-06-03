@@ -7,8 +7,8 @@ from urlparse import urlparse
 import string
 
 usage = """USAGE: resource_request $username $token $api_server_url $method_url $request_method $request_params
-ex) resource_request seungjin cb26daac-dedc-4bd6-a353-68734ec40171 https://thomasin.iplantcollaborative.org:8000/resources/v1/getImageList GET 
-ex) resource_request seungjin cb26daac-dedc-4bd6-a353-68734ec40171 https://thomasin.iplantcollaborative.org:8000/resources/v1/createKeyPair POST keypair_name='seuingjin'
+ex) resource_request seungjin cb26daac-dedc-4bd6-a353-68734ec40171 GET https://thomasin.iplantcollaborative.org:8000/resources/v1/getImageList  
+ex) resource_request seungjin cb26daac-dedc-4bd6-a353-68734ec40171 POST https://thomasin.iplantcollaborative.org:8000/resources/v1/createKeyPair keypair_name='seuingjin'
 
 method_url: {api_server_url}/resources/{version}/{method}
 """
@@ -32,26 +32,24 @@ if len(sys.argv) == 6 :
 o = urlparse(request_url)
 protocol = o.scheme
 url = o.netloc.split(":")[0]
-port = o.netloc.split(":")[1]
+port = int(o.netloc.split(":")[1])
+
 path = o.path + "/"
+print path
 
 headers = {
         "Content-type" : "application/x-www-form-urlencoded",
         "Accept" : "text/plain",
         "X-Auth-User" : username,
         "X-Auth-Token" : token,
+        #"X-Api-Server" : request_url,
         "X-Api-Server" : request_url,
         "X-Api-Version" : "v1"
         }
 
-#print "protocol: " + protocol
-#print "url: " + url
-#print "port: " + port
-#print "path: " + path
-#print "method: " + method
+print headers
 
-
-conn = httplib.HTTPConnection(url,port)
+conn = httplib.HTTPSConnection(url,port)
 conn.request(method,path,params,headers)
 r1 = conn.getresponse()
 print "HTTP RETURN CODE: %i, %s" % (r1.status,r1.reason)
