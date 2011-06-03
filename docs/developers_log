@@ -1,2 +1,4 @@
 decided to use celery with django (integrated).
 eucalyptus has problem with celery but boto is ok. 
+
+Next code/version, I will try to run Atmosphere with Django+Tornado. 
