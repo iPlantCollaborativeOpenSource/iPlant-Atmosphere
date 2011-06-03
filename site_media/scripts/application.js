@@ -444,7 +444,7 @@ var notice = function(){
   return {
     	msg : function(title, format){
       console.log(format); 
-      document.getElementById("dummy").innerHTML="<embed src=\"/site_media/sounds/ding_dong.wav\" hidden=\"true\" autostart=\"true\" loop=\"false\" />";
+      //document.getElementById("dummy").innerHTML="<embed src=\"/site_media/sounds/ding_dong.wav\" hidden=\"true\" autostart=\"true\" loop=\"false\" />";
       	if(!msgCt){
         	msgCt = Ext.DomHelper.insertFirst(document.body, {id:'msg-div'}, true);
         }
