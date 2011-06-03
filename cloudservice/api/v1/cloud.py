@@ -320,6 +320,9 @@ class Ec2_cloud(object, atmo_image):
       if u'auth_key' in req_item_list : keyname = req.POST['auth_key']
       else : return atmo_util.jsoner("\"fail\"","\"\"","\"%s\"" % "required parameter 'auth_key' missing")
       #keyname = req.POST['auth_key']
+
+      if u'life_time' in req_item_list : life_time = req.POST['life_time']
+      else : life_time = -1
       
       kernel_id = None
       ramdisk_id = None
