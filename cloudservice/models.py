@@ -154,6 +154,7 @@ class Applications(models.Model):
   system_minimum_requirements = models.CharField(max_length=128,null=True)
   application_tags = models.CharField(max_length=128,null=True)
   application_description = models.TextField(null=True)
+  application_life_time = models.IntegerField(null=True)
   application_init_config_param = models.TextField(null=True)
   machine_image_user_data_scripts_script_id = models.CharField(max_length=128,null=True)
 
@@ -177,6 +178,7 @@ class User_applications(models.Model):
   system_minimum_requirements = models.CharField(max_length=128,null=True)
   application_tags = models.CharField(max_length=128,null=True)
   application_description = models.TextField(null=True)
+  application_life_time = models.IntegerField(null=True)
   application_init_config_param = models.TextField(null=True)
   machine_image_user_data_scripts_script_id = models.CharField(max_length=128,null=True)
 

@@ -889,6 +889,7 @@ class Ec2_cloud(object, atmo_image):
           "system_minimum_requirements":"%s",
           "application_tags":"%s",
           "application_description":"%s",
+          "application_life_time":"%s",
           "is_sys_app":true
         }, """ % (
         o.application_name,
@@ -905,7 +906,8 @@ class Ec2_cloud(object, atmo_image):
         o.ramdisk_id,
         o.system_minimum_requirements,
         o.application_tags,
-        o.application_description.replace('\n', '')
+        o.application_description.replace('\n', ''),
+        o.application_life_time
       )
     
     #user application stacks
@@ -927,6 +929,7 @@ class Ec2_cloud(object, atmo_image):
           "system_minimum_requirements":"%s",
           "application_tags":"%s",
           "application_description":"%s",
+          "application_life_time":"%s",
           "application_order":"%s",
           "is_sys_app":false
         }, """ % (
@@ -945,6 +948,7 @@ class Ec2_cloud(object, atmo_image):
         p.system_minimum_requirements,
         p.application_tags,
         p.application_description,
+        p.application_life_time,
         p.application_order
       )
       
