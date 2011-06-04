@@ -203,8 +203,9 @@ class Instance_launch_hooks(models.Model):
   responsed_header = models.CharField(max_length=128,null=True)
   responsed_body = models.TextField(null=True)
 
-class Instance_state_monitors(models.Model):
-  instance_list_json = models.TextField()
+class Tasks(models.Model):
+  task_name = models.CharField(max_length=255)
+  task_result = models.TextField()
   updated_at = models.DateTimeField(auto_now_add=True)
 
 class Instance_lifecycles(models.Model):
