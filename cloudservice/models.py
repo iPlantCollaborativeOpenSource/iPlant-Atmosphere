@@ -117,7 +117,8 @@ class Machine_images(models.Model):
   image_location = models.CharField(max_length=128,null=True)
   image_ownerid = models.CharField(max_length=128,null=True)
   image_state = models.CharField(max_length=128,null=True)
-  image_type = models.CharField(max_length=128,null=True)
+  image_type = models.CharField(max_length=128,null=True) #iPlant, Community, User
+  image_status = models.CharField(max_length=128,null=True) #active, retired, defunct
   image_ramdisk_id = models.CharField(max_length=128,null=True)
   image_kernel_id = models.CharField(max_length=128,null=True)
   image_is_public = models.CharField(max_length=128,null=True)
