@@ -39,3 +39,13 @@ def terminate_instance(instance_id):
   tasks.save()
 
 
+
+
+
+#>>> from datetime import datetime, timedelta
+#>>> datetime.now()
+#datetime.datetime(2011, 6, 5, 6, 15, 32, 677610)
+#>>> timedelta(hours=1)
+#datetime.timedelta(0, 3600)
+#>>> datetime.now() + timedelta(hours=1)
+#datetime.datetime(2011, 6, 5, 7, 15, 51, 341043)

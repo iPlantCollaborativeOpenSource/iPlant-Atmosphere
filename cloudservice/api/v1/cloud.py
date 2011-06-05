@@ -21,6 +21,7 @@ from atmosphere.cloudservice.api.v1.cloudadmin import CloudAdmin
 from atmosphere.cloudservice.api.v1.image import Image as atmo_image
 import atmosphere.cloudservice.api.v1.util as atmo_util
 from django.utils.encoding import smart_str
+from django.utils.datastructures import MultiValueDictKeyError
 
 # I like to change this class better when I get time :-)
 # it works now.. but not really code I like to show others
@@ -978,8 +979,7 @@ class Ec2_cloud(object, atmo_image):
       user_data_file = None
       addressing_type = None
       zone = None
-      lifetime = -1
-      lifetime = req.POST['lifetime'] if req.POST['lifetime'] else None
+      
       
       #user_data_file = open(os.path.abspath(os.path.dirname(__file__))+'/../../api/v1/atmo-init.rb', 'r')
       #user_data = user_data_file.read()
@@ -988,10 +988,15 @@ class Ec2_cloud(object, atmo_image):
       if req.POST['application_id'][:2] == "u_" :
         user_app_id = req.POST['application_id'][2:]
         user_data = Machine_image_userdata_scripts.objects.get(script_id=(User_applications.objects.get(application_id = user_app_id)).machine_image_user_data_scripts_script_id).script
+        life_time = User_applications.objects.get(application_id = user_app_id).application_life_time
       else :
         user_data = Machine_image_userdata_scripts.objects.get(script_id=(Applications.objects.get(application_id = req.POST['application_id']).machine_image_user_data_scripts_script_id)).script
-
-      logging.debug(user_data)
+        try: 
+          life_time = req.POST['lifetime']
+        except MultiValueDictKeyError, e:
+          life_time = Applications.objects.get(application_id = req.POST['application_id']).application_life_time
+      
+      #logging.debug(user_data)
       
       instance_token = str(uuid.uuid4())
       instance_service_url = Configs.objects.get(key="instance_service_url").value
@@ -1053,12 +1058,23 @@ class Ec2_cloud(object, atmo_image):
             kernel = instance.kernel,
             ramdisk = instance.ramdisk,
             launch_request_time = datetime.datetime.now(),
+            life_time = life_time,
             instance_token = instance_token,
             launch_response_time = None
           )
           inst.save()
           instance_id = instance.id
       logging.debug("launched new instanca/app: " + instance_id)
+      #
+      instance_lifecycles = Instance_lifecycles(
+        instance_id = instance.id,
+        #previous_instance_lifecycles_id = 
+        #instance_launched_at = 
+        instance_life_time = life_time
+        #instance_terminated_at = 
+        #instance_terminated_by =  
+      )
+      instance_lifecycles.save()
       return atmo_util.jsoner("\"success\"","\"\"","\"%s\""  % str(instance_id))
     else:
       return atmo_util.jsoner("\"fail\"","\"expecting post method but not received it\"","\"\"")

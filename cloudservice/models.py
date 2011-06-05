@@ -62,9 +62,9 @@ class Instances(models.Model):
   kernel = models.CharField(max_length=128,null=True)
   ramdisk = models.CharField(max_length=128,null=True)
   launch_request_time = models.DateTimeField(null=True)
-  life_time = models.IntegerField(null=True)
   instance_token = models.CharField(max_length=128,null=True)
   launch_response_time = models.DateTimeField(null=True)
+  life_time = models.IntegerField(null=True)
   termination_request_time =  models.DateTimeField(null=True)
 
   def time_took_for_launch(self):
@@ -213,8 +213,8 @@ class Tasks(models.Model):
 class Instance_lifecycles(models.Model):
   instance_id = models.CharField(max_length=128,null=True)
   previous_instance_lifecycles_id = models.CharField(max_length=64,null=True)
-  instance_launched_at = models.DateTimeField()
-  instance_life_time = models.DateTimeField(null=True)
+  instance_launched_at = models.DateTimeField(null=True)
+  instance_life_time = models.IntegerField(null=True)
   instance_terminated_at = models.DateTimeField(null=True)
   instance_terminated_by = models.CharField(max_length=128,null=True)
 

@@ -236,7 +236,7 @@ logging.basicConfig (
 	level = logging.DEBUG,
 	format = '%(asctime)s %(levelname)s %(message)s',
 	filename = os.path.dirname(__file__)+'/./logs/atmosphere.log',
-	filemode = 'w'
+	filemode = 'a'
 )
 ## end of logging
 

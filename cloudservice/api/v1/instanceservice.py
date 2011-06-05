@@ -93,6 +93,15 @@ def sendWebhookCall(userid, message):
     responsed_body = (r1.read())
   )
 
+def update_cloudservice_instance_lifecycles_table(msg) :
+  logging.debug("update_cloudservice_instance_lifecycles_table")
+  instance_id = simplejson.loads(msg)['instance-id']
+  logging.debug("update_cloudservice_instance_lifecycles_table: " + instance_id)
+  instance_lifecycle_instance = Instance_lifecycles.objects.get(instance_id = instance_id)
+  instance_lifecycle_instance.instance_launched_at = datetime.now()
+  logging.debug("update_cloudserivce_instance_lifecycles_table: " + str(datetime.now()))
+  instance_lifecycle_instance.save()
+
 def call(request) :
   if request.method == "POST":
     token = request.POST['token']
@@ -121,6 +130,8 @@ def call(request) :
         r.close()
         e.close()
         w.close()
+        #update_cloudservice_instance_lifecycles_table(message)
+
       return HttpResponse("ok")
     else :
       return HttpResponse("launch_response_time is not null")
