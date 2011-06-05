@@ -19,10 +19,24 @@ from boto.ec2.regioninfo import RegionInfo
 
 from atmosphere.cloudservice.models import *
 from urlparse import urlparse
-from django.utils import simplejson
+#from django.utils import simplejson
+import json
 import atmosphere.cloudservice.api.v1.util as atmo_util
 
 import inspect
 
+
 def get_user_instance_list(userid):
-  pass
+  tasks = Tasks.objects.filter(task_name='get_all_instance_list').order_by('-updated_at')[0]
+  task_result = tasks.task_result
+  task_result_json = json.loads(task_result)
+  task_updated_at = tasks.updated_at
+  def is_it(t):
+    return t['reservation_owner_id'] == userid
+  return filter(is_it,task_result_json)
+
+# for distributed job!
+def get_user_instance_list_(all_user_json,userid):
+  def is_it(t):
+    return t['reservation_owner_id'] == userid
+  return filter(is_it,all_user_json)
