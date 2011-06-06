@@ -37,6 +37,7 @@ from urlparse import urlparse
 import string
 
 import datetime
+from datetime import datetime
 import popen2
 from django.utils import simplejson
 from django.core.mail import send_mail
@@ -122,7 +123,7 @@ def call(request) :
       if simplejson.loads(message)['event_type'] == "instance_lunched" :
         #sendPasswordEmail(simplejson.loads(message)['public-ipv4'],simplejson.loads(message)['linuxusername'], simplejson.loads(message)['linuxuserpassword'])
         sendPasswordEmail(channel,message)
-        sendWebhookCall(channel,message)
+        update_cloudservice_instance_lifecycles_table(message)
         notice_msg = "instance %s was launched with ip %s" % ( simplejson.loads(message)['instance-id'] , simplejson.loads(message)['public-ipv4'] )
         r, w, e = popen2.popen3('%s %s %s "%s"' % (node_path, sayjs_path, channel, notice_msg))
         logging.debug(e.readlines())
@@ -130,8 +131,7 @@ def call(request) :
         r.close()
         e.close()
         w.close()
-        #update_cloudservice_instance_lifecycles_table(message)
-
+        sendWebhookCall(channel,message)
       return HttpResponse("ok")
     else :
       return HttpResponse("launch_response_time is not null")
