@@ -57,14 +57,14 @@ class Instances(models.Model):
   ami_index = models.CharField(max_length=128,null=True)
   product_code = models.CharField(max_length=128,null=True)
   machine_size = models.CharField(max_length=128,null=True)
-  launch_time = models.CharField(max_length=128,null=True)
+  launch_time = models.CharField(max_length=128,null=True) # get from eucalyptus as string
   placement = models.CharField(max_length=128,null=True)
   kernel = models.CharField(max_length=128,null=True)
   ramdisk = models.CharField(max_length=128,null=True)
   launch_request_time = models.DateTimeField(null=True)
+  lifetime = models.IntegerField(null=True)
   instance_token = models.CharField(max_length=128,null=True)
   launch_response_time = models.DateTimeField(null=True)
-  life_time = models.IntegerField(null=True)
   termination_request_time =  models.DateTimeField(null=True)
 
   def time_took_for_launch(self):
@@ -90,8 +90,7 @@ class Machine_images(models.Model):
   image_location = models.CharField(max_length=128,null=True)
   image_ownerid = models.CharField(max_length=128,null=True)
   image_state = models.CharField(max_length=128,null=True)
-  image_type = models.CharField(max_length=128,null=True) #iPlant, Community, User
-  image_condition = models.CharField(max_length=128,null=True) #active, retired, defunct
+  image_type = models.CharField(max_length=128,null=True)
   image_ramdisk_id = models.CharField(max_length=128,null=True)
   image_kernel_id = models.CharField(max_length=128,null=True)
   image_is_public = models.CharField(max_length=128,null=True)
@@ -152,11 +151,33 @@ class Applications(models.Model):
   kernel_id = models.CharField(max_length=128,null=True)
   ramdisk_id = models.CharField(max_length=128,null=True)
   system_minimum_requirements = models.CharField(max_length=128,null=True)
+  application_lifetime = models.IntegerField(null=True)
   application_tags = models.CharField(max_length=128,null=True)
   application_description = models.TextField(null=True)
-  application_life_time = models.IntegerField(null=True)
   application_init_config_param = models.TextField(null=True)
   machine_image_user_data_scripts_script_id = models.CharField(max_length=128,null=True)
+  #def __unicode__(self):
+  #  # Note use of django.utils.encoding.smart_str() here because
+  #  # first_name and last_name will be unicode strings.
+  #  return smart_str('%s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s' % (
+  #  self.application_name,
+  #  self.application_icon_path, 
+  #  self.application_id, 
+  #  self.application_creator,
+  #  self.application_created,
+  #  self.application_version,
+  #  self.application_category,
+  #  self.application_type, 
+  #  self.platform, 
+  #  self.machine_image_id, 
+  #  self.kernel_id, 
+  #  self.ramdisk_id,
+  #  self.system_minimum_requirements,
+  #  self.application_tags,
+  #  self.application_description,
+  #  self.application_init_config_param,
+  #  self.machine_image_user_data_scripts_script_id
+  #  ))
 
 class User_applications(models.Model):
   """
@@ -176,9 +197,9 @@ class User_applications(models.Model):
   kernel_id = models.CharField(max_length=128,null=True)
   ramdisk_id = models.CharField(max_length=128,null=True)
   system_minimum_requirements = models.CharField(max_length=128,null=True)
+  application_lifetime = models.IntegerField(null=True)
   application_tags = models.CharField(max_length=128,null=True)
   application_description = models.TextField(null=True)
-  application_life_time = models.IntegerField(null=True)
   application_init_config_param = models.TextField(null=True)
   machine_image_user_data_scripts_script_id = models.CharField(max_length=128,null=True)
 
@@ -194,6 +215,8 @@ class Machine_image_userdata_scripts(models.Model):
   script_description = models.TextField(null=True)
   script_version = models.CharField(max_length=128,null=True)
   script = models.TextField(null=True)
+  def __unicode__(self):
+    return smart_str('%s %s %s %s %s' % (self.script_id, self.script_name, self.script_description, self.script_version, self.script))
 
 class Instance_launch_hooks(models.Model):
   instance_id = models.CharField(max_length=128,null=True)
@@ -205,16 +228,15 @@ class Instance_launch_hooks(models.Model):
   responsed_header = models.CharField(max_length=128,null=True)
   responsed_body = models.TextField(null=True)
 
-class Tasks(models.Model):
-  task_name = models.CharField(max_length=255)
-  task_result = models.TextField()
+class Instance_state_monitors(models.Model):
+  instance_list_json = models.TextField()
   updated_at = models.DateTimeField(auto_now_add=True)
 
 class Instance_lifecycles(models.Model):
   instance_id = models.CharField(max_length=128,null=True)
-  previous_instance_lifecycles_id = models.CharField(max_length=64,null=True)
+  renewed_instance_lifecycles_id = models.CharField(max_length=64,null=True)
   instance_launched_at = models.DateTimeField(null=True)
-  instance_life_time = models.IntegerField(null=True)
+  instance_lifetime = models.IntegerField(null=True)
   instance_terminated_at = models.DateTimeField(null=True)
   instance_terminated_by = models.CharField(max_length=128,null=True)
 

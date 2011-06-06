@@ -29,6 +29,7 @@ import atmosphere.cloudservice.api.v1.util as atmo_util
 import inspect
 
 from atmosphere.cloudservice.task.get_all_instance_list import get_all_instance_list as run_get_all_instance_list
+from atmosphere.cloudservice.task.terminate_scheduled_instances import terminate_scheduled_instances as run_terminate_scheduled_instances
 
 def write_log(msg):
   file = open("/home/atmosphere_dev/atmosphere/logs/scheduler.log","a")
@@ -44,3 +45,11 @@ def hello_world():
 @periodic_task(run_every=timedelta(seconds=20))
 def get_all_instance_list():
   run_get_all_instance_list()
+
+@periodic_task(run_every=timedelta(seconds=30))
+def terminate_scheduled_instance():
+  run_terminate_scheduled_instances()
+
+
+
+

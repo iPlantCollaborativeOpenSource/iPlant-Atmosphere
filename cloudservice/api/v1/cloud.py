@@ -23,6 +23,9 @@ import atmosphere.cloudservice.api.v1.util as atmo_util
 from django.utils.encoding import smart_str
 from django.utils.datastructures import MultiValueDictKeyError
 
+
+from datetime import datetime
+
 # I like to change this class better when I get time :-)
 # it works now.. but not really code I like to show others
 class Ec2_cloud(object, atmo_image):
@@ -123,14 +126,20 @@ class Ec2_cloud(object, atmo_image):
           image.is_public = "public"
         else :
           image.is_public = "private"
+        try : 
+          image_type = Machine_images.objects.filter(image_id = image.id).order_by('-id')[0].image_type
+        except :
+          image_type = ""
+        
+      
         image_description = image_description.replace("\n", "<br>") if image_description != None else ""
-        image_json_string = image_json_string +"""{ "image_name" : "%s", "image_description" : "%s", "image_tags" : "%s", "image_id" : "%s" , "image_location" : "%s" , "image_ownerid" : "%s" , "image_state" : "%s" ,"image_is_public" : "%s" ,"image_product_codes" : "%s" ,"image_architecture" : "%s" ,"image_type" : "%s","image_ramdisk_id" : "%s","image_kernel_id" : "%s", "image_condition" : "%s"}, """ % (
+        image_json_string = image_json_string +"""{ "image_name" : "%s", "image_description" : "%s", "image_tags" : "%s", "image_id" : "%s" , "image_location" : "%s" , "image_ownerid" : "%s" , "image_state" : "%s" ,"image_is_public" : "%s" ,"image_product_codes" : "%s" ,"image_architecture" : "%s" ,"image_type" : "%s","image_ramdisk_id" : "%s","image_kernel_id" : "%s", "image_condition" : "%s", "image_type" : "%s" , "image_condition" : "%s" }, """ % (
           image_name,
           image_description,
           image_tags,
           image.id,
           image.location,
-          image.ownerId, image.state, image.is_public, image.product_codes, image.architecture, image.type, image.ramdisk_id, image.kernel_id, image_condition
+          image.ownerId, image.state, image.is_public, image.product_codes, image.architecture, image.type, image.ramdisk_id, image.kernel_id, image_condition, image_type, image_condition
         )
     return atmo_util.jsoner("\"success\"","\"\"","[%s]" % image_json_string[0:-2])
   
@@ -327,8 +336,8 @@ class Ec2_cloud(object, atmo_image):
       else : return atmo_util.jsoner("\"fail\"","\"\"","\"%s\"" % "required parameter 'auth_key' missing")
       #keyname = req.POST['auth_key']
 
-      if u'life_time' in req_item_list : life_time = req.POST['life_time']
-      else : life_time = -1
+      if u'lifetime' in req_item_list : lifetime = req.POST['lifetime']
+      else : lifetime = -1
       
       kernel_id = None
       ramdisk_id = None
@@ -408,7 +417,7 @@ class Ec2_cloud(object, atmo_image):
             launch_time = instance.launch_time,
             kernel = instance.kernel,
             ramdisk = instance.ramdisk,
-            launch_request_time = datetime.datetime.now(),
+            launch_request_time = datetime.now(),
             instance_token = instance_token,
             launch_response_time = None
           )
@@ -420,7 +429,7 @@ class Ec2_cloud(object, atmo_image):
               owner_id = reservation.owner_id,
               webhook_url = req.POST['callback_resource_url'], 
               webhook_header_params = None,
-              requested_time = datetime.datetime.now()
+              requested_time = datetime.now()
             )
             ilh.save()
       return atmo_util.jsoner("\"success\"","\"\"","\"%s\""  % str(instance_id ))
@@ -443,7 +452,7 @@ class Ec2_cloud(object, atmo_image):
       try:
         e = Instances.objects.get(instance_id = req.POST['instance_id'])
         e.current_state = 'terminated'
-        e.termination_request_time = datetime.datetime.now()
+        e.termination_request_time = datetime.now()
         e.save()
       except : 
         pass
@@ -844,7 +853,7 @@ class Ec2_cloud(object, atmo_image):
       volume_size = size,
       volume_snapshot_id = snaphost_id,
       volume_status = None,
-      volume_create_time = datetime.datetime.now()
+      volume_create_time = datetime.now()
     )
     machine_volume.save()
       
@@ -890,7 +899,7 @@ class Ec2_cloud(object, atmo_image):
           "system_minimum_requirements":"%s",
           "application_tags":"%s",
           "application_description":"%s",
-          "application_life_time":"%s",
+          "application_lifetime":"%s",
           "is_sys_app":true
         }, """ % (
         o.application_name,
@@ -908,7 +917,7 @@ class Ec2_cloud(object, atmo_image):
         o.system_minimum_requirements,
         o.application_tags,
         o.application_description.replace('\n', ''),
-        o.application_life_time
+        o.application_lifetime
       )
     
     #user application stacks
@@ -930,7 +939,7 @@ class Ec2_cloud(object, atmo_image):
           "system_minimum_requirements":"%s",
           "application_tags":"%s",
           "application_description":"%s",
-          "application_life_time":"%s",
+          "application_lifetime":"%s",
           "application_order":"%s",
           "is_sys_app":false
         }, """ % (
@@ -949,7 +958,7 @@ class Ec2_cloud(object, atmo_image):
         p.system_minimum_requirements,
         p.application_tags,
         p.application_description,
-        p.application_life_time,
+        p.application_lifetime,
         p.application_order
       )
       
@@ -988,13 +997,13 @@ class Ec2_cloud(object, atmo_image):
       if req.POST['application_id'][:2] == "u_" :
         user_app_id = req.POST['application_id'][2:]
         user_data = Machine_image_userdata_scripts.objects.get(script_id=(User_applications.objects.get(application_id = user_app_id)).machine_image_user_data_scripts_script_id).script
-        life_time = User_applications.objects.get(application_id = user_app_id).application_life_time
+        lifetime = User_applications.objects.get(application_id = user_app_id).application_lifetime
       else :
         user_data = Machine_image_userdata_scripts.objects.get(script_id=(Applications.objects.get(application_id = req.POST['application_id']).machine_image_user_data_scripts_script_id)).script
         try: 
-          life_time = req.POST['lifetime']
+          lifetime = req.POST['lifetime']
         except MultiValueDictKeyError, e:
-          life_time = Applications.objects.get(application_id = req.POST['application_id']).application_life_time
+          lifetime = Applications.objects.get(application_id = req.POST['application_id']).application_lifetime
       
       #logging.debug(user_data)
       
@@ -1057,8 +1066,8 @@ class Ec2_cloud(object, atmo_image):
             launch_time = instance.launch_time,
             kernel = instance.kernel,
             ramdisk = instance.ramdisk,
-            launch_request_time = datetime.datetime.now(),
-            life_time = life_time,
+            launch_request_time = datetime.now(),
+            lifetime = lifetime,
             instance_token = instance_token,
             launch_response_time = None
           )
@@ -1070,7 +1079,7 @@ class Ec2_cloud(object, atmo_image):
         instance_id = instance.id,
         #previous_instance_lifecycles_id = 
         #instance_launched_at = 
-        instance_life_time = life_time
+        instance_lifetime = lifetime
         #instance_terminated_at = 
         #instance_terminated_by =  
       )
@@ -1126,18 +1135,18 @@ class Ec2_cloud(object, atmo_image):
     return atmo_util.jsoner("\"fail\"","\"not yet implemented\"","\"\"")
 
   def createInstanceAsImage(self):
-		import sys
-		#from euca2ools import Euca2ool, Util, InstanceValidationError ConnectionFailed
-		import base64
-		from datetime import datetime, timedelta
-		
+    import sys
+    #from euca2ools import Euca2ool, Util, InstanceValidationError ConnectionFailed
+    import base64
+    from datetime import datetime, timedelta
+    
 
-		#key:
-		"""
-		try:
-			bundle_task = euca_conn.bundle_instance(instance_id = instance_id, s3_bucket=bucket, s3_prefix=prefix, s3_upload_policy=policy)
-		except Exception, ex:
-			euca.display_error_and_exit('%s' % ex)
+    #key:
+    """
+    try:
+      bundle_task = euca_conn.bundle_instance(instance_id = instance_id, s3_bucket=bucket, s3_prefix=prefix, s3_upload_policy=policy)
+    except Exception, ex:
+      euca.display_error_and_exit('%s' % ex)
 
-		"""
-		pass
+    """
+    pass

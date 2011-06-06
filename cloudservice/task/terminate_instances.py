@@ -23,7 +23,7 @@ import atmosphere.cloudservice.api.v1.util as atmo_util
 
 import inspect
 
-def terminate_instance(instance_id):
+def terminate_instances(instance_id):
   ec2_key = Configs.objects.get(key = "admin_ec2_access_key").value
   ec2_secret = Configs.objects.get(key = "admin_ec2_secret_key").value
   ec2_url = Configs.objects.get(key = "admin_ec2_url").value
