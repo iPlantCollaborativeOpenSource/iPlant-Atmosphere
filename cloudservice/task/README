@@ -1,0 +1,18 @@
+#
+# The contents of this file are subject to the terms listed in the LICENSE file you received with this code.
+#
+# Project: Atmosphere, iPlant Collaborative
+# Author: Seung-jin Kim
+# Twitter: @seungjin
+# GitHub: seungjin
+#
+
+Task here are functions for celery task. 
+Should be isolated, encapsulated function that can run at worker nodes. 
+
+get_all_instance_list
+get_all_volume_list
+get_user_instance_list
+run_instance
+sendWebhookCall <-???
+terminate_instance
