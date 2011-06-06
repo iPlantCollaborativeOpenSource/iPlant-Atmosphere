@@ -140,7 +140,6 @@ BROKER_USER = config.get('celery', 'BROKER_USER')
 BROKER_PASSWORD = config.get('celery', 'BROKER_PASSWORD')
 BROKER_VHOST = config.get('celery', 'BROKER_VHOST')
 
-
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
