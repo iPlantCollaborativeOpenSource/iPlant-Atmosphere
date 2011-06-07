@@ -142,7 +142,7 @@ def call(request) :
         
 
         notice_msg = "instance %s was launched with ip %s" % ( simplejson.loads(message)['instance-id'] , simplejson.loads(message)['public-ipv4'] )
-        run_cmd = lambda c : subprocess.Popen(c.split(), stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=False).stdout.read()
+        run_cmd = lambda c : subprocess.Popen(c.split(None,2), stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=False).stdout.read()
         cmd = '%s %s %s "%s"' % (node_path, sayjs_path, channel, notice_msg)
         run_cmd(cmd)
         #r, w, e = popen2.popen3('%s %s %s "%s"' % (node_path, sayjs_path, channel, notice_msg))
