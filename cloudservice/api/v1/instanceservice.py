@@ -114,9 +114,7 @@ def update_cloudservice_instance_lifecycles_table(msg) :
   instance_lifecycle_instance.save()
 
 def call(request) :
-  logging.debug("!!!~~~~~!!!!~~~~~~!!!!!!~~~~~~!!!! : 1")
   if request.method == "POST":
-    logging.debug("!!!~~~~~!!!!~~~~~~!!!!!!~~~~~~!!!! : 2")
     token = request.POST['token']
     channel = request.POST['userid']
     message = request.POST['vminfo']
@@ -125,7 +123,6 @@ def call(request) :
     instance = Instances.objects.get(instance_token=token,ami_index=ami_index)
     
     if instance.launch_response_time == None  :
-      logging.debug("!!!~~~~~!!!!~~~~~~!!!!!!~~~~~~!!!! : 3")
       instance.current_state = "running"
       instance.launch_response_time = datetime.now()
       instance.public_dns_name = simplejson.loads(message)['public-ipv4']
@@ -134,12 +131,10 @@ def call(request) :
       node_path = Configs.objects.get(key="node_path").value
       sayjs_path = Configs.objects.get(key="say.js_path").value
       if simplejson.loads(message)['event_type'] == "instance_lunched" :
-        logging.debug("!!!~~~~~!!!!~~~~~~!!!!!!~~~~~~!!!! : 4")
         #sendPasswordEmail(simplejson.loads(message)['public-ipv4'],simplejson.loads(message)['linuxusername'], simplejson.loads(message)['linuxuserpassword'])
         update_cloudservice_instance_lifecycles_table(message)
         sendPasswordEmail(channel,message)
         emailNotification(channel,message)
-        
 
         notice_msg = "instance %s was launched with ip %s" % ( simplejson.loads(message)['instance-id'] , simplejson.loads(message)['public-ipv4'] )
         #run_cmd = lambda c : subprocess.Popen(c.split(None,3), stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=False).stdout.read()
