@@ -450,10 +450,15 @@ class Ec2_cloud(object, atmo_image):
       
       # update status in my db
       try:
+        current_time = datetime.now()
         e = Instances.objects.get(instance_id = req.POST['instance_id'])
         e.current_state = 'terminated'
-        e.termination_request_time = datetime.now()
+        e.termination_request_time = current_time 
         e.save()
+        terminated_instance = Instance_lifecycles.objects.get(instance_id = req.POST['instance_id'])
+        terminated_instance.instance_terminated_at = current_time
+        terminated_instance.instance_terminated_by = "terminateInstance"
+        terminated_instance.save()
       except : 
         pass
     return atmo_util.jsoner("\"success\"","\"\"","\"\"")
