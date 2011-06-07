@@ -16,5 +16,6 @@ INSERT INTO `cloudservice_configs` (`key`,`value`) VALUES ('admin_ec2_url','****
 INSERT INTO `cloudservice_configs` (`key`,`value`) VALUES ('admin_ec2_secret_key','******')
 INSERT INTO `cloudservice_configs` (`key`,`value`) VALUES ('instance_service_url','https://******')
 INSERT INTO `cloudservice_configs` (`key`,`value`) VALUES ('admin_email','******')
-
+INSERT INTO `cloudservice_configs` (`key`,`value`) VALUES ('ldap_server_dn','******')
+INSERT INTO `cloudservice_configs` (`key`,`value`) VALUES ('api_server_url','******')
 

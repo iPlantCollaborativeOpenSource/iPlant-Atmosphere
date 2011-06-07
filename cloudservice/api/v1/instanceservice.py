@@ -49,12 +49,16 @@ from django.core.mail import send_mail
 def sendPasswordEmail(userid,message):
   #user = simplejson.loads(message)['public-ipv4']
   import ldap
-  dn = 'ou=people,dc=iplantcollaborative,dc=org' #should be database driven
-  server = 'ldap://ldap.iplantcollaborative.org' #should be database driven
+  #dn = 'ou=people,dc=iplantcollaborative,dc=org' #should be database driven
+  #server = 'ldap://ldap.iplantcollaborative.org' #should be database driven
+  dn = Configs.objects.get(key='ldap_server_dn').value
+  server = Configs.objects.get(key='api_server_url').value
+
+  configs = Configs.objects.get("lda")
   conn = ldap.initialize(server)
-  a = conn.search_s(dn, ldap.SCOPE_SUBTREE,'(uid='+userid+')',['mail']) #should be database driven
+  a = conn.search_s(dn, ldap.SCOPE_SUBTREE,'(uid='+userid+')',['mail']) 
   toemail = a[0][1]['mail'][0] #should be database driven
-  fromemail = Configs.objects.get(key="admin_email").value #should be database driven
+  fromemail = Configs.objects.get(key="admin_email").value 
 
   instance_id = simplejson.loads(message)['instance-id']
   ip = simplejson.loads(message)['public-ipv4']
