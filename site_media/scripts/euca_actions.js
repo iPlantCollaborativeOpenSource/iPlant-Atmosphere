@@ -89,7 +89,7 @@ var Launch_new_instance = function() {
     emptyText:'Select auth key...',
     selectOnFocus:true,
     editable:false,
-    allowBlank: false
+    allowBlank: true
 	})
   authentication_key_combobox.addListener("expand",function() {
 		var authKeyLoadingMsg = new Ext.LoadMask(Ext.getBody(), {msg:"Loading your key info. Please wait..."});
@@ -100,6 +100,12 @@ var Launch_new_instance = function() {
     fieldLabel: 'Number of instances',
     name: 'num_of_instances',
     emptyText:'1'
+  };
+
+  var lifetime_inputbox = {
+    fieldLabel: 'Lifetime (Hours)',
+    name: 'instance_lifetime',
+    emptyText:'0'
   };
   
   var description_textarea = new Ext.form.TextArea({
@@ -131,6 +137,7 @@ var Launch_new_instance = function() {
       instance_size_combobox,
       authentication_key_combobox, 
       number_of_instance_combobox,
+      lifetime_inputbox,
       description_textarea,
       tag_textinput
     ],
@@ -145,6 +152,7 @@ var Launch_new_instance = function() {
             instance_description = launch_pad.getForm().getFieldValues().instance_description;
             inatance_name = launch_pad.getForm().getFieldValues().instance_name;
             instance_size = launch_pad.getForm().getFieldValues().instance_size;
+            instance_lifetime = launch_pad.getForm().getFieldValues().instance_lifetime;
             instance_tags = launch_pad.getForm().getFieldValues().instance_tags;
             num_of_instances = launch_pad.getForm().getFieldValues().num_of_instances;
             
@@ -183,7 +191,7 @@ var Launch_new_instance = function() {
       fail_callback_function = function() {
         launchingVmMsg.hide();
         launch_pad.getForm().reset();
-        document.getElementById("dummy").innerHTML="<embed src=\"/site_media/sounds/doh.wav\" hidden=\"true\" autostart=\"true\" loop=\"false\" />";
+        //document.getElementById("dummy").innerHTML="<embed src=\"/site_media/sounds/doh.wav\" hidden=\"true\" autostart=\"true\" loop=\"false\" />";
         a = JSON.parse(sessionStorage.getItem("__launchInstance")).result.value;
         Ext.MessageBox.alert('Message', "<b><font color='#408080'>Your quota is over.</font></b><br/>Current resource use: "+a.current_cpu+" cpu, "+a.current_mem+"M mem<br/>Quota : "+a.limit_cpu+" cpu, "+a.limit_mem+"M mem");
       }

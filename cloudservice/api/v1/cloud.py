@@ -336,7 +336,7 @@ class Ec2_cloud(object, atmo_image):
       else : return atmo_util.jsoner("\"fail\"","\"\"","\"%s\"" % "required parameter 'auth_key' missing")
       #keyname = req.POST['auth_key']
 
-      if u'lifetime' in req_item_list : lifetime = req.POST['lifetime']
+      if u'instance_lifetime' in req_item_list : lifetime = req.POST['instance_lifetime']
       else : lifetime = -1
       
       kernel_id = None
@@ -418,11 +418,23 @@ class Ec2_cloud(object, atmo_image):
             kernel = instance.kernel,
             ramdisk = instance.ramdisk,
             launch_request_time = datetime.now(),
+            lifetime = req.POST['instance_lifetime'],
             instance_token = instance_token,
             launch_response_time = None
           )
           instance_id = instance.id
           inst.save()
+
+          instance_lifecycles = Instance_lifecycles(
+            instance_id = instance.id,
+            #previous_instance_lifecycles_id = 
+            #instance_launched_at = 
+            instance_lifetime = req.POST['instance_lifetime']
+            #instance_terminated_at = 
+            #instance_terminated_by =  
+          )
+          instance_lifecycles.save()
+
           if u'callback_resource_url' in req_item_list :
             ilh = Instance_launch_hooks(
               instance_id = instance.id,
@@ -1006,7 +1018,7 @@ class Ec2_cloud(object, atmo_image):
       else :
         user_data = Machine_image_userdata_scripts.objects.get(script_id=(Applications.objects.get(application_id = req.POST['application_id']).machine_image_user_data_scripts_script_id)).script
         try: 
-          lifetime = req.POST['lifetime']
+          lifetime = req.POST['instance_lifetime']
         except MultiValueDictKeyError, e:
           lifetime = Applications.objects.get(application_id = req.POST['application_id']).application_lifetime
       
