@@ -31,7 +31,7 @@ def terminate_scheduled_instances():
   instance_lifecycles = Instance_lifecycles.objects.filter(instance_terminated_at = None, renewed_instance_lifecycles_id = None).exclude(instance_launched_at = None)
   for instance in instance_lifecycles:
     if instance.instance_lifetime > 0 :
-      instance_end_time = instance.instance_launched_at + timedelta(hours=instance_lifecycles[0].instance_lifetime) - timedelta(minutes=1)
+      instance_end_time = instance.instance_launched_at + timedelta(hours=instance_lifecycles[0].instance_lifetime) + timedelta(minutes=1)
       #print (datetime.now() - instance_end_time).days
       if ((datetime.now() - instance_end_time).days) >= 0 :
         ec2_key = Configs.objects.get(key = "admin_ec2_access_key").value
@@ -45,7 +45,7 @@ def terminate_scheduled_instances():
         terminated_instance.instance_terminated_at = current_time
         terminated_instance.instance_terminated_by = inspect.stack()[0][3]
         terminated_instance.save()
-        instance = Instances.objects.get(instance_id = instance.instance.iinstance_id)
+        instance = Instances.objects.get(instance_id = instance.instance_id)
         instance.termination_request_time = current_time
         instance.save()
         print "!~~~~~~~!"
