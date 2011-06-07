@@ -28,8 +28,8 @@ import atmosphere.cloudservice.api.v1.util as atmo_util
 
 import inspect
 
-from atmosphere.cloudservice.task.get_all_instance_list import get_all_instance_list as run_get_all_instance_list
-from atmosphere.cloudservice.task.terminate_scheduled_instances import terminate_scheduled_instances as run_terminate_scheduled_instances
+from atmosphere.cloudservice.scheduler.get_all_instance_list import get_all_instance_list as run_get_all_instance_list
+from atmosphere.cloudservice.scheduler.terminate_scheduled_instances import terminate_scheduled_instances as run_terminate_scheduled_instances
 
 def write_log(msg):
   file = open("/home/atmosphere_dev/atmosphere/logs/scheduler.log","a")
