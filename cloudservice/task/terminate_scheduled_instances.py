@@ -32,14 +32,20 @@ def terminate_scheduled_instances():
   for instance in instance_lifecycles:
     if instance.instance_lifetime > 0 :
       instance_end_time = instance.instance_launched_at + timedelta(hours=instance_lifecycles[0].instance_lifetime) - timedelta(minutes=1)
-      if ((datetime.now() - instance_end_time).days) > 0 :
+      #print (datetime.now() - instance_end_time).days
+      if ((datetime.now() - instance_end_time).days) >= 0 :
         ec2_key = Configs.objects.get(key = "admin_ec2_access_key").value
         ec2_secret = Configs.objects.get(key = "admin_ec2_secret_key").value
         ec2_url = Configs.objects.get(key = "admin_ec2_url").value
+        current_time = datetime.now()
         region = RegionInfo(name="eucalyptus", endpoint=urlparse(ec2_url).netloc.split(":")[0])
         connection = boto.connect_ec2(aws_access_key_id=str(ec2_key), aws_secret_access_key=str(ec2_secret), is_secure=False, region=region, port=8773, path="/services/Eucalyptus")
-        connection.terminate_instance(instance.instance_id)
+        connection.terminate_instances([instance.instance_id])
         terminated_instance = Instance_lifecycles.objects.get(instance_id = instance.instance_id)
-        termianted_instance.instance_terminated_at = datetime.now()
+        terminated_instance.instance_terminated_at = current_time
         terminated_instance.instance_terminated_by = inspect.stack()[0][3]
         terminated_instance.save()
+        instance = Instances.objects.get(instance_id = instance.instance.iinstance_id)
+        instance.termination_request_time = current_time
+        instance.save()
+        print "!~~~~~~~!"
