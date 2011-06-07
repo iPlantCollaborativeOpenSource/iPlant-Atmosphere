@@ -105,12 +105,12 @@ def sendWebhookCall(userid, message):
   )
 
 def update_cloudservice_instance_lifecycles_table(msg) :
-  logging.debug("update_cloudservice_instance_lifecycles_table")
+  #logging.debug("update_cloudservice_instance_lifecycles_table")
   instance_id = simplejson.loads(msg)['instance-id']
-  logging.debug("update_cloudservice_instance_lifecycles_table: " + instance_id)
+  #logging.debug("update_cloudservice_instance_lifecycles_table: " + instance_id)
   instance_lifecycle_instance = Instance_lifecycles.objects.get(instance_id = instance_id)
   instance_lifecycle_instance.instance_launched_at = datetime.now()
-  logging.debug("update_cloudservice_instance_lifecycles_table: " + str(datetime.now()))
+  #logging.debug("update_cloudservice_instance_lifecycles_table: " + str(datetime.now()))
   instance_lifecycle_instance.save()
 
 def call(request) :
@@ -141,7 +141,10 @@ def call(request) :
         emailNotification(channel,message)
         
 
-        #notice_msg = "instance %s was launched with ip %s" % ( simplejson.loads(message)['instance-id'] , simplejson.loads(message)['public-ipv4'] )
+        notice_msg = "instance %s was launched with ip %s" % ( simplejson.loads(message)['instance-id'] , simplejson.loads(message)['public-ipv4'] )
+        run_cmd = lambda c : subprocess.Popen(c.split(), stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=False).stdout.read()
+        cmd = '%s %s %s "%s"' % (node_path, sayjs_path, channel, notice_msg)
+        run_cmd(cmd)
         #r, w, e = popen2.popen3('%s %s %s "%s"' % (node_path, sayjs_path, channel, notice_msg))
         #logging.debug(e.readlines())
         #logging.debug(r.readlines())
