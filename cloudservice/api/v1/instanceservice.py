@@ -53,8 +53,6 @@ def sendPasswordEmail(userid,message):
   #server = 'ldap://ldap.iplantcollaborative.org' #should be database driven
   dn = Configs.objects.get(key='ldap_server_dn').value
   server = Configs.objects.get(key='api_server_url').value
-
-  configs = Configs.objects.get("lda")
   conn = ldap.initialize(server)
   a = conn.search_s(dn, ldap.SCOPE_SUBTREE,'(uid='+userid+')',['mail']) 
   toemail = a[0][1]['mail'][0] #should be database driven
@@ -75,6 +73,8 @@ def emailNotification(userid,message):
   """
   template based user email notification system
   """
+  # check email notification allow image or not
+  # use template
   pass
 
 def sendWebhookCall(userid, message):
