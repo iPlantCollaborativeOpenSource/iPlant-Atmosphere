@@ -242,6 +242,14 @@ class Instance_lifecycles(models.Model):
   instance_terminated_by = models.CharField(max_length=128,null=True)
   instance_lifetime_extended_at = models.DateTimeField(null=True)
 
+class Email_notification_templates(models.Model):
+  name = models.CharField(max_length=255,null=True)
+  description  = models.CharField(max_length=255,null=True)
+  reply_to = models.CharField(max_length=255,null=True)
+  subject = models.CharField(max_length=255,null=True)
+  body = models.TextField(null=True)
+  creator = models.CharField(max_length=128,null=True)
+  created_at = models.DateTimeField(null=True)
 
 #class Instance_launch_request_ques(models.Model):
 #  pass
