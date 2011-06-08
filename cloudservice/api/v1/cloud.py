@@ -1167,3 +1167,21 @@ class Ec2_cloud(object, atmo_image):
 
     """
     pass
+
+  def extendInstanceLifetime(self, req) :
+    # check request owner is actual user of the instance!
+    #if ( == self.userid) : 
+    
+    # get instance_id
+    instance_id = req.POST['instance_id']
+    # get lifetime
+    instance_lifetime = req.POST['instance_lifetime']
+    # update instances table
+    instance = Instances.objects.get(instance_id = instance_id)
+    instance.lifetime = instance.lifetime +","+lifetime
+    instance.lifetime.save()
+    # update instance_lifecycles table
+    instance_lifecycle = Instance_lifecycles.objects.get(instance_id = instance_id)
+    instance_lifecycle.instance_id
+    instance_lifecycle.instance_lifetime = instance_lifetime
+    instance_lifecycle.save()
