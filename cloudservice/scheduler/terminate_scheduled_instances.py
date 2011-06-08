@@ -47,7 +47,7 @@ def send_termination_notification_mail(instance_id):
 
 def terminate_scheduled_instances():
   # read cloudservice_instance_lifecyels table
-  instance_lifecycles = Instance_lifecycles.objects.filter(instance_terminated_at = None, renewed_instance_lifecycles_id = None).exclude(instance_launched_at = None)
+  instance_lifecycles = Instance_lifecycles.objects.filter(instance_terminated_at = None, instance_lifetime_extended_at = None).exclude(instance_launched_at = None)
   for instance in instance_lifecycles:
     if instance.instance_lifetime > 0 :
       instance_end_time = instance.instance_launched_at + timedelta(hours=instance_lifecycles[0].instance_lifetime) + timedelta(minutes=1)
