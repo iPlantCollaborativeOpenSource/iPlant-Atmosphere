@@ -41,9 +41,14 @@ def write_log(msg):
   file.write(stmt+"\n") 
 
 # this will run every minute, see http://celeryproject.org/docs/reference/celery.task.schedules.html#celery.task.schedules.crontab  
-@periodic_task(run_every=crontab(hour="*", minute="*", day_of_week="*"))
-def hello_world():
-  write_log("hello_world")
+#@periodic_task(run_every=crontab(hour="*", minute="*", day_of_week="*"))
+#def hello_world():
+#  write_log("hello_world")
+
+#CENTRAL INIT SCHEDULE - RUNS EVERY 20 SECONDS
+@periodic_task(run_every=timedelta(seconds=20))
+def base_schduler():
+  run_get_all_images_list()
 
 @periodic_task(run_every=timedelta(seconds=20))
 def get_all_instances_list():
@@ -54,10 +59,7 @@ def terminate_scheduled_instance():
   run_terminate_scheduled_instances()
 
 
-@periodic_task(run_every=timedelta(seconds=20))
-def get_all_images_list():
-  run_get_all_images_list()
-
-
-
+#@periodic_task(run_every=timedelta(seconds=20))
+#def get_all_images_list():
+#  run_get_all_images_list()
 
