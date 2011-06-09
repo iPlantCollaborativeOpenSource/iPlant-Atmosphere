@@ -62,6 +62,8 @@ class Instances(models.Model):
   kernel = models.CharField(max_length=128,null=True)
   ramdisk = models.CharField(max_length=128,null=True)
   launch_request_time = models.DateTimeField(null=True)
+  launch_time = models.DateTimeField(null=True)
+  launch_que = models.IntegerField(null=True)
   #lifetime = models.IntegerField(null=True)
   lifetime = models.CharField(max_length=255,null=True)
   instance_token = models.CharField(max_length=128,null=True)
@@ -251,6 +253,6 @@ class Email_notification_templates(models.Model):
   creator = models.CharField(max_length=128,null=True)
   created_at = models.DateTimeField(null=True)
 
-#class Instance_launch_request_ques(models.Model):
-#  pass
+
+
   
