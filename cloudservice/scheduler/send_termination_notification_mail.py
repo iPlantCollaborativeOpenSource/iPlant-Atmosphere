@@ -30,7 +30,7 @@ from django.core.mail import send_mail
 from string import Template
 
 def send_termination_notification_mail(instance_id):
-  current_time = datetime.now()
+  current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S %z')
   instance = Instances.objects.get(instance_id = instance_id)
   instance_name = instance.instance_name
   instance_description = instance.instance_description

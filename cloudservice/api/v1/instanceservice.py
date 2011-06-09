@@ -80,7 +80,7 @@ def emailNotification(message):
   #emailNotification(msg)
   #
   #
-  current_time = datetime.now()
+  current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S %z')
   instance = Instances.objects.get(instance_id = instance_id)
   #userid = instance.owner_id
   instance_name = instance.instance_name
