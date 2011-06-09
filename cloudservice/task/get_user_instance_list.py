@@ -11,11 +11,9 @@
 from datetime import datetime
 from datetime import timedelta
 
-
 import boto
 from boto.ec2.connection import EC2Connection
 from boto.ec2.regioninfo import RegionInfo
-
 
 from atmosphere.cloudservice.models import *
 from urlparse import urlparse
@@ -23,8 +21,9 @@ from urlparse import urlparse
 import json
 import atmosphere.cloudservice.api.v1.util as atmo_util
 
-import inspect
+from celery.task import task
 
+import inspect
 
 def get_user_instance_list(userid):
   tasks = Tasks.objects.filter(task_name='get_all_instance_list').order_by('-updated_at')[0]
@@ -36,6 +35,8 @@ def get_user_instance_list(userid):
   return filter(is_it,task_result_json)
 
 # for distributed job!
+
+@task
 def get_user_instance_list_(all_user_json,userid):
   def is_it(t):
     return t['reservation_owner_id'] == userid
