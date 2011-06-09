@@ -51,6 +51,7 @@ def terminate_scheduled_instances():
         terminated_instance.instance_terminated_by = inspect.stack()[0][3]
         terminated_instance.save()
         instance = Instances.objects.get(instance_id = instance.instance_id)
+        instance.current_state = "terminated"
         instance.termination_request_time = current_time
         instance.save()
 
