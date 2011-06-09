@@ -237,7 +237,7 @@ def call(request) :
       if simplejson.loads(message)['event_type'] == "instance_lunched" :
         #sendPasswordEmail(simplejson.loads(message)['public-ipv4'],simplejson.loads(message)['linuxusername'], simplejson.loads(message)['linuxuserpassword'])
         update_cloudservice_instance_lifecycles_table(message)
-        sendPasswordEmail(channel,message)
+        #sendPasswordEmail(channel,message)
         emailNotification(message)
 
         notice_msg = "instance %s was launched with ip %s" % ( simplejson.loads(message)['instance-id'] , simplejson.loads(message)['public-ipv4'] )
