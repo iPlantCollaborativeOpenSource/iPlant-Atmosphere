@@ -28,9 +28,11 @@ import atmosphere.cloudservice.api.v1.util as atmo_util
 
 import inspect
 
-from atmosphere.cloudservice.scheduler.get_all_instance_list import get_all_instance_list as run_get_all_instance_list
+from atmosphere.cloudservice.scheduler.get_all_instances_list import get_all_instances_list as run_get_all_instances_list
 from atmosphere.cloudservice.scheduler.terminate_scheduled_instances import terminate_scheduled_instances as run_terminate_scheduled_instances
 from atmosphere.cloudservice.scheduler.terminate_scheduled_instances import send_termination_notification_mail
+from atmosphere.cloudservice.scheduler.send_termination_notification_mail import send_termination_notification_mail
+from atmosphere.cloudservice.scheduler.get_all_images_list import get_all_images_list as run_get_all_images_list
 
 def write_log(msg):
   file = open("/home/atmosphere_dev/atmosphere/logs/scheduler.log","a")
@@ -44,12 +46,17 @@ def hello_world():
   write_log("hello_world")
 
 @periodic_task(run_every=timedelta(seconds=20))
-def get_all_instance_list():
-  run_get_all_instance_list()
+def get_all_instances_list():
+  run_get_all_instances_list()
 
 @periodic_task(run_every=timedelta(seconds=30))
 def terminate_scheduled_instance():
   run_terminate_scheduled_instances()
+
+
+@periodic_task(run_every=timedelta(seconds=20))
+def get_all_images_list():
+  run_get_all_images_list()
 
 
 

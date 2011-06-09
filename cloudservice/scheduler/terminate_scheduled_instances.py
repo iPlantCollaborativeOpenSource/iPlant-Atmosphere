@@ -27,23 +27,9 @@ from datetime import timedelta
 import inspect
 
 from django.core.mail import send_mail
+from string import Template
 
-def send_termination_notification_mail(instance_id):
-  instance = Instances.objects.get(instance_id = instance_id)
-  #import ldap
-  #dn = 'ou=people,dc=iplantcollaborative,dc=org'
-  #server = 'ldap://ldap.iplantcollaborative.org'
-  #conn = ldap.initialize(server)
-  #a = conn.search_s(dn, ldap.SCOPE_SUBTREE,'(uid='+userid+')',['mail'])
-  #toemail = a[0][1]['mail'][0]
-  #fromemail = Configs.objects.get(key="admin_email").value
-
-  #instance_id = simplejson.loads(message)['instance-id']
-  #ip = simplejson.loads(message)['public-ipv4']
-  #username = simplejson.loads(message)['linuxusername']
-  #msg =  'Your Atmosphere cloud instance is terminated.\n\nInstance id: %s\nIP: %s\nSSH Username: %s\nSSH Password: %s\n\nAtmosphere, iPlant Collaborative' % (instance_id, ip, username, password)
-  #send_mail('Your Atmosphere Cloud Instance Ternimated', msg, fromemail, [toemail], fail_silently=False)
-  send_mail('Your Atmosphere Cloud Instance Ternimated', 'instance_terminated', 'seungjin@email.arizona.edu', ['seungjin@email.arizona.edu'], fail_silently=False)
+from atmosphere.cloudservice.scheduler.send_termination_notification_mail import send_termination_notification_mail
 
 def terminate_scheduled_instances():
   # read cloudservice_instance_lifecyels table

@@ -19,3 +19,13 @@ INSERT INTO `cloudservice_configs` (`key`,`value`) VALUES ('admin_email','******
 INSERT INTO `cloudservice_configs` (`key`,`value`) VALUES ('ldap_server_dn','******')
 INSERT INTO `cloudservice_configs` (`key`,`value`) VALUES ('api_server_url','******')
 
+INSERT INTO `cloudservice_email_notification_templates` (`id`,`name`,`description`,`reply_to`,`subject`,`body`,`creator`,`created_at`)
+VALUES
+  (1, 'default instance launch email', 'DEFAULT', 'DO_NOT_REPLY_THIS_EMAIL', 'Your Atmosphere Cloud Instance Ready', 'Your Atmosphere cloud instance is ready.\n\nInstance id: ${instance_id}\nIP: ${instance_public_dns_name}\nUsername: seungjin\n\nAtmosphere, iPlant Collaborative', 'SYSTEM', NULL);
+
+
+INSERT INTO `cloudservice_email_notification_templates` (`id`,`name`,`description`,`reply_to`,`subject`,`body`,`creator`,`created_at`)
+VALUES
+  (2, 'default instance termination email', 'DEFAULT', 'seungjin@email.arizona.edu', 'Your Atmosphere instance ${instance_id} was terminated', 'Dear ${instance_owner_id}\n\nYour atmosphere instance (${instance_id}) was successfully terminated at ${current_time}.\n\nRegards, \n\nAtmosphere. ', 'SYSTEM', NULL);
+
+

@@ -42,9 +42,10 @@ from datetime import datetime
 #import popen2
 import subprocess
 
-
 from django.utils import simplejson
 from django.core.mail import send_mail
+
+from string import Template
 
 def sendPasswordEmail(userid,message):
   #user = simplejson.loads(message)['public-ipv4']
@@ -69,13 +70,105 @@ def sendPasswordEmail(userid,message):
   	msg =  'Your Atmosphere cloud instance is ready.\n\nInstance id: %s\nIP: %s\nSSH Username: %s\nSSH Password: %s\nVnc Passoword: %s\n\nAtmosphere, iPlant Collaborative' % (instance_id, ip, username, password, vncpassword)
   send_mail('Your Atmosphere Cloud Instance', msg, fromemail, [toemail], fail_silently=False)
 
-def emailNotification(userid,message):
-  """
-  template based user email notification system
-  """
-  # check email notification allow image or not
-  # use template
-  pass
+def emailNotification(message):
+  logging.debug("!!!!!!!!!!~~~~~~~~")
+  instance_id = simplejson.loads(message)['instance-id']
+  logging.debug(instance_id)
+  logging.debug(message)
+  current_time = datetime.now()
+  instance = Instances.objects.get(instance_id = instance_id)
+  userid = instance.owner_id
+  instance_name = instance.instance_name
+  instance_description = instance.instance_description
+  instance_tags = instance.instance_tags
+  instance_reservation = instance.reservation
+  instance_owner_id = instance.owner_id
+  instance_group_id = instance.group_id
+  instance_instance_id = instance.instance_id
+  instance_machine_image = instance.machine_image
+  instance_public_dns_name = instance.public_dns_name
+  instance_private_dns_name = instance.private_dns_name
+  instance_key_name = instance.key_name
+  instance_current_state = instance.current_state
+  instance_ami_index = instance.ami_index
+  instance_product_code = instance.product_code
+  instance_machine_size = instance.machine_size
+  instance_launch_time = instance.launch_time
+  instance_placement = instance.placement
+  instance_kernel = instance.kernel
+  instance_ramdisk = instance.ramdisk
+  instance_launch_request_time = instance.launch_request_time
+  instance_lifetime = instance.lifetime
+  instance_launch_response_time = instance.launch_response_time
+  instance_termination_request_time = instance.termination_request_time
+
+  email_notification_template = Email_notification_templates.objects.get(name='default instance launch email')
+  email_replay_to = email_notification_template.reply_to
+  
+  email_subject_template = Template(email_notification_template.subject)
+  email_subject = email_subject_template.substitute( current_time=current_time,
+                            instance_name=instance_name,
+                            instance_description=instance_description,
+                            instance_tags = instance_tags,
+                            instance_reservation = instance_reservation,
+                            instance_owner_id = instance_owner_id,
+                            instance_group_id = instance_group_id,
+                            instance_id = instance_instance_id,
+                            instance_machine_image = instance_machine_image,
+                            instance_public_dns_name = instance_public_dns_name,
+                            instance_private_dns_name = instance_private_dns_name,
+                            instance_key_name = instance_key_name,
+                            instance_current_state = instance_current_state,
+                            instance_ami_index = instance_ami_index,
+                            instance_product_code = instance_product_code,
+                            instance_machine_size = instance_machine_size,
+                            instance_launch_time = instance_launch_time,
+                            instance_placement = instance_placement,
+                            instance_kernel = instance_kernel,
+                            instance_ramdisk = instance.ramdisk,
+                            instance_launch_request_time = instance_launch_request_time,
+                            instance_lifetime = instance_lifetime,
+                            instance_launch_response_time = instance_launch_response_time,
+                            instance_termination_request_time = instance_termination_request_time
+                          )
+  email_body_template = Template(email_notification_template.body)
+  email_body = email_body_template.substitute( current_time=current_time,
+                            instance_name=instance_name,
+                            instance_description=instance_description,
+                            instance_tags = instance_tags,
+                            instance_reservation = instance_reservation,
+                            instance_owner_id = instance_owner_id,
+                            instance_group_id = instance_group_id,
+                            instance_id = instance_instance_id,
+                            instance_machine_image = instance_machine_image,
+                            instance_public_dns_name = instance_public_dns_name,
+                            instance_private_dns_name = instance_private_dns_name,
+                            instance_key_name = instance_key_name,
+                            instance_current_state = instance_current_state,
+                            instance_ami_index = instance_ami_index,
+                            instance_product_code = instance_product_code,
+                            instance_machine_size = instance_machine_size,
+                            instance_launch_time = instance_launch_time,
+                            instance_placement = instance_placement,
+                            instance_kernel = instance_kernel,
+                            instance_ramdisk = instance.ramdisk,
+                            instance_launch_request_time = instance_launch_request_time,
+                            instance_lifetime = instance_lifetime,
+                            instance_launch_response_time = instance_launch_response_time,
+                            instance_termination_request_time = instance_termination_request_time
+                          )
+  import ldap
+  #dn = 'ou=people,dc=iplantcollaborative,dc=org' #should be database driven
+  #server = 'ldap://ldap.iplantcollaborative.org' #should be database drive
+  dn = Configs.objects.get(key='ldap_server_dn').value
+  server = Configs.objects.get(key='api_server_url').value
+  conn = ldap.initialize(server)
+  a = conn.search_s(dn, ldap.SCOPE_SUBTREE,'(uid='+instance_owner_id+')',['mail']) 
+  to_email = a[0][1]['mail'][0]
+  logging.debug(to_email)
+  from_email = Configs.objects.get(key="admin_email").value 
+  logging.debug(from_email)
+  send_mail(email_subject, email_body, from_email, [to_email], fail_silently=False)
 
 def sendWebhookCall(userid, message):
   #
@@ -138,7 +231,7 @@ def call(request) :
         #sendPasswordEmail(simplejson.loads(message)['public-ipv4'],simplejson.loads(message)['linuxusername'], simplejson.loads(message)['linuxuserpassword'])
         update_cloudservice_instance_lifecycles_table(message)
         sendPasswordEmail(channel,message)
-        emailNotification(channel,message)
+        emailNotification(message)
 
         notice_msg = "instance %s was launched with ip %s" % ( simplejson.loads(message)['instance-id'] , simplejson.loads(message)['public-ipv4'] )
         #run_cmd = lambda c : subprocess.Popen(c.split(None,3), stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=False).stdout.read()

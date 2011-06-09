@@ -36,7 +36,8 @@ def auth(request):
     if request.META.has_key('HTTP_X_AUTH_KEY') and request.META.has_key('HTTP_X_AUTH_USER') :
         x_auth_user = request.META['HTTP_X_AUTH_USER']
         x_auth_key = request.META['HTTP_X_AUTH_KEY']
-        if ldap_validate(x_auth_user,x_auth_key) == True:
+        
+        if ldap_validate(x_auth_user,x_auth_key) == True :
             return auth_response(request)
         else :
             return HttpResponse("401 UNAUTHORIZED", status=401)
