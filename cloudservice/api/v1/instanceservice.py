@@ -71,13 +71,18 @@ def sendPasswordEmail(userid,message):
   send_mail('Your Atmosphere Cloud Instance', msg, fromemail, [toemail], fail_silently=False)
 
 def emailNotification(message):
-  logging.debug("!!!!!!!!!!~~~~~~~~")
   instance_id = simplejson.loads(message)['instance-id']
-  logging.debug(instance_id)
-  logging.debug(message)
+  userid = simplejson.loads(message)['linuxusername']
+  #
+  # debug shell
+  #from atmosphere.cloudservice.api.v1.instanceservice import emailNotification
+  #msg = """{"linuxuservncpassword":null,"ami-id":"emi-D9602AB9","instance-type":"m1.small","block-device-mapping/swap":"sda3","block-device-mapping/ephemeral0":"sda2","public-hostname":"128.196.142.118","ami-manifest-path":"http://128.196.172.138:8773/services/Walrus/admin_mi_basic_xwindows_realvnc_ldap_20110525/admin_mi_basic_xwindows_realvnc_ldap_20110525.img.manifest.xml","placement/availability-zone":"bespin","ramdisk-id":"eri-B6B91781","block-device-mapping/emi":"sda1","linuxusername":"seungjin","local-hostname":"172.17.5.5","ancestor-ami-ids":"","linuxuserpassword":"","kernel-id":"eki-DB23180A","public-keys/0/openssh-key":"","public-keys/0=":"","block-device-mapping/root":"/dev/sda1","security-groups":"default","local-ipv4":"172.17.5.5","instance-id":"i-520F082A","product-codes":"","hostname":"128.196.142.118","ami-launch-index":"0","event_type":"instance_lunched","public-ipv4":"128.196.142.118","block-device-mapping/ephemeral":"sda2","reservation-id":"r-36CF0770"}"""
+  #emailNotification(msg)
+  #
+  #
   current_time = datetime.now()
   instance = Instances.objects.get(instance_id = instance_id)
-  userid = instance.owner_id
+  #userid = instance.owner_id
   instance_name = instance.instance_name
   instance_description = instance.instance_description
   instance_tags = instance.instance_tags
@@ -129,7 +134,8 @@ def emailNotification(message):
                             instance_launch_request_time = instance_launch_request_time,
                             instance_lifetime = instance_lifetime,
                             instance_launch_response_time = instance_launch_response_time,
-                            instance_termination_request_time = instance_termination_request_time
+                            instance_termination_request_time = instance_termination_request_time,
+                            instance_username = userid
                           )
   email_body_template = Template(email_notification_template.body)
   email_body = email_body_template.substitute( current_time=current_time,
@@ -155,7 +161,8 @@ def emailNotification(message):
                             instance_launch_request_time = instance_launch_request_time,
                             instance_lifetime = instance_lifetime,
                             instance_launch_response_time = instance_launch_response_time,
-                            instance_termination_request_time = instance_termination_request_time
+                            instance_termination_request_time = instance_termination_request_time,
+                            instance_username = userid
                           )
   import ldap
   #dn = 'ou=people,dc=iplantcollaborative,dc=org' #should be database driven
