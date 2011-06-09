@@ -63,7 +63,7 @@ class Instances(models.Model):
   ramdisk = models.CharField(max_length=128,null=True)
   launch_request_time = models.DateTimeField(null=True)
   launch_time = models.DateTimeField(null=True)
-  launch_que = models.IntegerField(null=True)
+  launch_qued_num = models.IntegerField(null=True)
   #lifetime = models.IntegerField(null=True)
   lifetime = models.CharField(max_length=255,null=True)
   instance_token = models.CharField(max_length=128,null=True)
