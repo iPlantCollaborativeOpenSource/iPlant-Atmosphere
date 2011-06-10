@@ -22,7 +22,6 @@ class Configs(models.Model):
   def __unicode__(self):
     return smart_str('%s %s' % (self.key, self.value))
 
-
 class Ec2_keys(models.Model):
   """
   ec2_access_key, ec2_secret_key

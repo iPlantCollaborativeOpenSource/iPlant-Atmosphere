@@ -1041,67 +1041,80 @@ class Ec2_cloud(object, atmo_image):
 
       user_data = user_data + "\narg = '" + instance_config + "'\nmain(arg)\n\n"
       
-      euca_conn = self.euca.make_connection()
-      try :
-        reservation = euca_conn.run_instances (
-          image_id = image_id,
-          min_count = min_count,
-          max_count = max_count,
-          key_name = keyname,
-          security_groups = group_names,
-          user_data = user_data,
-          addressing_type = addressing_type,
-          instance_type = instance_type,
-          placement = zone,
-          kernel_id = kernel_id,
-          ramdisk_id = ramdisk_id
-        )
-      except Exception, e:
-        logging.error("cloud error 272")
-        return atmo_util.jsoner("\"fail\"","\"\"","\"%s\"" % e)
-      
-      instance_id = None
-      for group in reservation.groups:
-        for instance in reservation.instances:
-          inst = Instances(
-            instance_name = req.POST['instance_name'],
-            instance_description = "Atmosphere application\nLaunched by Atmosphere APP launcher",
-            instance_tags = 'APP, ' + req.POST['instance_name'],
-            reservation = reservation.id ,
-            owner_id = reservation.owner_id,
-            group_id = group.id,
-            instance_id = instance.id ,
-            machine_image = instance.image_id,
-            public_dns_name = instance.public_dns_name,
-            private_dns_name = instance.private_dns_name,
-            current_state = instance.state,
-            ami_index = instance.ami_launch_index,
-            product_code = instance.product_codes,
-            machine_size = instance.instance_type,
-            placement = instance.placement,
-            key_name = instance.key_name,
-            launch_time = instance.launch_time,
-            kernel = instance.kernel,
-            ramdisk = instance.ramdisk,
-            launch_request_time = datetime.now(),
-            lifetime = lifetime,
-            instance_token = instance_token,
-            launch_response_time = None
-          )
-          inst.save()
-          instance_id = instance.id
-      logging.debug("launched new instanca/app: " + instance_id)
+      #euca_conn = self.euca.make_connection()
+      #try :
+      #  reservation = euca_conn.run_instances (
+      #    image_id = image_id,
+      #    min_count = min_count,
+      #    max_count = max_count,
+      #    key_name = keyname,
+      #    security_groups = group_names,
+      #    user_data = user_data,
+      #    addressing_type = addressing_type,
+      #    instance_type = instance_type,
+      #    placement = zone,
+      #    kernel_id = kernel_id,
+      #    ramdisk_id = ramdisk_id
+      #  )
+      #except Exception, e:
+      #  logging.error("cloud error 272")
+      #  return atmo_util.jsoner("\"fail\"","\"\"","\"%s\"" % e)
       #
-      instance_lifecycles = Instance_lifecycles(
-        instance_id = instance.id,
-        #previous_instance_lifecycles_id = 
-        #instance_launched_at = 
-        instance_lifetime = lifetime
-        #instance_terminated_at = 
-        #instance_terminated_by =  
+      #instance_id = None
+      #for group in reservation.groups:
+      #  for instance in reservation.instances:
+      #    inst = Instances(
+      #      instance_name = req.POST['instance_name'],
+      #      instance_description = "Atmosphere application\nLaunched by Atmosphere APP launcher",
+      #      instance_tags = 'APP, ' + req.POST['instance_name'],
+      #      reservation = reservation.id ,
+      #      owner_id = reservation.owner_id,
+      #      group_id = group.id,
+      #      instance_id = instance.id ,
+      #      machine_image = instance.image_id,
+      #      public_dns_name = instance.public_dns_name,
+      #      private_dns_name = instance.private_dns_name,
+      #      current_state = instance.state,
+      #      ami_index = instance.ami_launch_index,
+      #      product_code = instance.product_codes,
+      #      machine_size = instance.instance_type,
+      #      placement = instance.placement,
+      #      key_name = instance.key_name,
+      #      launch_time = instance.launch_time,
+      #      kernel = instance.kernel,
+      #      ramdisk = instance.ramdisk,
+      #      launch_request_time = datetime.now(),
+      #      lifetime = lifetime,
+      #      instance_token = instance_token,
+      #      launch_response_time = None
+      #    )
+      #    inst.save()
+      #    instance_id = instance.id
+      #logging.debug("launched new instanca/app: " + instance_id)
+      ##
+      #instance_lifecycles = Instance_lifecycles(
+      #  instance_id = instance.id,
+      #  #previous_instance_lifecycles_id = 
+      #  #instance_launched_at = 
+      #  instance_lifetime = lifetime
+      #  #instance_terminated_at = 
+      #  #instance_terminated_by =  
+      #)
+      #instance_lifecycles.save()
+      #return atmo_util.jsoner("\"success\"","\"\"","\"%s\""  % str(instance_id))
+      inst = Instances(
+        instance_name = req.POST['instance_name'],
+        instance_description = "Atmosphere application\nLaunched by Atmosphere APP launcher",
+        instance_tags = 'APP, ' + req.POST['instance_name'],
+        owner_id = self.userid,
+        machine_image = image_id,
+        current_state = "qued",
+        machine_size = instance_type,
+        launch_request_time = datetime.now(),
+        lifetime = lifetime
       )
-      instance_lifecycles.save()
-      return atmo_util.jsoner("\"success\"","\"\"","\"%s\""  % str(instance_id))
+      inst.save()
+      return atmo_util.jsoner("\"success\"","\"\"","\"%s\""  % str("Hello"))
     else:
       return atmo_util.jsoner("\"fail\"","\"expecting post method but not received it\"","\"\"")
 
