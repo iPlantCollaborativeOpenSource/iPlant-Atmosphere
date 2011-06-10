@@ -590,7 +590,8 @@ var center = function(){
     availableVolumeList = b;
 	inuseVolumeList = c;
 	getInstanceInfo(instance_panel_name);
-	instance_id = instance_panel_name.substring(instance_panel_name.indexOf('(') + 1, instance_panel_name.indexOf(')'))
+	//instance_id = instance_panel_name.substring(instance_panel_name.indexOf('(') + 1, instance_panel_name.indexOf(')'))
+        instance_id = instance_panel_name.split("(")[name.split("(").length-1].split(")")[0]
 	var tb = new Ext.Toolbar();
 	tb.add({
       text: 'Terminate',
