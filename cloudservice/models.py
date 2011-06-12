@@ -234,7 +234,12 @@ class Tasks(models.Model):
   task_name = models.CharField(max_length=255)
   task_result = models.TextField()
   updated_at = models.DateTimeField(auto_now_add=True)
-  
+
+#class Resources_watches(models.Model):
+#  task_name = models.CharField(max_length=255)
+#  task_result = models.TextField()
+#  updated_at = models.DateTimeField(auto_now_add=True)
+
 class Instance_lifecycles(models.Model):
   instance_id = models.CharField(max_length=128,null=True)
   instance_launched_at = models.DateTimeField(null=True)
