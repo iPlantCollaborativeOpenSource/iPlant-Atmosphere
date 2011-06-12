@@ -230,15 +230,11 @@ class Instance_launch_hooks(models.Model):
   responsed_header = models.CharField(max_length=128,null=True)
   responsed_body = models.TextField(null=True)
 
-class Tasks(models.Model):
-  task_name = models.CharField(max_length=255)
-  task_result = models.TextField()
+class Resources_watches(models.Model):
+  resource_name = models.CharField(max_length=255)
+  resource_get_function_name = models.CharField(max_length=255)
+  resource_get_function_result = models.TextField()
   updated_at = models.DateTimeField(auto_now_add=True)
-
-#class Resources_watches(models.Model):
-#  task_name = models.CharField(max_length=255)
-#  task_result = models.TextField()
-#  updated_at = models.DateTimeField(auto_now_add=True)
 
 class Instance_lifecycles(models.Model):
   instance_id = models.CharField(max_length=128,null=True)

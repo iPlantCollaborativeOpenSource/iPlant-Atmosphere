@@ -119,6 +119,6 @@ def get_all_instances_list():
               instance.ramdisk
             )
       return_json_str = "[%s]" % instance_json_string[0:-2]
-  #Monitor_instance_list
-  tasks = Tasks(task_name=inspect.stack()[0][3],task_result=''.join(return_json_str.splitlines()).replace('  ',''))
-  tasks.save()
+
+  resources_watch = Resources_watches(resource_get_function_name=inspect.stack()[0][3],resource_get_function_result=''.join(return_json_str.splitlines()).replace('  ',''))
+  resources_watch.save()

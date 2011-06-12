@@ -88,9 +88,8 @@ def get_all_images_list():
         image.ownerId, image.state, image.is_public, image.product_codes, image.architecture, image.type, image.ramdisk_id, image.kernel_id, image_condition
       )
   return_json_str = "[%s]" % image_json_string[0:-2]
-  tasks = Tasks(task_name=inspect.stack()[0][3],task_result=''.join(return_json_str.splitlines()).replace('  ',''))
-  tasks.save()
-
+  resources_watch = Resources_watches(resource_get_function_name=inspect.stack()[0][3],resource_get_function_result=''.join(return_json_str.splitlines()).replace('  ',''))
+  resources_watch.save()
 
 #  instance_json_string = ""
 #  for reservation in reservations:
