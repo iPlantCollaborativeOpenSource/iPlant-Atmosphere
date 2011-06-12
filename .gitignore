@@ -4,8 +4,6 @@ atmosphere.kpf
 *.pyc
 **.pyc
 .*.py
-config.yaml
-settings.py
 logs/*
 celerybeat-schedule
 celeryd.out
