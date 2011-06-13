@@ -79,18 +79,18 @@ class Instances(models.Model):
   def running_time(self):
     pass
 
-class Atmosphere_resource_indexes(models.Model):
+class Resource_indexes(models.Model):
   """
   central resource management
   """
-  atmosphere_resource_id = models.CharField(max_length=255)
-  atmosphere_resource_type = models.CharField(max_length=255,null=True)
-  atmosphere_resource_owner = models.CharField(max_length=255,null=True)
-  atmosphere_resource_group = models.CharField(max_length=255,null=True)
-  atmosphere_resource_created_at = models.DateTimeField(auto_now=True)
-  atmosphere_resource_created_by = models.CharField(max_length=255,null=True)
-  atmosphere_resource_deleted_at = models.DateTimeField(null=True)
-  atmosphere_resource_deleted_by = models.CharField(max_length=255,null=True)
+  resource_id = models.CharField(max_length=255)
+  resource_type = models.CharField(max_length=255,null=True)
+  resource_owner = models.CharField(max_length=255,null=True)
+  resource_group = models.CharField(max_length=255,null=True)
+  resource_created_at = models.DateTimeField(auto_now=True)
+  resource_created_by = models.CharField(max_length=255,null=True)
+  resource_deleted_at = models.DateTimeField(null=True)
+  resource_deleted_by = models.CharField(max_length=255,null=True)
 
 class Machine_images(models.Model):
   """
