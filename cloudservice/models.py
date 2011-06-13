@@ -79,18 +79,18 @@ class Instances(models.Model):
   def running_time(self):
     pass
 
-class Resource_indexes(models.Model):
-  """
-  central resource management
-  """
-  resource_id = models.CharField(max_length=255)
-  resource_type = models.CharField(max_length=255,null=True)
-  resource_owner = models.CharField(max_length=255,null=True)
-  resource_group = models.CharField(max_length=255,null=True)
-  resource_created_at = models.DateTimeField(auto_now=True)
-  resource_created_by = models.CharField(max_length=255,null=True)
-  resource_deleted_at = models.DateTimeField(null=True)
-  resource_deleted_by = models.CharField(max_length=255,null=True)
+#class Resource_indexes(models.Model):
+#  """
+#  central resource management
+#  """
+#  resource_id = models.CharField(max_length=255)
+#  resource_type = models.CharField(max_length=255,null=True)
+#  resource_owner = models.CharField(max_length=255,null=True)
+#  resource_group = models.CharField(max_length=255,null=True)
+#  resource_created_at = models.DateTimeField(auto_now=True)
+#  resource_created_by = models.CharField(max_length=255,null=True)
+#  resource_deleted_at = models.DateTimeField(null=True)
+#  resource_deleted_by = models.CharField(max_length=255,null=True)
 
 class Machine_images(models.Model):
   """
