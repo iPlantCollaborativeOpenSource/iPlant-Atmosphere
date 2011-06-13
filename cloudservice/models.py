@@ -40,6 +40,7 @@ class Instances(models.Model):
   instances database
   """
   # my info
+  atmosphere_resource_id = models.CharField(max_length=255,null=True) 
   instance_name = models.CharField(max_length=128,null=True)
   instance_description = models.TextField(null=True)
   instance_tags = models.TextField(null=True)
@@ -77,6 +78,19 @@ class Instances(models.Model):
 
   def running_time(self):
     pass
+
+#class Atmosphere_resource_indexes(models.Model):
+#  """
+#  central resource management
+#  """
+#  atmosphere_resource_id = models.CharField(max_length=255)
+#  atmosphere_resource_type = models.CharField(max_length=255,null=True)
+#  atmosphere_resource_owner = models.CharField(max_length=255,null=True)
+#  atmosphere_resource_group = models.CharField(max_length=255,null=True)
+#  atmosphere_resource_created_at = models.DateTimeField(null=True)
+#  atmosphere_resource_created_by = models.CharField(max_length=255,null=True)
+#  atmosphere_resource_deleted_at = models.DateTimeField(null=True)
+#  atmosphere_resource_deleted_by = models.CharField(max_length=255,null=True)
 
 class Machine_images(models.Model):
   """
@@ -158,28 +172,6 @@ class Applications(models.Model):
   application_description = models.TextField(null=True)
   application_init_config_param = models.TextField(null=True)
   machine_image_user_data_scripts_script_id = models.CharField(max_length=128,null=True)
-  #def __unicode__(self):
-  #  # Note use of django.utils.encoding.smart_str() here because
-  #  # first_name and last_name will be unicode strings.
-  #  return smart_str('%s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s' % (
-  #  self.application_name,
-  #  self.application_icon_path, 
-  #  self.application_id, 
-  #  self.application_creator,
-  #  self.application_created,
-  #  self.application_version,
-  #  self.application_category,
-  #  self.application_type, 
-  #  self.platform, 
-  #  self.machine_image_id, 
-  #  self.kernel_id, 
-  #  self.ramdisk_id,
-  #  self.system_minimum_requirements,
-  #  self.application_tags,
-  #  self.application_description,
-  #  self.application_init_config_param,
-  #  self.machine_image_user_data_scripts_script_id
-  #  ))
 
 class User_applications(models.Model):
   """
@@ -237,6 +229,7 @@ class Resources_watches(models.Model):
   updated_at = models.DateTimeField(auto_now_add=True)
 
 class Instance_lifecycles(models.Model):
+  atmosphere_resource_id = models.CharField(max_length=255,null=True)
   instance_id = models.CharField(max_length=128,null=True)
   instance_launched_at = models.DateTimeField(null=True)
   instance_lifetime = models.IntegerField(null=True)
