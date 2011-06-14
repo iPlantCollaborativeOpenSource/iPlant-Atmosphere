@@ -62,6 +62,7 @@ class Instances(models.Model):
   kernel = models.CharField(max_length=128,null=True)
   ramdisk = models.CharField(max_length=128,null=True)
   launch_request_time = models.DateTimeField(null=True)
+  user_data = models.TextField(null=True)
   launch_request_run_time = models.DateTimeField(null=True)
   launch_qued_num = models.IntegerField(null=True)
   #lifetime = models.IntegerField(null=True)

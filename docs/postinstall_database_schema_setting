@@ -28,4 +28,4 @@ INSERT INTO `cloudservice_email_notification_templates` (`id`,`name`,`descriptio
 VALUES
   (2, 'default instance termination email', 'DEFAULT', 'seungjin@email.arizona.edu', 'Your Atmosphere instance ${instance_id} was terminated', 'Dear ${instance_owner_id}\n\nYour atmosphere instance (${instance_id}) was successfully terminated at ${current_time}.\n\nRegards, \n\nAtmosphere. ', 'SYSTEM', NULL);
 
-
+INSERT INTO `cloudservice_configs` (`key`,`value`) VALUES ('concurrent_launchable_instance_num','5');
