@@ -111,7 +111,7 @@ def launch_instances():
       #instance.product_code
       instance.launch_time = reservation.instances[0].launch_time
       instance.launch_request_run_time = current_time
-      instance.placement = reservation.instances[0].region
+      instance.placement = reservation.instances[0].region #<== this only returns "RegionInfo:eucalyptus" this should be zone name
       instance.kernel = reservation.instances[0].kernel
       instance.ramdisk = reservation.instances[0].ramdisk
 
