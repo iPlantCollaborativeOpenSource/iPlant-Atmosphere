@@ -291,6 +291,7 @@ class Ec2_cloud(object, atmo_image):
     return atmo_util.jsoner("\"success\"","\"\"",return_json_str)
     
   def launchInstance(self, req) :
+    this_function_name = "launchInstance"
     if req.method == "POST":
       req_item_list = [];
       for i in req.POST.iteritems(): req_item_list.append(i[0])
@@ -373,9 +374,10 @@ class Ec2_cloud(object, atmo_image):
                       "instance_name":"%s",
                       "image_id":"%s",
                       "instance_tags":"%s", 
-                      "lifetime":"%s" 
+                      "lifetime":"%s",
+                      "launched_by":"%s"
                     }
-      }""" % ( instance_service_url, instance_token, userinfo.username, req.POST['instance_name'], image_id, req.POST['instance_tags'],req.POST['instance_lifetime'])
+      }""" % ( instance_service_url, instance_token, userinfo.username, req.POST['instance_name'], image_id, req.POST['instance_tags'],req.POST['instance_lifetime'],this_function_name)
       
       if user_data != None :
         user_data = user_data + "\narg = '" + instance_config + "'\nmain(arg)\n\n"
@@ -423,6 +425,7 @@ class Ec2_cloud(object, atmo_image):
             launch_time = instance.launch_time,
             kernel = instance.kernel,
             ramdisk = instance.ramdisk,
+            lacunched_by = this_function_name,
             launch_request_time = datetime.now(),
             lifetime = req.POST['instance_lifetime'],
             instance_token = instance_token,
@@ -989,6 +992,7 @@ class Ec2_cloud(object, atmo_image):
 
   def launchApp(self, req):
     # euca-run-instance -t m1.small -z iplanto1 -f atmo-init.rb emi-123
+    this_function_name = "launchApp"
     if req.method == "POST":
       # quota check starts
       instance_type = req.POST['instance_size']
@@ -1041,7 +1045,8 @@ class Ec2_cloud(object, atmo_image):
                       "instance_name":"%s", 
                       "image_id":"%s",
                       "instance_tags":"%s", 
-                      "lifetime":"%s" 
+                      "lifetime":"%s",
+                      "launched_by":"%s"
                     }
       }""" % (
         instance_service_url,
@@ -1050,7 +1055,8 @@ class Ec2_cloud(object, atmo_image):
         req.POST['instance_name'],
         image_id,
         Applications.objects.get(application_id = req.POST['application_id']).application_tags,
-        Applications.objects.get(application_id = req.POST['application_id']).application_lifetime
+        Applications.objects.get(application_id = req.POST['application_id']).application_lifetime,
+        this_function_name
       )
 
       user_data = user_data + "\narg = '" + instance_config + "'\nmain(arg)\n\n"
@@ -1067,6 +1073,7 @@ class Ec2_cloud(object, atmo_image):
         current_state = "qued",
         machine_size = instance_type,
         launch_request_time = datetime.now(),
+        launched_by = this_function_name,
         lifetime = lifetime,
         instance_token = instance_token,
         user_data = user_data
