@@ -369,9 +369,13 @@ class Ec2_cloud(object, atmo_image):
       "atmosphere":{  "servicename":"instance service",
                       "instance_service_url":"%s",
                       "token":"%s",
-                      "userid":"%s"
+                      "userid":"%s",
+                      "instance_name":"%s",
+                      "image_id":"%s",
+                      "instance_tags":"%s", 
+                      "lifetime":"%s" 
                     }
-      }""" % ( instance_service_url, instance_token, userinfo.username )
+      }""" % ( instance_service_url, instance_token, userinfo.username, req.POST['instance_name'], image_id, req.POST['instance_tags'],req.POST['instance_lifetime'])
       
       if user_data != None :
         user_data = user_data + "\narg = '" + instance_config + "'\nmain(arg)\n\n"
@@ -1033,12 +1037,20 @@ class Ec2_cloud(object, atmo_image):
       "atmosphere":{  "servicename":"instance service",
                       "instance_service_url":"%s",
                       "token":"%s",
-                      "userid":"%s"
+                      "userid":"%s",
+                      "instance_name":"%s", 
+                      "image_id":"%s",
+                      "instance_tags":"%s", 
+                      "lifetime":"%s" 
                     }
       }""" % (
         instance_service_url,
         instance_token,
-        userinfo.username
+        userinfo.username,
+        req.POST['instance_name'],
+        image_id,
+        Applications.objects.get(application_id = req.POST['application_id']).application_tags,
+        Applications.objects.get(application_id = req.POST['application_id']).application_lifetime
       )
 
       user_data = user_data + "\narg = '" + instance_config + "'\nmain(arg)\n\n"
