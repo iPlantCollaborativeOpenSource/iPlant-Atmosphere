@@ -425,7 +425,7 @@ class Ec2_cloud(object, atmo_image):
             launch_time = instance.launch_time,
             kernel = instance.kernel,
             ramdisk = instance.ramdisk,
-            lacunched_by = this_function_name,
+            launched_by = this_function_name,
             launch_request_time = datetime.now(),
             lifetime = req.POST['instance_lifetime'],
             instance_token = instance_token,
