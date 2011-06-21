@@ -1061,7 +1061,7 @@ class Ec2_cloud(object, atmo_image):
         atmosphere_resource_id = atmosphere_resource_id,
         instance_name = req.POST['instance_name'],
         instance_description = "Atmosphere application\nLaunched by Atmosphere APP launcher",
-        instance_tags = 'APP, ' + req.POST['instance_name'],
+        instance_tags = Applications.objects.get(application_id = req.POST['application_id']).application_tags,
         owner_id = self.userid,
         machine_image = image_id,
         current_state = "qued",
