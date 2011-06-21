@@ -1,3 +1,39 @@
 #!/usr/env ruby
 
+module Atmo_support
 
+
+  # get atmoingo
+
+
+
+
+  # get app list and version
+
+  app_list = Array.new()
+  app_list = [
+    "/usr/sbin/atmo_boot",
+    "/usr/sbin/atmo_init"
+  ]
+
+
+  def check_app_version()
+
+  end
+
+  def check_app_availability()
+
+    if File.exist?(file) 
+    
+    end
+
+  end
+
+  def zip_folder()
+  
+
+  end 
+
+  puts "hello worl"
+
+end #module end
