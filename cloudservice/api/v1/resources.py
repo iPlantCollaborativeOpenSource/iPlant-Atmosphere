@@ -32,6 +32,7 @@ from atmosphere.cloudauth.models import *
 from boto.exception import *
 
 import datetime
+from decimal import Decimal
 
 def api_request_auth(request):
   if request.META.has_key('HTTP_X_AUTH_USER') == False :
@@ -55,15 +56,18 @@ def api_request_auth(request):
       return False
   return False
 
+def current_time_to_decimal():
+  current_time_object = datetime.datetime.now()
+  return "%s.%s" % (current_time_object.strftime("%Y%m%d%H%M%S"),current_time_object.microsecond)
+
 def call(request) :
-  logging.debug("###############")
   # AUTH
   if api_request_auth(request) == False :
     #return HttpResponse("401 UNAUTHORIZED", status=401)
     #return HttpResponseNotFound('<h1>HTTP/1.0 404 METHOD NOT FOUND</h1>')
     return HttpResponseForbidden('HTTP/1.0 401 UNAUTHORIZED')
 
-  request_time = datetime.datetime.now();
+  request_time = current_time_to_decimal()
   resource_method = request.META['PATH_INFO'].split('/')[3]
   http_request_method = request.META['REQUEST_METHOD']
   username = request.META['HTTP_X_AUTH_USER']
@@ -119,7 +123,7 @@ def call(request) :
     request_time = request_time ,
     #response_value = str(type(f)) ,
     response_value = ''.join(f.splitlines()).replace('  ',''),
-    response_time = datetime.datetime.now()
+    response_time = current_time_to_decimal()
     )
   api_log.save()
   

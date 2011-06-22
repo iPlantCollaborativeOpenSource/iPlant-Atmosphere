@@ -11,6 +11,55 @@
 from django.db import models
 from django.utils.encoding import smart_str, smart_unicode
 
+
+
+
+from time import strftime
+
+#class UnixTimestampField(models.DateTimeField):
+#  """UnixTimestampField: create a DateTimeField that is represented on the database as a TIMESTAMP field rather than the usual DATETIME field at MySQL"""
+#
+#  description = "UnixTimestampField for mysql"
+#
+#  __meta_class__ = models.SubfieldBase
+#
+#  def __init__(self, null=False, blank=False, **kargs):
+#    super(UnixTimestampField, self).__init__(**keargs)
+#    #default for TIMESTAMP is NOT NULL unlike most fields, so we have to cheat a litte
+#    self.blank, self.isnull = blank, null 
+#    self.null = True # To prevent the framework from shoving in "not null".
+#
+#  def db_type(self):
+#    typ = ['TIMESTAMP']
+#    # see above!
+#    if self.isnull : 
+#      typ += ['NULL']
+#    if self.auto_created:
+#      typ += ['default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP']
+#    return ' '.join(typ)
+#  
+#  def to_python(self, value):
+#    return datetime.from_timestamp(value)
+#  
+#  def get_db_prep_value(self, value):
+#    if value == None:
+#      return None
+#    return strftime('%Y%m%d%H%M%S',value.timetuple()) 
+
+class TimestampField(models.Field):
+  # reference: https://docs.djangoproject.com/en/dev/howto/custom-model-fields/
+  def db_type(self, connection):
+    if connection.settings_dict['ENGINE'] == 'django.db.backends.mysql':
+      #return 'datetime'
+      return 'timestamp'
+    else:
+      return 'timestamp'
+
+class TimeDecimalField(models.Field):
+  def db_type(self, connection):
+    return 'double(20,6)'
+    
+
 # Create your models here.
 
 class Configs(models.Model):
@@ -148,9 +197,15 @@ class Api_logs(models.Model):
   request_method = models.CharField(max_length=128)
   http_request_method = models.CharField(max_length=32)
   request_param = models.TextField(null=True)
-  request_time = models.DateTimeField() 
+  #request_time = models.DateTimeField() 
+  #request_time = TimestampField(null=True)
+  # SQL-92 stadnard, timestamp does not have millisecond. (postgresql does). So I use FloatField to record milliseconds.
+  #request_time = models.FloatField(null=True)
+  request_time = TimeDecimalField(null=True)
   response_value = models.TextField(null=True)
-  response_time = models.DateTimeField(null=True)
+  #response_time = models.DateTimeField(null=True)
+  #response_time = models.FloatField(null=True)
+  response_time = TimeDecimalField(null=True)
 
 class Applications(models.Model):
   """
