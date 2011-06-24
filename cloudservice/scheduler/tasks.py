@@ -61,9 +61,18 @@ def terminate_scheduled_instance():
 
 @periodic_task(run_every=timedelta(seconds=10))
 def launch_instances():
-  run_launch_instances()
-  
-  
+  if len(Configs.objects.filter(key="_launch_instances_lock")[:1]) == 0 :
+    Configs(key = "_launch_instances_lock", value = "False").save()
+    run_launch_instances()
+  else : 
+    config = Configs.objects.filter(key="_launch_instances_lock")[:1][0]
+    if config.value == 'False':
+      config.value == 'True'
+      config.save()
+      run_launch_instances()
+      config.value == 'False'
+      config.save()
+
 
 
 #@periodic_task(run_every=timedelta(seconds=20))

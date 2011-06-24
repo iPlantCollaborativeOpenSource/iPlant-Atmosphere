@@ -58,12 +58,11 @@ def launch_instances():
       connection = boto.connect_ec2(aws_access_key_id=str(ec2_key), aws_secret_access_key=str(ec2_secret), is_secure=False, region=region, port=8773, path="/services/Eucalyptus")
       #connection.run_instance(machine_image,min_count=1,max_count=1)
       #run_instances(image_id, min_count=1, max_count=1, key_name=None, security_groups=None, user_data=None, addressing_type=None, instance_type='m1.small', placement=None, kernel_id=None, ramdisk_id=None, monitoring_enabled=False, subnet_id=None, block_device_map=None)
-      
+
       reservation = connection.run_instances(image_id=instance.machine_image,min_count=1,max_count=1,key_name=instance.key_name, 
         user_data=instance.user_data,
         instance_type=instance.machine_size
       )
-
       #ami_launch_index
       #block_device_mapping
       #confirm_product
@@ -99,7 +98,6 @@ def launch_instances():
       #root_device_name
       #shutdown_state
       #spot_instance_request_id', 'startElement', 'state', 'state_code', 'stop', 'subnet_id', 'unmonitor', 'update', 'use_ip', 'vpc_id']
-
       instance.instance_id = reservation.instances[0].id
       instance.current_state = reservation.instances[0].state
       #instance.reservation =

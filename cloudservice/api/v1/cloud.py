@@ -362,100 +362,171 @@ class Ec2_cloud(object, atmo_image):
         user_data = Machine_image_userdata_scripts.objects.get(script_id=(Machine_images.objects.filter(image_id = image_id).order_by('-id')[0].machine_image_user_data_scripts_script_id)).script
       else:
         user_data = None
-        
-      instance_token = str(uuid.uuid4())
-      instance_service_url = Configs.objects.get(key="instance_service_url").value
-      userinfo = Ec2_keys.objects.get(ec2_access_key = self.euca.ec2_user_access_key)
-      instance_config = """{
-      "atmosphere":{  "servicename":"instance service",
-                      "instance_service_url":"%s",
-                      "token":"%s",
-                      "userid":"%s",
-                      "instance_name":"%s",
-                      "image_id":"%s",
-                      "instance_tags":"%s", 
-                      "lifetime":"%s",
-                      "launched_by":"%s"
-                    }
-      }""" % ( instance_service_url, instance_token, userinfo.username, req.POST['instance_name'], image_id, req.POST['instance_tags'],req.POST['instance_lifetime'],this_function_name)
       
-      if user_data != None :
-        user_data = user_data + "\narg = '" + instance_config + "'\nmain(arg)\n\n"
-      else :
-        user_data = ""
-        
-      euca_conn = self.euca.make_connection()
-      try :
-        reservation = euca_conn.run_instances (
-          image_id = image_id,
-          min_count = min_count,
-          max_count = max_count,
-          key_name = keyname,
-          security_groups = group_names,
-          user_data = user_data,
-          addressing_type = addressing_type,
-          instance_type = instance_type,
-          placement = zone,
-          kernel_id = kernel_id,
-          ramdisk_id = ramdisk_id
+      num_req_inst = int(max_count)
+      for a in range(0,num_req_inst):
+        instance_token = str(uuid.uuid4())
+        instance_service_url = Configs.objects.get(key="instance_service_url").value
+        userinfo = Ec2_keys.objects.get(ec2_access_key = self.euca.ec2_user_access_key)
+        instance_config = """{
+        "atmosphere":{  "servicename":"instance service",
+                    "instance_service_url":"%s",
+                    "token":"%s",
+                    "userid":"%s",
+                    "instance_name":"%s", 
+                    "image_id":"%s",
+                    "instance_tags":"%s", 
+                    "lifetime":"%s",
+                    "launched_by":"%s"
+                  }
+        }""" % (
+          instance_service_url,
+          instance_token,
+          userinfo.username,
+          req.POST['instance_name'],
+          image_id,
+          req.POST['instance_tags'],
+          req.POST['instance_lifetime'],
+          this_function_name
         )
-      except Exception, e:
-        return atmo_util.jsoner("\"fail\"","\"\"","\"%s\"" % e)
 
-      instance_id = None
-      for group in reservation.groups:
-        for instance in reservation.instances:
-          inst = Instances(
-            instance_name = req.POST['instance_name'],
-            instance_description = req.POST['instance_description'],
-            instance_tags = req.POST['instance_tags'],
-            reservation = reservation.id ,
-            owner_id = reservation.owner_id,
-            group_id = group.id,
-            instance_id = instance.id ,
-            machine_image = instance.image_id,
-            public_dns_name = instance.public_dns_name,
-            private_dns_name = instance.private_dns_name,
-            current_state = instance.state,
-            ami_index = instance.ami_launch_index,
-            product_code = instance.product_codes,
-            machine_size = instance.instance_type,
-            placement = instance.placement,
-            key_name = instance.key_name,
-            launch_time = instance.launch_time,
-            kernel = instance.kernel,
-            ramdisk = instance.ramdisk,
-            launched_by = this_function_name,
-            launch_request_time = datetime.now(),
-            lifetime = req.POST['instance_lifetime'],
-            instance_token = instance_token,
-            launch_response_time = None
-          )
-          instance_id = instance.id
-          inst.save()
+        user_data = user_data + "\narg = '" + instance_config + "'\nmain(arg)\n\n"
+        atmosphere_resource_id = create_resource_id('instance')
 
-          instance_lifecycles = Instance_lifecycles(
-            instance_id = instance.id,
-            #previous_instance_lifecycles_id = 
-            #instance_launched_at = 
-            instance_lifetime = req.POST['instance_lifetime']
-            #instance_terminated_at = 
-            #instance_terminated_by =  
-          )
-          instance_lifecycles.save()
+        inst = Instances(
+          atmosphere_resource_id = atmosphere_resource_id,
+          instance_name = req.POST['instance_name'],
+          instance_description = req.POST['instance_description'],
+          instance_tags = req.POST['instance_tags'],
+          owner_id = self.userid,
+          machine_image = image_id,
+          current_state = "qued",
+          machine_size = instance_type,
+          launch_request_time = datetime.now(),
+          launched_by = this_function_name,
+          lifetime = lifetime,
+          instance_token = instance_token,
+          user_data = user_data
+        )
+        inst.save()
 
-          if u'callback_resource_url' in req_item_list :
-            ilh = Instance_launch_hooks(
+        instance_lifecycles = Instance_lifecycles(
+          atmosphere_resource_id = atmosphere_resource_id,
+          #instance_id = instance.id,
+          #previous_instance_lifecycles_id = 
+          #instance_launched_at = 
+          instance_lifetime = lifetime
+          #instance_terminated_at = 
+          #instance_terminated_by =  
+        )
+        instance_lifecycles.save()
+        if u'callback_resource_url' in req_item_list :
+          ilh = Instance_launch_hooks(
               instance_id = instance.id,
               owner_id = reservation.owner_id,
               webhook_url = req.POST['callback_resource_url'], 
               webhook_header_params = None,
               requested_time = datetime.now()
-            )
-            ilh.save()
-      return atmo_util.jsoner("\"success\"","\"\"","\"%s\""  % str(instance_id ))
+          )
+          ilh.save()
+      return atmo_util.jsoner("\"success\"","\"\"","\"%s\""  % atmosphere_resource_id)
     else:
       return atmo_util.jsoner("\"fail\"","\"expecting post method but not received it\"","\"\"")
+
+
+#      instance_token = str(uuid.uuid4())
+#      instance_service_url = Configs.objects.get(key="instance_service_url").value
+#      userinfo = Ec2_keys.objects.get(ec2_access_key = self.euca.ec2_user_access_key)
+#      instance_config = """{
+#      "atmosphere":{  "servicename":"instance service",
+#                      "instance_service_url":"%s",
+#                      "token":"%s",
+#                      "userid":"%s",
+#                      "instance_name":"%s",
+#                      "image_id":"%s",
+#                      "instance_tags":"%s", 
+#                      "lifetime":"%s",
+#                      "launched_by":"%s"
+#                    }
+#      }""" % ( instance_service_url, instance_token, userinfo.username, req.POST['instance_name'], image_id, req.POST['instance_tags'],req.POST['instance_lifetime'],this_function_name)
+#      
+#      if user_data != None :
+#        user_data = user_data + "\narg = '" + instance_config + "'\nmain(arg)\n\n"
+#      else :
+#        user_data = ""
+#        
+#      euca_conn = self.euca.make_connection()
+#      try :
+#        reservation = euca_conn.run_instances (
+#          image_id = image_id,
+#          min_count = min_count,
+#          max_count = max_count,
+#          key_name = keyname,
+#          security_groups = group_names,
+#          user_data = user_data,
+#          addressing_type = addressing_type,
+#          instance_type = instance_type,
+#          placement = zone,
+#          kernel_id = kernel_id,
+#          ramdisk_id = ramdisk_id
+#        )
+#      except Exception, e:
+#        return atmo_util.jsoner("\"fail\"","\"\"","\"%s\"" % e)
+#
+#      instance_id = None
+#      for group in reservation.groups:
+#        for instance in reservation.instances:
+#          inst = Instances(
+#            instance_name = req.POST['instance_name'],
+#            instance_description = req.POST['instance_description'],
+#            instance_tags = req.POST['instance_tags'],
+#            reservation = reservation.id ,
+#            owner_id = reservation.owner_id,
+#            group_id = group.id,
+#            instance_id = instance.id ,
+#            machine_image = instance.image_id,
+#            public_dns_name = instance.public_dns_name,
+#            private_dns_name = instance.private_dns_name,
+#            current_state = instance.state,
+#            ami_index = instance.ami_launch_index,
+#            product_code = instance.product_codes,
+#            machine_size = instance.instance_type,
+#            placement = instance.placement,
+#            key_name = instance.key_name,
+#            launch_time = instance.launch_time,
+#            kernel = instance.kernel,
+#            ramdisk = instance.ramdisk,
+#            launched_by = this_function_name,
+#            launch_request_time = datetime.now(),
+#            lifetime = req.POST['instance_lifetime'],
+#            instance_token = instance_token,
+#            launch_response_time = None
+#          )
+#          instance_id = instance.id
+#          inst.save()
+#
+#          instance_lifecycles = Instance_lifecycles(
+#            instance_id = instance.id,
+#            #previous_instance_lifecycles_id = 
+#            #instance_launched_at = 
+#            instance_lifetime = req.POST['instance_lifetime']
+#            #instance_terminated_at = 
+#            #instance_terminated_by =  
+#          )
+#          instance_lifecycles.save()
+#
+#          if u'callback_resource_url' in req_item_list :
+#            ilh = Instance_launch_hooks(
+#              instance_id = instance.id,
+#              owner_id = reservation.owner_id,
+#              webhook_url = req.POST['callback_resource_url'], 
+#              webhook_header_params = None,
+#              requested_time = datetime.now()
+#            )
+#            ilh.save()
+#      return atmo_util.jsoner("\"success\"","\"\"","\"%s\""  % str(instance_id ))
+#    else:
+#      return atmo_util.jsoner("\"fail\"","\"expecting post method but not received it\"","\"\"")
     
     
   def terminateInstance(self, req) :

@@ -2,3 +2,7 @@ decided to use celery with django (integrated).
 eucalyptus has problem with celery but boto is ok. 
 
 Next code/version, I will try to run Atmosphere with Django+Tornado. 
+
+
+cloudservice_config table's key name should not start with "_"
+prefix "_" is reserved for internal use.
