@@ -8,7 +8,8 @@
 #
 
 from celery.decorators import task
-from celery.task.schedules import crontab 
+#from celery.task.schedules import crontab #DeprecationWarning: celery.task.schedules is deprecated and renamed to celery.schedules  "celery.task.schedules is deprecated and renamed to celery.schedules"))
+from celery.schedules import crontab
 from celery.decorators import periodic_task  
 
 
@@ -19,7 +20,6 @@ from datetime import timedelta
 import boto
 from boto.ec2.connection import EC2Connection
 from boto.ec2.regioninfo import RegionInfo
-
 
 from atmosphere.cloudservice.models import *
 from urlparse import urlparse
@@ -67,12 +67,18 @@ def launch_instances():
   else : 
     config = Configs.objects.filter(key="_launch_instances_lock")[:1][0]
     if config.value == 'False':
-      config.value == 'True'
+      config.value = 'True'
       config.save()
       run_launch_instances()
-      config.value == 'False'
+      config.value = 'False'
       config.save()
+    else :
+      pass
+      
 
+#@periodic_task(run_every=timedelta(seconds=10))
+#def launch_instances():
+#  run_launch_instances()
 
 
 #@periodic_task(run_every=timedelta(seconds=20))

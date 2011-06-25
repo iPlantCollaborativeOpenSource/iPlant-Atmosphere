@@ -11,11 +11,9 @@
 from datetime import datetime
 from datetime import timedelta
 
-
 import boto
 from boto.ec2.connection import EC2Connection
 from boto.ec2.regioninfo import RegionInfo
-
 
 from atmosphere.cloudservice.models import *
 from urlparse import urlparse
@@ -27,7 +25,6 @@ from datetime import datetime
 
 import inspect
 import json
-
 
 def current_vms_launching_status():
   """
@@ -44,9 +41,14 @@ def current_vms_launching_status():
 
 def launch_instances():
   concurrent_launchable_instance_num = Configs.objects.get(key="concurrent_launchable_instance_num").value # for test
-  if int(json.loads(current_vms_launching_status())['number_of_pending_instance']) < concurrent_launchable_instance_num :
-    instances = Instances.objects.filter(current_state = "qued").order_by('-launch_request_time')[:concurrent_launchable_instance_num]
+  
+  k = int(concurrent_launchable_instance_num) - int(json.loads(current_vms_launching_status())['number_of_pending_instance'])
+  #if int(json.loads(current_vms_launching_status())['number_of_pending_instance']) < concurrent_launchable_instance_num :
+  if k > 0 :    
+    #instances = Instances.objects.filter(current_state = "qued").order_by('-launch_request_time')[:concurrent_launchable_instance_num]
+    instances = Instances.objects.filter(current_state = "qued").order_by('-launch_request_time')[:k]
     current_time = datetime.now()
+    #loop 
     for instance in instances:
       owner = instance.owner_id
       ec2_key = Ec2_keys.objects.get(username = owner).ec2_access_key 
