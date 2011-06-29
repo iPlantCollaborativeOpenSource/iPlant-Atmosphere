@@ -266,6 +266,7 @@ class Machine_image_userdata_scripts(models.Model):
   script_description = models.TextField(null=True)
   script_version = models.CharField(max_length=128,null=True)
   script = models.TextField(null=True)
+  updated_at = models.DateTimeField(null=True)
   def __unicode__(self):
     return smart_str('%s %s %s %s %s' % (self.script_id, self.script_name, self.script_description, self.script_version, self.script))
 
