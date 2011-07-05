@@ -9,11 +9,5 @@
 
 
 def jsoner(code,meta,value):
-  final_json = """{
-    "result" : {
-        "code" : %s ,
-        "meta" : %s ,
-        "value" : %s
-    } 
-  }""" % (code,meta,value)
+  final_json = """{"result":{"code":%s, "meta":%s, "value":%s}}""" % (code,meta,value)
   return final_json

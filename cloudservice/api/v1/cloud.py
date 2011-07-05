@@ -22,6 +22,7 @@ from atmosphere.cloudservice.api.v1.image import Image as atmo_image
 import atmosphere.cloudservice.api.v1.util as atmo_util
 from django.utils.encoding import smart_str
 from django.utils.datastructures import MultiValueDictKeyError
+import json
 
 
 from datetime import datetime
@@ -132,7 +133,6 @@ class Ec2_cloud(object, atmo_image):
           image_type = Machine_images.objects.filter(image_id = image.id).order_by('-id')[0].image_type
         except :
           image_type = ""
-        
       
         image_description = image_description.replace("\n", "<br>") if image_description != None else ""
         image_json_string = image_json_string +"""{ "image_name" : "%s", "image_description" : "%s", "image_tags" : "%s", "image_id" : "%s" , "image_location" : "%s" , "image_ownerid" : "%s" , "image_state" : "%s" ,"image_is_public" : "%s" ,"image_product_codes" : "%s" ,"image_architecture" : "%s" ,"image_type" : "%s","image_ramdisk_id" : "%s","image_kernel_id" : "%s", "image_condition" : "%s", "image_type" : "%s" , "image_condition" : "%s" }, """ % (
@@ -143,8 +143,13 @@ class Ec2_cloud(object, atmo_image):
           image.location,
           image.ownerId, image.state, image.is_public, image.product_codes, image.architecture, image.type, image.ramdisk_id, image.kernel_id, image_condition, image_type, image_condition
         )
-    return atmo_util.jsoner("\"success\"","\"\"","[%s]" % image_json_string[0:-2])
-  
+    
+    # eucalyptus bug
+    # users can see other user's private image. even they can launch it. so atmosphere hides private image of other users.
+    my_available_image = filter(lambda e: e['image_is_public'] == 'public' or e['image_ownerid'] == self.userid, json.loads("["+image_json_string[0:-2]+"]"))
+    return atmo_util.jsoner("\"success\"","\"\"","%s" % json.dumps(my_available_image))
+
+
   def getInstanceList(self, req) :
     return_json_str = "[]";
     euca_conn = self.euca.make_connection()
@@ -240,6 +245,7 @@ class Ec2_cloud(object, atmo_image):
       return_json_str = "[%s]" % instance_json_string[0:-2]
     a = simplejson.loads(return_json_str)
     #return simplejson.dumps(a)
+
     return atmo_util.jsoner("\"success\"","\"\"", simplejson.dumps(a))
 
   def getRunningInstancesTree(self, req):
@@ -635,7 +641,7 @@ class Ec2_cloud(object, atmo_image):
     images = euca_conn.get_all_images()
     image_no = 0
     for image in images :
-      if image.type == "machine" :
+      if ( (image.type == "machine") and image.is_public ) or ( (image.type == "machine") and (image.ownerId == self.userid) ) :
         # atmosphere info
         try :
           machine_image_name = Machine_images.objects.get(image_id = image.id).image_name
