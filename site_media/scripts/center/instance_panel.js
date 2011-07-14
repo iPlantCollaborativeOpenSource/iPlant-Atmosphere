@@ -12,7 +12,7 @@ var instance_property_template = function(instance_id) {
 	var r = '<table class="row_details">\
 		<tbody>\
 			<tr>\
-				<td style="width: 50%;"><div class="data"><span style="width: 180px;" class="label"><span class="console-tooltip" id="instances_name">Inatance Name: </span></span><span class="value" id="'+instance_id+'_instance_detail_panel_instance_name_value"></span></div></td>\
+				<td style="width: 50%;"><div class="data"><span style="width: 180px;" class="label"><span class="console-tooltip" id="instances_name">Instance Name: </span></span><span class="value" id="'+instance_id+'_instance_detail_panel_instance_name_value"></span></div></td>\
 				<td style="width: 50%;"><div class="data"><span style="width: 180px;" class="label"><span class="console-tooltip" id="instance_detail_panel_instances_id">Instance ID: </span></span><span class="value" id="'+instance_id+'_instance_detail_panel_instance_id_value"></span></div></td>\
 			</tr>\
 			<tr>\
