@@ -39,7 +39,6 @@ urlpatterns = patterns('',
     # Systemwide
     (r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': site_media}),
 
-
     # My application settings
     #(r'^$', 'cloudservice.views.door') ,
     #(r'^login/$', 'django.contrib.auth.views.login') ,

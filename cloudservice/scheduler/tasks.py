@@ -69,9 +69,9 @@ def launch_instances():
     if config.value == 'False':
       config.value = 'True'
       config.save()
-      run_launch_instances()
-      config.value = 'False'
-      config.save()
+      if run_launch_instances(): 
+        config.value = 'False'
+        config.save()
     else :
       pass
       

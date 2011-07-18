@@ -117,7 +117,7 @@ var center = function(){
 
   var applications = new Ext.Panel({
     id : 'applications',
-    title: 'Applications',
+    title: 'App Desktop',
     bodyCfg : {  },
     items: [
       { region: 'north',
@@ -126,6 +126,32 @@ var center = function(){
         split: true,
         height: aa(),
         html : app_stack_html,
+        autoScroll:true
+      },
+      {//title: 'South Region is resizable',
+        region: 'south', // position for region,
+        split: true, // enable resizing
+        bodyCfg : { style: { 'margin' : '10px' } },
+        html: application_information_template(),
+        layout: 'fit',
+        frame: false,
+        border: false,
+        autoScroll:true
+      }
+    ]
+  });
+
+  var app_catalog = new Ext.Panel({
+    id : 'app_catalog',
+    title: 'App Catalog',
+    bodyCfg : {  },
+    items: [
+      { region: 'north',
+        bodyCfg : { style: { 'margin' : '10px' } },
+        border: false,
+        split: true,
+        height: aa(),
+        html : "App catalog here. User can add their own app into their app desktop",
         autoScroll:true
       },
       {//title: 'South Region is resizable',
@@ -204,7 +230,7 @@ var center = function(){
 
   var dashboard_accordion = new Ext.Panel({
     id: 'dashboard',
-    title: 'Dashboard',
+    title: 'Advanced',
     layout: 'accordion',
     defaults: {
       // applied to each contained panel
@@ -367,7 +393,7 @@ var center = function(){
       //render: function(tabPanel){ dashboard(); }
     },
     //items: [applications, dashboard_accordion, machine_images, volumes, snapshots]
-    items: [applications, dashboard_accordion]
+    items: [applications, app_catalog, dashboard_accordion]
   });
 
   this.dashboard = function(){};

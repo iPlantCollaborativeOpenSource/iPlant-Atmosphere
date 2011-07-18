@@ -55,13 +55,20 @@ def match():
   pass
 
 def launch_instances():
+  logging.error("lunach instances called")
   concurrent_launchable_instance_num = Configs.objects.get(key="concurrent_launchable_instance_num").value 
   
-  k = int(concurrent_launchable_instance_num) - int(json.loads(current_vms_launching_status())['number_of_pending_instance'])
+  k = int(json.loads(current_vms_launching_status())['number_of_pending_instance']) - int(concurrent_launchable_instance_num)
+
+  if k == 0 :
+    logging.error("zero que")
+  else :
+    logging.error("que:"+str(k%concurrent_launchable_instance_num))
+
   #if int(json.loads(current_vms_launching_status())['number_of_pending_instance']) < concurrent_launchable_instance_num :
   if k > 0 :    
     #instances = Instances.objects.filter(current_state = "qued").order_by('-launch_request_time')[:concurrent_launchable_instance_num]
-    instances = Instances.objects.filter(current_state = "qued").order_by('-launch_request_time')[:k]
+    instances = Instances.objects.filter(current_state = "qued").order_by('launch_request_time')[:k]
     current_time = datetime.now()
     #loop 
     for instance in instances:
@@ -132,7 +139,9 @@ def launch_instances():
 
       instance.save()
 
-      instance_lifecycle = Instance_lifecycles.objects.get(atmosphere_resource_id = instance.atmosphere_resource_id)
-      instance_lifecycle.instance_id = reservation.instances[0].id
-      instance_lifecycle.instance_launched_at = current_time
-      instance_lifecycle.save()
+      # instance_lifecycle.instance_launched_at should be updated at instanceservice layer
+      #instance_lifecycle = Instance_lifecycles.objects.get(atmosphere_resource_id = instance.atmosphere_resource_id)
+      #instance_lifecycle.instance_id = reservation.instances[0].id
+      #instance_lifecycle.instance_launched_at = current_time
+      #instance_lifecycle.save()
+  return True

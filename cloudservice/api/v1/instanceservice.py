@@ -251,6 +251,8 @@ def call(request) :
         #r.close()
         #e.close()
         #w.close()
+
+
         
         sendWebhookCall(channel,message)
       return HttpResponse("ok")
