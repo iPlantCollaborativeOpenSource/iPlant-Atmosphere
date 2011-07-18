@@ -10,15 +10,18 @@
 
 from django.conf.urls.defaults import *
 
+
+
 import os
 
 # Uncomment the next two lines to enable the admin:
-# from django.contrib import admin
-# admin.autodiscover()
+from django.contrib import admin
+admin.autodiscover()
 
 
 site_media = os.path.join(os.path.dirname(__file__), 'site_media')
 mobile = os.path.join(os.path.dirname(__file__), 'mobile')
+admin_media = os.path.join(site_media,'admin')
 
 from django.views.generic.simple import direct_to_template
 
@@ -28,10 +31,10 @@ urlpatterns = patterns('',
 
     # Uncomment the admin/doc line below and add 'django.contrib.admindocs' 
     # to INSTALLED_APPS to enable admin documentation:
-    # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    (r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # Uncomment the next line to enable the admin:
-    # (r'^admin/', include(admin.site.urls)),
+    (r'^admin/', include(admin.site.urls)),
 
     # Systemwide
     (r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': site_media}),
@@ -84,5 +87,8 @@ urlpatterns = patterns('',
 
     ###################
     (r'^mobile/(?P<path>.*)$', 'django.views.static.serve', {'document_root': mobile}),
+
+    (r'^admin_media/(.*)', 'django.views.static.serve', {'document_root' : admin_media, 'show_indexes' : True}),
+
 )
 

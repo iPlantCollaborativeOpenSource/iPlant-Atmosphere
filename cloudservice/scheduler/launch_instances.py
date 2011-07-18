@@ -39,8 +39,23 @@ def current_vms_launching_status():
   number_of_shutting_down_instance = len(filter(lambda e : e['instance_state'] == 'shutting-down',ail))
   return """{ "total_number_of_vms" : "%s", "number_of_running_instance" : "%s", "number_of_pending_instance" : "%s", "number_of_shutting_down_instance" : "%s" }""" % (total_number_of_vms, number_of_running_instance, number_of_pending_instance, number_of_shutting_down_instance)
 
+def current_vm_status_from_cloudservice_instances():
+  # select distinct(current_state) from cloudservice_instances
+  # Instances.objects.all().values('current_state').distinct()
+  # Instances.objects.all().values_list('current_state',flat=True).distinct()
+  a = ""
+  for state in Instances.objects.all().values_list('current_state',flat=True).distinct() :
+    a = a + "\"state_%s\": %s, " % (state, str(len(Instances.objects.filter(current_state = state))))
+  return "{"+a[:-2]+"}"
+
+def current_vm_status_from_boto():
+  pass
+
+def match():
+  pass
+
 def launch_instances():
-  concurrent_launchable_instance_num = Configs.objects.get(key="concurrent_launchable_instance_num").value # for test
+  concurrent_launchable_instance_num = Configs.objects.get(key="concurrent_launchable_instance_num").value 
   
   k = int(concurrent_launchable_instance_num) - int(json.loads(current_vms_launching_status())['number_of_pending_instance'])
   #if int(json.loads(current_vms_launching_status())['number_of_pending_instance']) < concurrent_launchable_instance_num :

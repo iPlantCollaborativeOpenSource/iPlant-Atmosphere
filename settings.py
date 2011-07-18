@@ -106,10 +106,10 @@ MEDIA_URL = ''
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = '/media/'
+ADMIN_MEDIA_PREFIX = '/admin_media/'
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = ''
+SECRET_KEY = 'asdasd123489dskfjh8293kjdhn8923yuidsfhiudsf8923iufhiwdufh2389j'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -149,8 +149,8 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
-    #'django.contrib.auth',
-    #'django.contrib.contenttypes',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
     'django.contrib.sessions',
     #'django.contrib.sites',
     'atmosphere.cloudservice',
@@ -158,6 +158,7 @@ INSTALLED_APPS = (
     'atmosphere.cloudfront',
     'djcelery',
     'atmosphere.cloudservice.scheduler',
+    'django.contrib.admin', #activate admin 
 )
 
 # The age of session cookies, in seconds.
@@ -224,7 +225,7 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 # superuser.
 AUTHENTICATION_BACKENDS = (
     #'django_auth_ldap.backend.LDAPBackend',
-    #'django.contrib.auth.backends.ModelBackend',
+    'django.contrib.auth.backends.ModelBackend',
 )
 ## END OF LDAP BACKEND
 
@@ -239,7 +240,7 @@ logging.basicConfig (
 )
 ## end of logging
 
-DEFAULT_CHARSET = "utf8"
+DEFAULT_CHARSET = "utf-8"
 
 import sys
 sys.stdout = sys.stderr
