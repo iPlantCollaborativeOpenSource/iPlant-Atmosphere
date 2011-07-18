@@ -150,6 +150,7 @@ var Launch_new_instance = function() {
             auth_key = launch_pad.getForm().getFieldValues().auth_key;
             image_id = launch_pad.getForm().getFieldValues().image_id;
             instance_description = launch_pad.getForm().getFieldValues().instance_description;
+            //EJS - not sure if 'inatance_name' is referenced elsewhere, but for now, it seems innocuous
             inatance_name = launch_pad.getForm().getFieldValues().instance_name;
             instance_size = launch_pad.getForm().getFieldValues().instance_size;
             instance_lifetime = launch_pad.getForm().getFieldValues().instance_lifetime;
