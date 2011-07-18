@@ -117,7 +117,7 @@ var center = function(){
 
   var applications = new Ext.Panel({
     id : 'applications',
-    title: 'App Desktop',
+    title: 'Home',
     bodyCfg : {  },
     items: [
       { region: 'north',
@@ -143,7 +143,7 @@ var center = function(){
 
   var app_catalog = new Ext.Panel({
     id : 'app_catalog',
-    title: 'App Catalog',
+    title: 'Catalog',
     bodyCfg : {  },
     items: [
       { region: 'north',
