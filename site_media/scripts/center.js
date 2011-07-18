@@ -600,24 +600,22 @@ var center = function(){
   }
 
   var instance_info_panel = function(instance_panel_name) {
-	getVolumeInfo();
+	  getVolumeInfo();
     //availableVolumeList = [{"text":"vol-7EFB0793","iconCls":"_icon"},{"text":"vol-7E560788","iconCls":"_icon"}];
     //availableVolumeList = JSON.parse(sessionStorage.getItem("__getVolumeList")).result.value;
-	// need to clean up and polish below... :-)
-	a = JSON.parse(sessionStorage.getItem("__getVolumeList")).result.value;
+	  // need to clean up and polish below... :-)
+	  a = JSON.parse(sessionStorage.getItem("__getVolumeList")).result.value;
     b = [];
-	c = [];
+	  c = [];
     for ( i = 0 ; i < a.length; i++ ) {
-	  if ( a[i].status === "available" ) {
-		b.push({ "text" : a[i].id, "iconCls":"_icon", "handler": attacheClicked });
-	  } else { c.push({ "text" : a[i].id, "iconCls":"_icon", "handler": detacheClicked }); }
-	  
-	}
+	    if ( a[i].status === "available" ) {
+		    b.push({ "text" : a[i].id, "iconCls":"_icon", "handler": attacheClicked });
+	    } else { c.push({ "text" : a[i].id, "iconCls":"_icon", "handler": detacheClicked }); }
+    }
     availableVolumeList = b;
-	inuseVolumeList = c;
-	getInstanceInfo(instance_panel_name);
-	//instance_id = instance_panel_name.substring(instance_panel_name.indexOf('(') + 1, instance_panel_name.indexOf(')'))
-        instance_id = instance_panel_name.split("(")[name.split("(").length-1].split(")")[0]
+	  inuseVolumeList = c;
+	  getInstanceInfo(instance_panel_name);
+    instance_id = instance_panel_name.substring(instance_panel_name.indexOf('(') + 1, instance_panel_name.indexOf(')'))
 	var tb = new Ext.Toolbar();
 	tb.add({
       text: 'Terminate',
@@ -786,7 +784,7 @@ var center = function(){
 			this.createTab = function(type, resource_name){
 				
 				var instance_tab_add = function(){
-					
+
 					centralTabs.add({
 						id: "panel_" + resource_name,
 						title: "&#187;" + resource_name,
