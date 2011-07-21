@@ -174,7 +174,7 @@ var Machine_image_grid = function() {
         { header: "Type" , dataIndex: 'image_type', width: 100, sortable: true, hidden: true  },
         { header: "Ramdisk" , dataIndex: 'image_ramdisk_id', width: 100, sortable: true, hidden: true  },
         { header: "Kernel" , dataIndex: 'image_kernel_id', width: 100, sortable: true, hidden: true  },
-        { header: "Tags", dataIndex: 'image_tags', width: 120, sortable: true},
+        { header: "Tags", dataIndex: 'image_tags', width: 120, sortable: true}
       ]
     });
   };
@@ -386,7 +386,7 @@ var init = function(){
         south.init,
         west.init,
         center(),
-        east.init,
+        east.init
       ]
     });
   
