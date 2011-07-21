@@ -1,0 +1,62 @@
+#!/usr/bin/ruby
+
+require 'find'
+require 'open3'
+require 'fileutils'
+
+
+$java = "/usr/bin/java"
+$closure_compiler = "/home/atmosphere_dev/lib/closure/compiler.jar"
+
+
+def get_source_list(source_root)
+  script_list = Array.new
+  Find.find(source_root) do |f|
+  	#if exception_list.include? f
+  	#  p ">>>" + f
+  	#  FileUtils.cp f 
+    #end
+  	if source_root ==  f[0,source_root.size()] and f[source_root.size()..-1].split("/").last != nil and f[source_root.size()..-1].split("/").last[-2..-1] == "js" and f[source_root.size()..-1].split("/").last[0..0] != "." #and not exception_list.include? f
+	  #p f[source_root.size()..-1].split("/").last[-2..-1]
+	  script_list.push(f[source_root.size()..-1])
+  	end 
+  end
+  return script_list
+end
+
+def compile_and_copy(source_root,source_list,target_root,exception_list)
+  for i in source_list
+  	if not exception_list.include? i[1..-1]
+      js_file =  source_root + "/" + i 
+      js_output_file = target_root + i
+      #stdin, stdout, stderr = Open3.popen3("/usr/bin/java -version")
+      #p stdout.gets
+      if not File.directory? js_output_file.split("/")[0,js_output_file.split("/").size()-1].join("/")
+        Dir.mkdir(js_output_file.split("/")[0,js_output_file.split("/").size()-1].join("/"))
+      end
+      IO.popen($java + " -jar " + $closure_compiler + " --js " + js_file + " --js_output_file "+ js_output_file) { |f|
+      	f.gets
+      	p "compile " + js_output_file + " done."
+      }
+    else
+ 	  FileUtils.cp(source_root+"/"+i,target_root+i)
+      p "copy " + i + " done."
+    end
+  end
+end
+
+# get current directory path 
+source_root =  Dir.pwd()
+#exception_list = Array.new()
+exception_list = [
+						"dojo.js",
+						"faye-browser-min.js",
+						"faye-browser.js",
+						"require.js",
+						"utils/ajax_common_gateway.js"
+				  ]
+
+source_list = get_source_list(source_root)
+target_root = "/home/atmosphere_dev/atmosphere/site_media/scripts"
+
+compile_and_copy(source_root,source_list,target_root,exception_list)
