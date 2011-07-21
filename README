@@ -70,7 +70,7 @@ Requirements:
     rabbitmq
     django-celery 2.2.4 (http://pypi.python.org/pypi/django-celery)
   Notification 
-    nodejs
+    nodejs 0.2.3
     faye - https://github.com/stepheneb/faye
 	
 Issues: Please use github issues
