@@ -64,7 +64,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    ('Seung-jin Kim', 'seungjin@email.arizona.edu'),
+    (config.get('admins', 'name'), config.get('admins', 'email')),
 )
 
 MANAGERS = ADMINS
