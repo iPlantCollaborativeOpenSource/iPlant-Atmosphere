@@ -46,13 +46,13 @@ class Login :
     
   def is_atmo_group_user(username):
 
-    server = ldap.open("ldap.iplantcollaborative.org")
+    server = ldap.open("ldap.iplantcollaborative.org")  #THIS SHOULD BE FROM DATABASE!!! NOT HARDCODED!
     server.protocol_version = ldap.VERSION3
   
-    baseDN = "dc=iplantcollaborative,dc=org"
+    baseDN = "dc=iplantcollaborative,dc=org" #THIS SHOULD BE FROM DATABASE!!! NOT HARDCODED!
     searchScope = ldap.SCOPE_SUBTREE
     retrieveAttributes = None
-    searchFilter = "cn=atmo-user"
+    searchFilter = "cn=atmo-user" #THIS SHOULD BE FROM DATABASE!!! NOT HARDCODED!
 
     try:
       ldap_result_id = server.search(baseDN, searchScope, searchFilter, retrieveAttributes)
@@ -80,9 +80,9 @@ class Login :
 
   def ldap_auth(username,password) :
   
-    server = 'ldap://ldap.iplantcollaborative.org'
+    server = 'ldap://ldap.iplantcollaborative.org' #THIS SHOULD BE FROM DATABASE!!! NOT HARDCODED!
     conn = ldap.initialize(server)
-    dn = "uid="+username+",ou=people,dc=iplantcollaborative,dc=org"
+    dn = "uid="+username+",ou=people,dc=iplantcollaborative,dc=org" #THIS SHOULD BE FROM DATABASE!!! NOT HARDCODED!
     try :
       auth = conn.simple_bind_s(dn,password)
       if is_it_in_ec2_keys_table(username) == False :
