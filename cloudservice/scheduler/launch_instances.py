@@ -25,6 +25,7 @@ from datetime import datetime
 
 import inspect
 import json
+import logging
 
 def current_vms_launching_status():
   """
@@ -58,12 +59,12 @@ def launch_instances():
   logging.error("lunach instances called")
   concurrent_launchable_instance_num = Configs.objects.get(key="concurrent_launchable_instance_num").value 
   
-  k = int(json.loads(current_vms_launching_status())['number_of_pending_instance']) - int(concurrent_launchable_instance_num)
+  k = int(concurrent_launchable_instance_num) - int(json.loads(current_vms_launching_status())['number_of_pending_instance'])
 
   if k == 0 :
     logging.error("zero que")
   else :
-    logging.error("que:"+str(k%concurrent_launchable_instance_num))
+    logging.error("que:"+str(concurrent_launchable_instance_num))
 
   #if int(json.loads(current_vms_launching_status())['number_of_pending_instance']) < concurrent_launchable_instance_num :
   if k > 0 :    

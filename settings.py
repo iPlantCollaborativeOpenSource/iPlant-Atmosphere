@@ -109,7 +109,8 @@ MEDIA_URL = ''
 ADMIN_MEDIA_PREFIX = '/admin_media/'
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'asdasd123489dskfjh8293kjdhn8923yuidsfhiudsf8923iufhiwdufh2389j'
+#SECRET_KEY = 'asdasd123489dskfjh8293kjdhn8923yuidsfhiudsf8923iufhiwdufh2389j'
+SECRET_KEY = config.get('secrets','SECRET_KEY')
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (

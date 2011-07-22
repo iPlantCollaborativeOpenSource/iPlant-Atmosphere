@@ -12,10 +12,8 @@ from celery.decorators import task
 from celery.schedules import crontab
 from celery.decorators import periodic_task  
 
-
 from datetime import datetime
 from datetime import timedelta
-
 
 import boto
 from boto.ec2.connection import EC2Connection
@@ -34,6 +32,8 @@ from atmosphere.cloudservice.scheduler.terminate_scheduled_instances import term
 from atmosphere.cloudservice.scheduler.send_termination_notification_mail import send_termination_notification_mail
 from atmosphere.cloudservice.scheduler.get_all_images_list import get_all_images_list as run_get_all_images_list
 from atmosphere.cloudservice.scheduler.launch_instances import launch_instances as run_launch_instances
+
+import logging
 
 def write_log(msg):
   file = open("/home/atmosphere_dev/atmosphere/logs/scheduler.log","a")
@@ -66,15 +66,15 @@ def launch_instances():
     run_launch_instances()
   else : 
     config = Configs.objects.filter(key="_launch_instances_lock")[:1][0]
-    if config.value == 'False':
-      config.value = 'True'
-      config.save()
-      if run_launch_instances(): 
-        config.value = 'False'
-        config.save()
-    else :
-      pass
-      
+    #if config.value == 'False':
+    #  config.value = 'True'
+    #  config.save()
+    #  run_launch_instances()
+    #  config2 = Configs.objects.filter(key="_launch_instances_lock")[:1][0]
+    #  config2.value = 'False'
+    #  config2.save()
+    run_launch_instances()
+    write_log(">>>> launch_instances <<<<")  
 
 #@periodic_task(run_every=timedelta(seconds=10))
 #def launch_instances():
