@@ -31,6 +31,11 @@ from atmosphere.cloudservice.resources import create_resource_id
 
 # I like to change this class better when I get time :-)
 # it works now.. but not really code I like to show others
+
+# July 22, 2011
+# this class needs to be restructured/rearchitected for better
+# should have user object, user object should be extended by Ec2_cloud
+
 class Ec2_cloud(object, atmo_image):
   
   # this kind of class variable definition is not for python

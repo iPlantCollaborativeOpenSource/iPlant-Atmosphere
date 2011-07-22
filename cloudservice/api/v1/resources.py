@@ -83,6 +83,12 @@ def call(request) :
       ec2_keys = Ec2_keys.objects.get(username = username)
       #c = Cloud(ec2_access_key=Ec2_keys.objects.get(username=request.user.username).ec2_access_key,ec2_secret_key=Ec2_keys.objects.get(username=request.user.username).ec2_secret_key)
       
+      # July 22 2011
+      # TODO: more structure Ec2_cloud with User object needed!
+      # create user object. user object should have user quota, multiple credentials
+      # pass user object into Ec2_cloud (not ec2_keys anymore)
+      # let Ec2_cloud refers user object instead Ec2_cloud doing all stuffs
+
       #c = Ec2_cloud(ec2_access_key=ec2_keys.ec2_access_key,ec2_secret_key=ec2_keys.ec2_secret_key, ec2_url=ec2_keys.ec2_url, s3_url=ec2_keys.s3_url )
       c = Ec2_cloud(ec2_access_key=str(ec2_keys.ec2_access_key),ec2_secret_key=str(ec2_keys.ec2_secret_key),ec2_url=str(ec2_keys.ec2_url),s3_url=str(ec2_keys.s3_url))
       f=getattr(c,resource_method)(request)

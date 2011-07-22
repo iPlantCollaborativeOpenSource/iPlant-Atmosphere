@@ -56,15 +56,16 @@ def match():
   pass
 
 def launch_instances():
-  logging.error("lunach instances called")
+  #logging.error("lunach instances called")
   concurrent_launchable_instance_num = Configs.objects.get(key="concurrent_launchable_instance_num").value 
   
   k = int(concurrent_launchable_instance_num) - int(json.loads(current_vms_launching_status())['number_of_pending_instance'])
+  #logging.error(str(k))
 
-  if k == 0 :
-    logging.error("zero que")
-  else :
-    logging.error("que:"+str(concurrent_launchable_instance_num))
+  #if k == 0 :
+  #  logging.error("zero que")
+  #else :
+  #  logging.error("que:"+str(concurrent_launchable_instance_num))
 
   #if int(json.loads(current_vms_launching_status())['number_of_pending_instance']) < concurrent_launchable_instance_num :
   if k > 0 :    
@@ -140,9 +141,9 @@ def launch_instances():
 
       instance.save()
 
-      # instance_lifecycle.instance_launched_at should be updated at instanceservice layer
-      #instance_lifecycle = Instance_lifecycles.objects.get(atmosphere_resource_id = instance.atmosphere_resource_id)
-      #instance_lifecycle.instance_id = reservation.instances[0].id
-      #instance_lifecycle.instance_launched_at = current_time
-      #instance_lifecycle.save()
+      # this should be unnecessary if we track with atmosphere_resource_id but now we track with instance_id. should be changed later
+      instance_lifecycle = Instance_lifecycles.objects.get(atmosphere_resource_id = instance.atmosphere_resource_id)
+      instance_lifecycle.instance_id = reservation.instances[0].id
+      instance_lifecycle.instance_launched_at = current_time
+      instance_lifecycle.save()
   return True

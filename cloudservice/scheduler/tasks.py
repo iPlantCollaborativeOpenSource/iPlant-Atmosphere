@@ -66,15 +66,16 @@ def launch_instances():
     run_launch_instances()
   else : 
     config = Configs.objects.filter(key="_launch_instances_lock")[:1][0]
-    #if config.value == 'False':
-    #  config.value = 'True'
-    #  config.save()
-    #  run_launch_instances()
-    #  config2 = Configs.objects.filter(key="_launch_instances_lock")[:1][0]
-    #  config2.value = 'False'
-    #  config2.save()
-    run_launch_instances()
-    write_log(">>>> launch_instances <<<<")  
+    if config.value == 'False':
+      config.value = 'True'
+      config.save()
+      run_launch_instances()
+      write_log(">>>> launch_instances <<<<") 
+      config2 = Configs.objects.filter(key="_launch_instances_lock")[:1][0]
+      config2.value = 'False'
+      config2.save()
+    #run_launch_instances()
+    #write_log(">>>> launch_instances <<<<")  
 
 #@periodic_task(run_every=timedelta(seconds=10))
 #def launch_instances():
