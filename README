@@ -76,7 +76,7 @@ Requirements:
 
   Experimental:
     multi-cluster, amazon, openstack support:
-      greenlet 0.3.1
+      greenlet 0.13.6
 
 Issues: Please use github issues
   https://github.com/iPlantCollaborativeOpenSource/iPlant-Atmosphere/issues
