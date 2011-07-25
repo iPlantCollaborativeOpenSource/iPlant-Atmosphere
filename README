@@ -73,5 +73,10 @@ Requirements:
     nodejs 0.2.3
     faye - https://github.com/stepheneb/faye
 	
+
+  Experimental:
+    multi-cluster, amazon, openstack support:
+      greenlet 0.3.1
+
 Issues: Please use github issues
   https://github.com/iPlantCollaborativeOpenSource/iPlant-Atmosphere/issues
