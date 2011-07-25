@@ -1,0 +1,12 @@
+#new lib folder/class
+
+
+new lib class
+
+
+new cloud class
+ feature:
+ 	- multiple eucalyptus cluster support
+ 	- amazon ec2 support 
+ 	- eucalyptus / amazon runs with boto (no more euca2ools)
+ 	- openstack (single, multiple account) supports
