@@ -10,6 +10,8 @@ from atmosphere.cloudservice.lib.Eucalyptus_model_template import *
 
 import json
 
+import gevent
+
 """
 
 resource json example:
@@ -48,7 +50,6 @@ class Mycloud(object):
     """
     end of debug sample data
     """
-
     resources = Cloud_resources.objects.filter(username = userid)
     self.resource_objects_list = []
 
@@ -64,30 +65,27 @@ class Mycloud(object):
           quota_option = json.loads(resource.getResourceJson())['resource_information']['quota']
         ))
       if json.loads(resource.getResourceJson())['resource_type'] == "amazon" :
+        self.resource_objects_list.append(Amazon_model_template(
+          access_key = json.loads(resource.getResourceJson())['resource_information']['access_key'],
+          access_secret = json.loads(resource.getResourceJson())['resource_information']['secret_key'],
+          quota_option = json.loads(resource.getResourceJson())['resource_information']['quota']
+        ))
         pass
       if json.loads(resource.getResourceJson())['resource_type'] == "openstack" :
         pass
-      
-  def load_eucalyptus_model_resources(self):
-    pass
 
-  def load_amazon_model_resources(self):
-    #a = self.Amazon_model_template("a","a","a","s")
-    self.resource_objects_list.append(Amazon_model_template("a","a"))
-
-  def load_openstack_model_resources(self):
-    pass
-  
   def getAllImages(self):
-    #gevent need to be used!
-    for resource in self.resource_objects_list : 
+    # I want to do this part with asynchnous programming!
+    for resource in self.resource_objects_list :
       print resource.getAllImages()
+  
+  def getAllInstances(self):
+    # I want to do this part with asynchnous programming!
+    for resource in self.resource_objects_list :
+      print resource.getAllInstances()
 
-
-
-
-
-
+  def launchInstance(self):
+    pass
 
 
 

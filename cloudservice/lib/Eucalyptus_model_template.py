@@ -17,11 +17,6 @@ class Eucalyptus_model_template():
     self.s3_url = s3_url
     self.quota = quota_option
     self.region = RegionInfo(name="eucalyptus", endpoint=urlparse(self.ec2_url).netloc.split(":")[0])
-
-    print self.access_key
-    print self.access_secret
-    print self.region
-
     self.connection = boto.connect_ec2(
                   aws_access_key_id=str(self.access_key),
                   aws_secret_access_key=str(self.access_secret),
@@ -33,4 +28,11 @@ class Eucalyptus_model_template():
   def getAllImages(self):
     images = self.connection.get_all_images()
     print images
+  
+  def getAllInstances(self):
+    instances = self.connection.get_all_instances()
+    print instances
+
+
+
 
