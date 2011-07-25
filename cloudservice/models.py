@@ -304,6 +304,18 @@ class Email_notification_templates(models.Model):
   creator = models.CharField(max_length=128,null=True)
   created_at = models.DateTimeField(null=True)
 
-
-
+class Cloud_resources(models.Model):
+  """
+    experimental, prototype, multi cloud resources table.
+    sotring this kind of json: {"resource_name":"my eucalyptus 1", "resource_type":"eucalyptus", "resource_information":{"access_key":"apple","secret_key":"","ec2_url":"","s3_url":"", "quota":{"core":2,"memory":2048,"storage":10,"max_instance":2,"max_vm_resource_life":100}}}
+  """
+  username = models.CharField(max_length=255,null=False)
+  resource_name = models.CharField(max_length=255,null=True)
+  resource_type = models.CharField(max_length=255,null=True)
+  resource_information = models.CharField(max_length=255,null=True)
+  resource_quota = models.CharField(max_length=255,null=True)
+  created_at = models.DateTimeField(auto_now_add=True)
+  
+  def getResourceJson(self):
+    return """{"resource_name":"%s", "resource_type":"%s", "resource_information":{%s, "quota":{%s}}}""" % (self.resource_name, self.resource_type, self.resource_information, self.resource_quota)
   
