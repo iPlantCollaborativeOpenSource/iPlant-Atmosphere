@@ -25,14 +25,14 @@ class Eucalyptus_model_template():
                   port=int(urlparse(self.ec2_url).netloc.split(":")[1]),
                   path="/services/Eucalyptus")
   
-  def getAllImages(self):
+  def get_all_images(self):
     images = self.connection.get_all_images()
     print images
   
-  def getAllInstances(self):
+  def get_all_instances(self):
     instances = self.connection.get_all_instances()
     print instances
 
-
-
+  def get_regions(self):
+    print self.connection.region
 

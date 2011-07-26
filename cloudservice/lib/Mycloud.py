@@ -74,18 +74,22 @@ class Mycloud(object):
       if json.loads(resource.getResourceJson())['resource_type'] == "openstack" :
         pass
 
-  def getAllImages(self):
+  def get_all_images(self):
     # I want to do this part with asynchnous programming!
     for resource in self.resource_objects_list :
-      print resource.getAllImages()
+      print resource.get_all_images()
   
-  def getAllInstances(self):
+  def get_all_instances(self):
     # I want to do this part with asynchnous programming!
     for resource in self.resource_objects_list :
-      print resource.getAllInstances()
+      print resource.get_all_instances()
 
-  def launchInstance(self):
+  def launch_instance(self):
     pass
+  
+  def get_regions(self):
+    for resource in self.resource_objects_list : 
+      print resource.get_regions()
 
 
 
