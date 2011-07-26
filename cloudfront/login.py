@@ -10,7 +10,8 @@
 
 import logging
 
-from atmosphere.cloudservice.models import Ec2_keys
+from atmosphere.cloudservice.models import Ec2_keys # <== not good
+from atmosphere.cloudfront.models import Configs
 
 class Login :
 
@@ -46,13 +47,17 @@ class Login :
     
   def is_atmo_group_user(username):
 
-    server = ldap.open("ldap.iplantcollaborative.org")  #THIS SHOULD BE FROM DATABASE!!! NOT HARDCODED!
+    # this is due to non-secure ugly iplant ldap structure!
+    #server = ldap.open("ldap.iplantcollaborative.org")  #THIS SHOULD BE FROM DATABASE!!! NOT HARDCODED!
+    server = Configs.objects.get(key="ldap_server").value
     server.protocol_version = ldap.VERSION3
   
-    baseDN = "dc=iplantcollaborative,dc=org" #THIS SHOULD BE FROM DATABASE!!! NOT HARDCODED!
+    #baseDN = "dc=iplantcollaborative,dc=org" #THIS SHOULD BE FROM DATABASE!!! NOT HARDCODED!
+    baseDB = Configs.objects.get(key="ldap_server_dn").value
     searchScope = ldap.SCOPE_SUBTREE
     retrieveAttributes = None
-    searchFilter = "cn=atmo-user" #THIS SHOULD BE FROM DATABASE!!! NOT HARDCODED!
+    #searchFilter = "cn=atmo-user" #THIS SHOULD BE FROM DATABASE!!! NOT HARDCODED!
+    searchFilter = Configs.objects.get(key="ldap_search_filter").value
 
     try:
       ldap_result_id = server.search(baseDN, searchScope, searchFilter, retrieveAttributes)

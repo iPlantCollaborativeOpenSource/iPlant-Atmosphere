@@ -7,6 +7,9 @@ INSERT INTO `cloudauth_configs` (`key`, `value`) VALUES ('ldap_server_dn','*****
 INSERT INTO `cloudauth_configs` (`key`, `value`) VALUES ('api_server_url','*******')
 
 INSERT INTO `cloudfront_configs` (`key`, `value`) VALUES ('auth_server_url','*****')
+INSERT INTO `cloudfront_configs` (`key`, `value`) VALUES ('ldap_server','*****');
+INSERT INTO `cloudfront_configs` (`key`, `value`) VALUES ('ldap_server_dn','*****');
+INSERT INTO `cloudfront_configs` (`key`, `value`) VALUES ('ldap_search_filter','*****');
 
 INSERT INTO `cloudservice_configs` (`key`,`value`) VALUES ('node_path','******')
 INSERT INTO `cloudservice_configs` (`key`,`value`) VALUES ('say.js_path','******')
