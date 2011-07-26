@@ -26,7 +26,7 @@ import json
 
 
 from datetime import datetime
-from atmosphere.cloudservice.resources import create_resource_idㅡㅛ
+from atmosphere.cloudservice.resources import create_resource_id
 
 
 # I like to change this class better when I get time :-)
