@@ -320,5 +320,11 @@ class Cloud_resources(models.Model):
     return """{"resource_name":"%s", "resource_type":"%s", "resource_information":{%s, "quota":{%s}}}""" % (self.resource_name, self.resource_type, self.resource_information, self.resource_quota)
 
 class Instanceservice_messages(models.Model):
+  token = models.CharField(max_length=255,null=True)
+  channel = models.CharField(max_length=255,null=True)
   message = models.TextField()
+  ami_index = models.CharField(max_length=255,null=True)
+  instance = models.CharField(max_length=255,null=True)
   created_at = models.DateTimeField(auto_now_add=True)
+
+
