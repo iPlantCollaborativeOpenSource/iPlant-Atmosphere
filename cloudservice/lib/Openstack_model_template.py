@@ -1,81 +1,82 @@
 
 
 
+from urlparse import urlparse
+
 class Openstack_model_template():
-	""" 
+  """
     this covers Openstack cloud
     openstack api: http://docs.openstack.org/cactus/openstack-compute/developer/openstack-compute-api-1.0/content/ch04s03s01.html
   """
-	def __init__(self,userid,credential,endpoint):
-		pass
-
+  def __init__(self, userid, credential, endpoint):
+    pass
 
   #category: Servers
   #action: list servers
-  def list_servers(self,**kwargs):
+  def list_servers(self, **kwargs):
     pass
 
   #category: Servers
   #action: create server
-  def create_server(self,**kwargs):
+  def create_server(self, **kwargs):
     pass
 
   #category: Servers
   #action: get server details
-  def get_server_details(self,**kwargs):
+  def get_server_details(self, **kwargs):
     pass
 
   #category: Servers
   #action: update server name / administrative password
-  def update_server_name(self,**kwargs):
+  def update_server_name(self, **kwargs):
     pass
 
-  def update_server_administrative_password(self,**kwargs):
+  def update_server_administrative_password(self, **kwargs):
     pass
 
   #category: Servers
   #action: delete server
-  def delete_server(self,**kwargs):
+  def delete_server(self, **kwargs):
     pass
 
   #category: Server Addresses
   #action: list addresses
-  def list_addresses(self,**kwargs):
+  def list_addresses(self, **kwargs):
     pass
 
   #category: Server Addresses
   #action: list public addresses
-  def list_public_addresses(self,**kwargs):
+  def list_public_addresses(self, **kwargs):
     pass
 
   #category: Server Addresses
   #action: list private addresses
-  def list_private_addresses(self,**kwargs):
+  def list_private_addresses(self, **kwargs):
     pass
 
   #category: Server Addresses
   #action: share an ip address
-  def share_an_ip_address(self,**kwargs):
+  def share_an_ip_address(self, **kwargs):
     pass
 
   #category: Server Addresses
   #action: unshare an ip address
-  def unshare_an_ip_address(self,**kwargs):
+  def unshare_an_ip_address(self, **kwargs):
     pass
 
   #category: Server Actions
   #action: reboot server
-  def reboot_server(self,**kwargs):
+  def reboot_server(self, **kwargs):
     pass
 
   #category: Server Actions
   #action: rebuild server
-  def rebuild_server(self,**kwargs):
+  def rebuild_server(self, **kwargs):
     pass
 
   #category: Server Actions
   #action: resize server
-  def resize_server(self,**kwargs):
+  def resize_server(self, **kwargs):
     pass
 
   #category: Server Actions

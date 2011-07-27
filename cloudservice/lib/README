@@ -10,3 +10,12 @@ new cloud class
  	- amazon ec2 support 
  	- eucalyptus / amazon runs with boto (no more euca2ools)
  	- openstack (single, multiple account) supports
+
+
+Mycloud class reads cloudservice_cloud_resources table and connects user's resources in that table.
+I tested with 2 eucaluptus account (different clusters) and 1 amazon account. 
+Communicating with these three different cloud resources works well.
+
+Atmosphere can expand not only one eucalyptus cloud but also unlimited resource connections with Mycloud class library
+
+
