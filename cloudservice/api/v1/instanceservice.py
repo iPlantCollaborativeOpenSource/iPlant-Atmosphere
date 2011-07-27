@@ -168,7 +168,8 @@ def emailNotification(message):
   #dn = 'ou=people,dc=iplantcollaborative,dc=org' #should be database driven
   #server = 'ldap://ldap.iplantcollaborative.org' #should be database drive
   dn = Configs.objects.get(key='ldap_server_dn').value
-  server = Configs.objects.get(key='api_server_url').value
+  #server = Configs.objects.get(key='api_server_url').value
+  server = Configs.objects.get(key='ldap_server').value
   conn = ldap.initialize(server)
   a = conn.search_s(dn, ldap.SCOPE_SUBTREE,'(uid='+instance_owner_id+')',['mail']) 
   to_email = a[0][1]['mail'][0]
@@ -226,7 +227,7 @@ def call(request) :
     ami_index = simplejson.loads(message)['ami-launch-index']
     instance = Instances.objects.get(instance_token=token,ami_index=ami_index)
 
-    instanceservice_messages = Instanceservice_messages(token=token,channel=channel,message=message,ami_index=ami_index,instance_instance)
+    instanceservice_messages = Instanceservice_messages(token=token,channel=channel,message=message,ami_index=ami_index,instance=instance)
     instanceservice_messages.save()
     
     if instance.launch_response_time == None  :

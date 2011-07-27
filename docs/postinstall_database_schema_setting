@@ -21,6 +21,7 @@ INSERT INTO `cloudservice_configs` (`key`,`value`) VALUES ('instance_service_url
 INSERT INTO `cloudservice_configs` (`key`,`value`) VALUES ('admin_email','******')
 INSERT INTO `cloudservice_configs` (`key`,`value`) VALUES ('ldap_server_dn','******')
 INSERT INTO `cloudservice_configs` (`key`,`value`) VALUES ('api_server_url','******')
+INSERT INTO `cloudservice_configs` (`key`,`value`) VALUES ('ldap_server','*******');
 
 INSERT INTO `cloudservice_email_notification_templates` (`id`,`name`,`description`,`reply_to`,`subject`,`body`,`creator`,`created_at`)
 VALUES
