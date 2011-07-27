@@ -225,6 +225,9 @@ def call(request) :
     #ami_index = request.POST['ami_index']
     ami_index = simplejson.loads(message)['ami-launch-index']
     instance = Instances.objects.get(instance_token=token,ami_index=ami_index)
+
+    instanceservice_messages = Instanceservice_messages(token=token,channel=channel,message=message,ami_index=ami_index,instance_instance)
+    instanceservice_messages.save()
     
     if instance.launch_response_time == None  :
       instance.current_state = "running"
@@ -252,8 +255,6 @@ def call(request) :
         #e.close()
         #w.close()
 
-
-        
         sendWebhookCall(channel,message)
       return HttpResponse("ok")
     else :
