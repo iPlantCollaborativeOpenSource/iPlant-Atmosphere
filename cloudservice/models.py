@@ -318,4 +318,7 @@ class Cloud_resources(models.Model):
   
   def getResourceJson(self):
     return """{"resource_name":"%s", "resource_type":"%s", "resource_information":{%s, "quota":{%s}}}""" % (self.resource_name, self.resource_type, self.resource_information, self.resource_quota)
-  
+
+class Instanceservice_messages(models.Model):
+  message = models.TextField()
+  created_at = models.DateTimeField(auto_now_add=True)
