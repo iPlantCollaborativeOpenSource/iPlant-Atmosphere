@@ -82,7 +82,7 @@ var center = function(){
       success_callback_function = function(){
         lanchingAppMsg.hide();
         document.getElementById("dummy").innerHTML="<embed src=\"/site_media/sounds/excellent.wav\" hidden=\"true\" autostart=\"true\" loop=\"false\" />";
-        Ext.MessageBox.alert('Message', "Successfully initiated your app. <br/>Please wait 10 to 15 min to finish the request. <br/>Your App id is <b><font color='#408080'>" + JSON.parse(sessionStorage.getItem("__launchApp")).result.value + "</font></b>");
+        Ext.MessageBox.alert('Message', "Successfully initiated your app. <br/>Please wait 10 to 15 min to finish the request.");
       },
       fail_callback_function = function() {
         lanchingAppMsg.hide();
