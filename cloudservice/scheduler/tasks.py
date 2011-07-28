@@ -32,6 +32,8 @@ from atmosphere.cloudservice.scheduler.terminate_scheduled_instances import term
 from atmosphere.cloudservice.scheduler.send_termination_notification_mail import send_termination_notification_mail
 from atmosphere.cloudservice.scheduler.get_all_images_list import get_all_images_list as run_get_all_images_list
 from atmosphere.cloudservice.scheduler.launch_instances import launch_instances as run_launch_instances
+from atmosphere.cloudservice.scheduler.check_instances_integrity import send_email_to_admin
+from atmosphere.cloudservice.scheduler.check_instances_integrity import check_instance_integrity as run_check_instance_integrity
 
 import logging
 
@@ -85,4 +87,9 @@ def launch_instances():
 #@periodic_task(run_every=timedelta(seconds=20))
 #def get_all_images_list():
 #  run_get_all_images_list()
+
+
+@periodic_task(run_every=timedelta(seconds=60))
+def check_instance_integrity():
+  run_check_instance_integrity()
 
