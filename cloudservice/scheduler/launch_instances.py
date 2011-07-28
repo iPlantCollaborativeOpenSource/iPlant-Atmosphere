@@ -40,26 +40,50 @@ def current_vms_launching_status():
   number_of_shutting_down_instance = len(filter(lambda e : e['instance_state'] == 'shutting-down',ail))
   return """{ "total_number_of_vms" : "%s", "number_of_running_instance" : "%s", "number_of_pending_instance" : "%s", "number_of_shutting_down_instance" : "%s" }""" % (total_number_of_vms, number_of_running_instance, number_of_pending_instance, number_of_shutting_down_instance)
 
-def current_vm_status_from_cloudservice_instances():
+def current_vms_status_from_cloudservice_instances():
   # select distinct(current_state) from cloudservice_instances
   # Instances.objects.all().values('current_state').distinct()
   # Instances.objects.all().values_list('current_state',flat=True).distinct()
-  a = ""
-  for state in Instances.objects.all().values_list('current_state',flat=True).distinct() :
-    a = a + "\"state_%s\": %s, " % (state, str(len(Instances.objects.filter(current_state = state))))
-  return "{"+a[:-2]+"}"
+  #a = ""
+  #for state in Instances.objects.all().values_list('current_state',flat=True).distinct() :
+  #  a = a + "\"state_%s\": %s, " % (state, str(len(Instances.objects.filter(current_state = state))))
+  #return "{"+a[:-2]+"}"
+  all_instances_list = Instances.objects.all()
+  num_of_qued_instance = 0
+  num_of_pending_instance = 0
+  num_of_running_instance = 0
+  num_of_shutting_down_instance = 0
+  num_of_terminated_instance = 0
+  num_of_no_state_instance = 0
+  for instance in all_instances_list:
+    if instance.current_state == "qued" :
+      num_of_qued_instance = num_of_qued_instance + 1
+    if instance.current_state == "pending" :
+      num_of_pending_instance = num_of_pending_instance + 1
+    if instance.current_state == "running" :
+      num_of_running_instance = num_of_running_instance + 1
+    if instance.current_state == "shutting down" :
+      num_of_shutting_down_instance = num_of_shutting_down_instance + 1
+    if instance.current_state == "terminated" :
+      num_of_terminated_instance = num_of_terminated_instance + 1
+    if instance.current_state.strip() == "" or instance.current_state.strip() == None:
+      num_of_no_state_instance = num_of_no_state_instance + 1
+  return """{ "number_of_qued_instance" : %s, "number_of_pending_instance" : %s, "number_of_running_instance" : %s, "number_of_shutting_down_instance" : %s, "number_of_terminated_instance" : %s, "number_of_no_state_instnace" : %s }""" % (num_of_qued_instance, num_of_pending_instance, num_of_running_instance, num_of_shutting_down_instance, num_of_terminated_instance, num_of_no_state_instance)
+
 
 def current_vm_status_from_boto():
   pass
+
 
 def match():
   pass
 
 def launch_instances():
-  #logging.error("lunach instances called")
+  logging.info("launach instances called")
   concurrent_launchable_instance_num = Configs.objects.get(key="concurrent_launchable_instance_num").value 
+  current_vms_status_from_cloudservice_instances_json = json.loads(current_vms_status_from_cloudservice_instances())
   
-  k = int(concurrent_launchable_instance_num) - int(json.loads(current_vms_launching_status())['number_of_pending_instance'])
+  k = int(concurrent_launchable_instance_num) - int(current_vms_status_from_cloudservice_instances_json['number_of_pending_instance'])
   #logging.error(str(k))
 
   #if k == 0 :
@@ -68,7 +92,8 @@ def launch_instances():
   #  logging.error("que:"+str(concurrent_launchable_instance_num))
 
   #if int(json.loads(current_vms_launching_status())['number_of_pending_instance']) < concurrent_launchable_instance_num :
-  if k > 0 :    
+  if (current_vms_status_from_cloudservice_instances_json['number_of_qued_instance'] > 0) and (k > 0) :
+    logging.info("k is " + str(k))
     #instances = Instances.objects.filter(current_state = "qued").order_by('-launch_request_time')[:concurrent_launchable_instance_num]
     instances = Instances.objects.filter(current_state = "qued").order_by('launch_request_time')[:k]
     current_time = datetime.now()
