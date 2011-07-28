@@ -41,7 +41,7 @@ def check_instance_integrity():
   all_instances = json.loads(Resources_watches.objects.raw("SELECT id, resource_get_function_result FROM cloudservice_resources_watches WHERE resource_get_function_name = 'get_all_instances_list' order by updated_at DESC limit 1")[0].resource_get_function_result)
   running_instance = filter(lambda x: x['instance_state'] == "running", all_instances)
   running_instance_ids_list = map(lambda x: x['instance_id'], running_instance)
-  pending_instance = filter(lambda x: x['instance_state'] == "running", all_instances)
+  pending_instance = filter(lambda x: x['instance_state'] == "pending", all_instances)
   pending_instance_ids_list = map(lambda x: x['instance_id'], pending_instance)
   running_pending_instance_ids_list = running_instance_ids_list + pending_instance_ids_list
 
