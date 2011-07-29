@@ -130,7 +130,7 @@ def send_termination_notification_mail(instance_id):
   #dn = 'ou=people,dc=iplantcollaborative,dc=org' #should be database driven
   #server = 'ldap://ldap.iplantcollaborative.org' #should be database driven
   dn = Configs.objects.get(key='ldap_server_dn').value
-  server = Configs.objects.get(key='api_server_url').value
+  server = Configs.objects.get(key='ldap_server').value
   conn = ldap.initialize(server)
   a = conn.search_s(dn, ldap.SCOPE_SUBTREE,'(uid='+instance_owner_id+')',['mail']) 
   to_email = a[0][1]['mail'][0] #should be database driven
