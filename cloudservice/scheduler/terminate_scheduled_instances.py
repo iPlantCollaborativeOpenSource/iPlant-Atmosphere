@@ -56,5 +56,3 @@ def terminate_scheduled_instances():
         instance.save()
 
         send_termination_notification_mail(instance.instance_id)
-        # let's send notification email
-        print "!~~~~~~~!"
