@@ -88,8 +88,8 @@ def launch_instances():
 #def get_all_images_list():
 #  run_get_all_images_list()
 
-
-@periodic_task(run_every=timedelta(seconds=60))
-def check_instance_integrity():
-  run_check_instance_integrity()
+# check_instance_integrity should follow get_all_instance_list. not independently with periodic setup
+#@periodic_task(run_every=timedelta(seconds=60))
+#def check_instance_integrity():
+#  run_check_instance_integrity()
 

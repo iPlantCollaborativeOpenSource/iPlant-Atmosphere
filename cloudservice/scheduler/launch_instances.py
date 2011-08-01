@@ -49,15 +49,15 @@ def current_vms_status_from_cloudservice_instances():
   #  a = a + "\"state_%s\": %s, " % (state, str(len(Instances.objects.filter(current_state = state))))
   #return "{"+a[:-2]+"}"
   all_instances_list = Instances.objects.all()
-  num_of_qued_instance = 0
+  num_of_queued_instance = 0
   num_of_pending_instance = 0
   num_of_running_instance = 0
   num_of_shutting_down_instance = 0
   num_of_terminated_instance = 0
   num_of_no_state_instance = 0
   for instance in all_instances_list:
-    if instance.current_state == "qued" :
-      num_of_qued_instance = num_of_qued_instance + 1
+    if instance.current_state == "queued" :
+      num_of_queued_instance = num_of_queued_instance + 1
     if instance.current_state == "pending" :
       num_of_pending_instance = num_of_pending_instance + 1
     if instance.current_state == "running" :
@@ -68,7 +68,7 @@ def current_vms_status_from_cloudservice_instances():
       num_of_terminated_instance = num_of_terminated_instance + 1
     if instance.current_state.strip() == "" or instance.current_state.strip() == None:
       num_of_no_state_instance = num_of_no_state_instance + 1
-  return """{ "number_of_qued_instance" : %s, "number_of_pending_instance" : %s, "number_of_running_instance" : %s, "number_of_shutting_down_instance" : %s, "number_of_terminated_instance" : %s, "number_of_no_state_instnace" : %s }""" % (num_of_qued_instance, num_of_pending_instance, num_of_running_instance, num_of_shutting_down_instance, num_of_terminated_instance, num_of_no_state_instance)
+  return """{ "number_of_queued_instance" : %s, "number_of_pending_instance" : %s, "number_of_running_instance" : %s, "number_of_shutting_down_instance" : %s, "number_of_terminated_instance" : %s, "number_of_no_state_instnace" : %s }""" % (num_of_queued_instance, num_of_pending_instance, num_of_running_instance, num_of_shutting_down_instance, num_of_terminated_instance, num_of_no_state_instance)
 
 
 def current_vm_status_from_boto():
@@ -92,10 +92,10 @@ def launch_instances():
   #  logging.error("que:"+str(concurrent_launchable_instance_num))
 
   #if int(json.loads(current_vms_launching_status())['number_of_pending_instance']) < concurrent_launchable_instance_num :
-  if (current_vms_status_from_cloudservice_instances_json['number_of_qued_instance'] > 0) and (k > 0) :
+  if (current_vms_status_from_cloudservice_instances_json['number_of_queued_instance'] > 0) and (k > 0) :
     logging.info("k is " + str(k))
-    #instances = Instances.objects.filter(current_state = "qued").order_by('-launch_request_time')[:concurrent_launchable_instance_num]
-    instances = Instances.objects.filter(current_state = "qued").order_by('launch_request_time')[:k]
+    #instances = Instances.objects.filter(current_state = "queued").order_by('-launch_request_time')[:concurrent_launchable_instance_num]
+    instances = Instances.objects.filter(current_state = "queued").order_by('launch_request_time')[:k]
     current_time = datetime.now()
     #loop 
     for instance in instances:

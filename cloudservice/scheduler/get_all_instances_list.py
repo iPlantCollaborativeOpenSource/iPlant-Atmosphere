@@ -22,6 +22,8 @@ from urlparse import urlparse
 from django.utils import simplejson
 import atmosphere.cloudservice.api.v1.util as atmo_util
 
+from atmosphere.cloudservice.scheduler.check_instances_integrity import *
+
 import inspect
 
 def get_all_instances_list():
@@ -122,3 +124,5 @@ def get_all_instances_list():
 
   resources_watch = Resources_watches(resource_get_function_name=inspect.stack()[0][3],resource_get_function_result=''.join(return_json_str.splitlines()).replace('  ',''))
   resources_watch.save()
+
+  check_instance_integrity(all_instances_json=''.join(return_json_str.splitlines()).replace('  ',''))

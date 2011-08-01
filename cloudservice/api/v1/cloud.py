@@ -244,8 +244,63 @@ class Ec2_cloud(object, atmo_image):
               instance.kernel,
               instance.ramdisk
             )
-      return_json_str = "[%s]" % instance_json_string[0:-2]
-    a = simplejson.loads(return_json_str)
+      #return_json_str = "[%s]" % instance_json_string[0:-2]
+      return_json_str = instance_json_string[0:-2]
+    queued_instances = Instances.objects.filter(owner_id="seungjin",current_state="queued")
+    if len(queued_instances) > 0 :
+      queued_instance_json_string = ""
+      for queued_instance in queued_instances:
+        instance_num = instance_num + 1
+        queued_instance_json_string = queued_instance_json_string + """
+          {
+            "instance_num" : "%s" ,
+            "instance_name" : "%s" ,
+            "instance_description" : "%s",
+            "instance_tags" : "%s",
+            "reservation_id" : "%s" ,
+            "reservation_owner_id" : "%s" ,
+            "group_id" : "%s" ,
+            "instance_id" : "%s" ,
+            "instance_image_id": "%s" ,
+            "instance_image_name" : "%s" , 
+            "instance_public_dns_name" : "%s" ,
+            "instance_private_dns_name" : "%s" ,
+            "instance_state" : "%s" ,
+            "instance_key_name" : "%s" ,
+            "instance_ami_launch_index" : "%s" ,
+            "instance_product_codes" : "%s" ,
+            "instance_instance_type" : "%s" ,
+            "instance_launch_time" : "%s" ,
+            "instance_placement" : "%s" ,
+            "instance_kernel" : "%s" ,
+            "instance_ramdisk" : "%s"
+          }, """ % (
+            instance_num,
+            queued_instance.instance_name ,
+            queued_instance.instance_description.replace("\n", "<br>"),
+            queued_instance.instance_tags , 
+            queued_instance.reservation,
+            queued_instance.owner_id ,
+            queued_instance.group_id,
+            queued_instance.instance_id,
+            queued_instance.machine_image,
+            None,
+            queued_instance.public_dns_name,
+            queued_instance.private_dns_name,
+            queued_instance.current_state,
+            queued_instance.key_name,
+            queued_instance.ami_index,
+            queued_instance.product_code ,
+            queued_instance.machine_size,
+            "",
+            queued_instance.placement,
+            queued_instance.kernel,
+            queued_instance.ramdisk
+          )
+      b = "[" + return_json_str + ", " + queued_instance_json_string[0:-2] + "]"
+    else :
+      b = "[" + return_json_str +"]"
+    a = simplejson.loads(b)
     #return simplejson.dumps(a)
 
     return atmo_util.jsoner("\"success\"","\"\"", simplejson.dumps(a))
@@ -408,7 +463,7 @@ class Ec2_cloud(object, atmo_image):
           instance_tags = req.POST['instance_tags'],
           owner_id = self.userid,
           machine_image = image_id,
-          current_state = "qued",
+          current_state = "queued",
           machine_size = instance_type,
           launch_request_time = datetime.now(),
           launched_by = this_function_name,
@@ -1149,7 +1204,7 @@ class Ec2_cloud(object, atmo_image):
         instance_tags = Applications.objects.get(application_id = req.POST['application_id']).application_tags,
         owner_id = self.userid,
         machine_image = image_id,
-        current_state = "qued",
+        current_state = "queued",
         machine_size = instance_type,
         launch_request_time = datetime.now(),
         launched_by = this_function_name,
@@ -1188,7 +1243,7 @@ class Ec2_cloud(object, atmo_image):
       machine_types = ca.getInstanceTypeSize()
       euca_conn = self.euca.make_connection()
       try :
-        reservations = euca_conn.get_all_instances()
+        reservations = euca_conn.get_all_instances() # <- not from euca_conn but from db table. db table includes queued resources as well
       except Exception, ex:
         euca.disaply_error_and_exit('%s' % ex)
       # reservation
@@ -1226,7 +1281,6 @@ class Ec2_cloud(object, atmo_image):
     import base64
     from datetime import datetime, timedelta
     
-
     #key:
     """
     try:
