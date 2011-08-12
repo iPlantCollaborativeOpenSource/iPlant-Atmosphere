@@ -298,14 +298,15 @@ class Ec2_cloud(object, atmo_image):
             queued_instance.ramdisk
           )
       if return_json_str.strip() != "" :
+        logging.debug("a")
         logging.debug(return_json_str)
       	b = "[%s, %s]" % (return_json_str, queued_instance_json_string[0:-2])
       else:
         logging.debug("b")
         b = "[%s]" % (queued_instance_json_string[0:-2]) 
     else :
-      b =  return_json_str 
-    logging.debug(b)
+      b =  "[%s]" % return_json_str 
+    
     a = simplejson.loads(b)
     #return simplejson.dumps(a)
     return atmo_util.jsoner("\"success\"","\"\"", simplejson.dumps(a))
