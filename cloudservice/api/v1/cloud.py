@@ -153,7 +153,7 @@ class Ec2_cloud(object, atmo_image):
 
 
   def getInstanceList(self, req) :
-    return_json_str = "[]";
+    return_json_str = "";
     euca_conn = self.euca.make_connection()
     try :
       reservations = euca_conn.get_all_instances()
@@ -224,7 +224,7 @@ class Ec2_cloud(object, atmo_image):
             }, """ % (
               instance_num ,
               instance_name ,
-              instance_description.replace("\n", "<br>"),
+              instance_description.replace("\n", "<br/>"),
               instance_tags , 
               reservation.id,
               reservation.owner_id ,
@@ -277,7 +277,7 @@ class Ec2_cloud(object, atmo_image):
           }, """ % (
             instance_num,
             queued_instance.instance_name ,
-            queued_instance.instance_description.replace("\n", "<br>"),
+            queued_instance.instance_description.replace("\n", "<br/>"),
             queued_instance.instance_tags , 
             queued_instance.reservation,
             queued_instance.owner_id ,
@@ -297,12 +297,17 @@ class Ec2_cloud(object, atmo_image):
             queued_instance.kernel,
             queued_instance.ramdisk
           )
-      b = "[" + return_json_str + ", " + queued_instance_json_string[0:-2] + "]"
+      if return_json_str.strip() != "" :
+        logging.debug(return_json_str)
+      	b = "[%s, %s]" % (return_json_str, queued_instance_json_string[0:-2])
+      else:
+        logging.debug("b")
+        b = "[%s]" % (queued_instance_json_string[0:-2]) 
     else :
-      b = "[" + return_json_str +"]"
+      b =  return_json_str 
+    logging.debug(b)
     a = simplejson.loads(b)
     #return simplejson.dumps(a)
-
     return atmo_util.jsoner("\"success\"","\"\"", simplejson.dumps(a))
 
   def getRunningInstancesTree(self, req):
@@ -1262,6 +1267,19 @@ class Ec2_cloud(object, atmo_image):
       # unlimited resource
       quotaAvailability = { "result" : "available" }
     return quotaAvailability
+  
+
+  def getCurrentResourceUses(self):
+    ca = CloudAdmin()
+    machine_types = ca.getInstanceTypeSize() #[(u'bespin', u'm1.small', u'2', u'4096', u'10'), (u'bespin', u'c1.medium', u'4', u'8192', u'20'), (u'bespin', u'm1.large', u'4', u'12288', u'20'), (u'bespin', u'm1.xlarge', u'8', u'24576', u'30'), (u'bespin', u'c1.xlarge', u'16', u'32768', u'40')]
+
+    # get current resource users from instances table
+    # current_state = pending, queued, running
+    instances = Instances.objects.filter(owner_id = self.userid).exclude(current_state = "terminated").exclude(current_state = "lost")
+    machines = [instance.machine_size for instance in instances]
+    #filter( lambda y: y[1] == "m1.small" ,machine_types)
+
+
   
   def convertMachineTypeStringToNum(self,machine_type):
     ca = CloudAdmin()
