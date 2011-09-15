@@ -1,4 +1,3 @@
-#!/usr/bin/python
 #
 # The contents of this file are subject to the terms listed in the LICENSE file you received with this code.
 #

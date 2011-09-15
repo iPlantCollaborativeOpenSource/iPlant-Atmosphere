@@ -13,7 +13,7 @@
 from ConfigParser import RawConfigParser
 
 config = RawConfigParser()
-config.read('/home/atmosphere_dev/credentials_never_git_it.ini')
+config.read('/opt/atmo_home/credentials_never_git_it.ini')
 
 
 

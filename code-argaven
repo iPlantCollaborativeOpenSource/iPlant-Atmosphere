@@ -1,0 +1,8 @@
+argaven code chagnes
+
+argaven does not use boto anymore. at least, I don't directly use boto or euca2ools directly. 
+argaven code now use libcloud project library (http://libcloud.apache.org). 
+
+argaven code is focused on rackspace / openstack resource controller. 
+
+argaven code may or may not compatible with charoncode. 
