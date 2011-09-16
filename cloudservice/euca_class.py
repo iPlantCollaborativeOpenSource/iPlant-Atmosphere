@@ -564,7 +564,7 @@ class Cloud(object):
           try :
             instance_image_name = Machine_images.objects.get(image_id = instance.image_id).image_name
           except :
-            instasnce_image_name = ""
+            instance_image_name = ""
           instance_json_string = instance_json_string + """
             {
               "instance_num" : "%s" ,
