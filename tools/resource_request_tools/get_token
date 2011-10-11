@@ -10,13 +10,13 @@ from urlparse import urlparse
 
 
 def getToken():
-  endpoint = "https://charon.iplantcollaborative.org"
+  endpoint = "https://argaven.iplantcollaborative.org"
   o = urlparse(endpoint)
 
   path = "/auth"
   username = sys.argv[1]
   password = sys.argv[2]
-	
+
   method = "GET"
   params = None
   headers = {

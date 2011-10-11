@@ -73,7 +73,7 @@ class Configs(models.Model):
 
 class Ec2_keys(models.Model):
   """
-  ec2_access_key, ec2_secret_key
+    ec2_access_key, ec2_secret_key
   """
   username = models.CharField(max_length=256)
   ec2_access_key = models.TextField()
@@ -83,6 +83,12 @@ class Ec2_keys(models.Model):
   added_at = models.DateTimeField(auto_now_add=True)
   def __unicode__(self):
     return smart_str('%s %s %s %s %s %s' % (self.username, self.ec2_access_key, self.ec2_secret_key, self.ec2_url, self.s3_url, self.added_at))
+
+
+
+
+
+
 
 class Instances(models.Model):
   """

@@ -1,0 +1,31 @@
+
+<html>
+
+
+  <head>
+    <script src="http://yui.yahooapis.com/3.4.1/build/yui/yui-min.js"></script>
+  </head>
+
+  <body class="yui3-skin-sam">
+  </body>
+
+  <script>
+
+  	YUI().use('app', function (Y) {
+  		console.log("yui app");
+  	});
+
+  	YUI().use('controller', function (Y) {
+  		console.log("yui controller");
+  		var controller = new Y.Controller({
+  			root: '/site_media/e/hello_yui.html/',
+  			routes: [
+  				{path: '/',			callback: function () { alert('hello!'); }},
+  				{path: '/pie',		callback: function () { alert('Mnn, Pie.'); }}
+  			]
+  		})	
+  	});
+
+  </script>
+
+</html>

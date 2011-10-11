@@ -15,16 +15,6 @@ from ConfigParser import RawConfigParser
 config = RawConfigParser()
 config.read('/opt/atmo_home/credentials_never_git_it.ini')
 
-
-
-
-#DATABASE_USER = config.get('database', 'DATABASE_USER')
-#DATABASE_PASSWORD = config.get('database', 'DATABASE_PASSWORD')
-#DATABASE_HOST = config.get('database', 'DATABASE_HOST')
-#DATABASE_PORT = config.get('database', 'DATABASE_PORT')
-#DATABASE_ENGINE = config.get('database', 'DATABASE_ENGINE')
-#DATABASE_NAME = config.get('database', 'DATABASE_NAME')
-
 DATABASES = {
     'default': {
         'ENGINE': 	'django.db.backends.'+config.get('database', 'DATABASE_ENGINE'), # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
@@ -37,22 +27,6 @@ DATABASES = {
 	}
     }
 }
-
-
-#TEST_DATABASE_NAME = config.get('database', 'TESTSUITE_DATABASE_NAME')
-
-#SECRET_KEY = config.get('secrets','SECRET_KEY')
-#CSRF_MIDDLEWARE_SECRET = config.get('secrets', 'CSRF_MIDDLEWARE_SECRET')
-
-#SESSION_COOKIE_DOMAIN = config.get('cookies','SESSION_COOKIE_DOMAIN')
-
-#DEBUG = config.getboolean('debug','DEBUG')
-#TEMPLATE_DEBUG = config.getboolean('debug','TEMPLATE_DEBUG')
-#VIEW_TEST = config.getboolean('debug', 'VIEW_TEST')
-#INTERNAL_IPS = tuple(config.get('debug', 'INTERNAL_IPS').split())
-#if config.getboolean('debug', 'SKIP_CSRF_MIDDLEWARE'):
-#    MIDDLEWARE_CLASSES = tuple([x for x in list(MIDDLEWARE_CLASSES)
-#                                  if not x.endswith('CsrfMiddleware')])
 
 SERVER_EMAIL = config.get('email', 'SERVER_EMAIL')
 EMAIL_HOST = config.get('email', 'EMAIL_HOST')
@@ -69,19 +43,6 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-
-#DATABASE_ENGINE = ''           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-#DATABASE_NAME = ''             # Or path to database file if using sqlite3.
-#DATABASE_USER = ''             # Not used with sqlite3.
-#DATABASE_PASSWORD = ''         # Not used with sqlite3.
-#DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
-#DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
-
-# Local time zone for this installation. Choices can be found here:
-# http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
-# although not all choices may be available on all operating systems.
-# If running in a Windows environment this must be set to the same as your
-# system time zone.
 TIME_ZONE = 'America/Phoenix'
 
 # Language code for this installation. All choices can be found here:
@@ -129,11 +90,13 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'atmosphere.urls'
 
 import os.path
+
+
+
 import djcelery
 
 djcelery.setup_loader()
 CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler"
-
 
 BROKER_HOST = config.get('celery', 'BROKER_HOST') 
 BROKER_PORT = config.get('celery', 'BROKER_PORT')

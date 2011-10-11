@@ -23,13 +23,13 @@ from django.http import HttpResponseForbidden
 
 from django.utils import simplejson
 import logging
-from atmosphere.cloudservice.models import *
 
+from atmosphere.cloudservice.models import *
 from atmosphere.cloudservice.api.v1.cloud import *
 from atmosphere.cloudauth.models import *
 
 
-from boto.exception import *
+#from boto.exception import *
 
 import datetime
 from decimal import Decimal
@@ -80,7 +80,7 @@ def call(request) :
   r = 0
   if len(resource_method) > 0 :
     try :
-      ec2_keys = Ec2_keys.objects.get(username = username)
+      #ec2_keys = Ec2_keys.objects.get(username = username)
       #c = Cloud(ec2_access_key=Ec2_keys.objects.get(username=request.user.username).ec2_access_key,ec2_secret_key=Ec2_keys.objects.get(username=request.user.username).ec2_secret_key)
       
       # July 22 2011
@@ -90,16 +90,17 @@ def call(request) :
       # let Ec2_cloud refers user object instead Ec2_cloud doing all stuffs
 
       #c = Ec2_cloud(ec2_access_key=ec2_keys.ec2_access_key,ec2_secret_key=ec2_keys.ec2_secret_key, ec2_url=ec2_keys.ec2_url, s3_url=ec2_keys.s3_url )
-      c = Ec2_cloud(ec2_access_key=str(ec2_keys.ec2_access_key),ec2_secret_key=str(ec2_keys.ec2_secret_key),ec2_url=str(ec2_keys.ec2_url),s3_url=str(ec2_keys.s3_url))
+      #c = Ec2_cloud(ec2_access_key=str(ec2_keys.ec2_access_key),ec2_secret_key=str(ec2_keys.ec2_secret_key),ec2_url=str(ec2_keys.ec2_url),s3_url=str(ec2_keys.s3_url))
+      c = Ec2_cloud("a","a","a","a")
       f=getattr(c,resource_method)(request)
     except NameError, e:
       logging.error("cloudservice.api.v1.resources NameError at %s: %s" % (resource_method, e))
       f = e
       r = -1
-    except EC2ResponseError, e:
-      logging.error("cloudservice.api.v1.resources EC2ResponseError at %s: %s" % (resource_method, e))
-      f = e
-      r = -1
+    #except EC2ResponseError, e:
+    #  logging.error("cloudservice.api.v1.resources EC2ResponseError at %s: %s" % (resource_method, e))
+    #  f = e
+    #  r = -1
     except Exception, e:
       logging.error("cloudservice.api.v1.resources error at %s: %s" % (resource_method, e))
       f = e
@@ -117,6 +118,8 @@ def call(request) :
   if requested_param == "" :
     requested_param = None
 
+
+  logging.debug(f)
   api_log = Api_logs(
     request_user = username,
     request_token = token,

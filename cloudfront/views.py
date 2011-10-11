@@ -53,7 +53,7 @@ def access_log(request,meta_data=None):
   access_log.save()
 
 def door(request) :
-  access_log(request)
+  access_log(request) 
   return HttpResponseRedirect('/application') if request.session.get('authorized') else HttpResponseRedirect('/login')
  
 def login(request):
@@ -66,15 +66,16 @@ def login(request):
   if (username is None ) or (password is None):
     return HttpResponse(output) 
   user = WUser(username,password)
-  if (user.is_authorized_ldap_user == True) and (user.is_in_atmo_ldap_group == True) and (user.has_ec2_key == False) :
-    #return HttpResponseRedirect('/first_time_login')
-    return first_time_login(request)
-  #return HttpResponseRedirect('/application') if user.is_authorized else HttpResponse(output) # return login_failed else login_succeed               
-  if user.is_authorized :
-    #get Token
-    return HttpResponseRedirect('/application') if getToken(request,username,password) else HttpResponse(output)
-  else:
-    return HttpResponse(output)
+  #if (user.is_authorized_ldap_user == True) and (user.is_in_atmo_ldap_group == True) and (user.has_ec2_key == False) :
+  #  #return HttpResponseRedirect('/first_time_login')
+  #  return first_time_login(request)
+  ##return HttpResponseRedirect('/application') if user.is_authorized else HttpResponse(output) # return login_failed else login_succeed               
+  #if user.is_authorized :
+  #  #get Token
+  #  return HttpResponseRedirect('/application') if getToken(request,username,password) else HttpResponse(output)
+  #else:
+  #  return HttpResponse(output)
+  return HttpResponseRedirect('/application') if getToken(request,username,password) else HttpResponse(output)
 
 def logout_page(request) :
   return HttpResponseRedirect('/')
