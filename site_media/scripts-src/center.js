@@ -96,7 +96,7 @@ var center = function(){
   
   this.application_icon_mouseout = function(o) {
     o.src = function(){ t=o.src.split("."); t[t.length-2] = t[t.length-2].substr(0,t[t.length-2].length-1); return t.join("."); }();
-    Ext.DomHelper.overwrite("app_desc","");
+    //Ext.DomHelper.overwrite("app_desc","");
   }
 	
   this.application_info = function(application_name) {
